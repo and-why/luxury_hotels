@@ -1,9 +1,25 @@
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: 'Inter', sans-serif;
+  color: #10203d;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Roboto Slab', serif;
+  font-weight: 400;
 }
 
 a {
@@ -13,4 +29,34 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+.react-datepicker-wrapper input {
+  height: 40px;
+  width: 125px;
+}
+.firstInput {
+  border-radius: 6px 0 0 6px;
+  padding-left: 10px;
+  margin-left: 16px;
+}
+.secondInput {
+  border-radius: 0 6px 6px 0;
+  padding-right: 10px;
+  margin-right: 16px;
+}
+
+.autocomplete-results.addressSearch {
+  position: absolute;
+  background: white;
+  z-index: 99;
+}
+.autocomplete-result.addressSearch {
+  padding: 10px;
+  font-size: 12px;
+}
+
+.autocomplete-result.addressSearch:hover {
+  cursor: pointer;
+  background: rgb(206, 201, 201);
 }
