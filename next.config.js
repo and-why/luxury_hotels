@@ -5,6 +5,7 @@ module.exports = {
       'uat.multimediarepository.testing.amadeus.com',
       'pdt.multimediarepository.testing.amadeus.com',
       'amadeus.com',
+      'avatars.githubusercontent.com',
     ],
   },
 };
