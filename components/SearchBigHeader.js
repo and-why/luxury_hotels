@@ -55,16 +55,16 @@ export default function SearchBigHeader() {
     const adults = e.target.adults.value;
     const startDate = new Date(e.target.dateStart.value);
     const endDate = new Date(e.target.dateEnd.value);
-
+    const rooms = 1;
     setCityName(cityName);
-    const data = { cityCode, adults, startDate, endDate };
+    const data = { cityCode, guests, startDate, endDate, rooms };
     console.log(data);
     const newData = await getHotels(data);
     setData(newData);
     setLoading(false);
   };
 
-  const popularSearches = async ({ cityName, cityCode, adults, nights }) => {
+  const popularSearches = async ({ cityName, cityCode, rooms, guests, nights }) => {
     setLoading(true);
     setCityName(cityName);
     const startDate = new Date();
@@ -72,7 +72,7 @@ export default function SearchBigHeader() {
     const endDate = new Date();
     endDate.setDate(endDate.getDate() + 7 + nights);
 
-    const data = { cityCode, adults, startDate, endDate };
+    const data = { cityCode, guests, startDate, endDate, rooms };
     const newData = await getHotels(data);
     setData(newData.data);
 
@@ -212,6 +212,7 @@ export default function SearchBigHeader() {
             <PromotionalTab
               adults={2}
               nights={2}
+              rooms={1}
               cityName={'Melbourne'}
               cityCode={'MEL'}
               popularSearches={popularSearches}
@@ -219,13 +220,15 @@ export default function SearchBigHeader() {
             <PromotionalTab
               adults={2}
               nights={3}
+              rooms={1}
               cityName={'Sydney'}
               cityCode={'SYD'}
               popularSearches={popularSearches}
             />
             <PromotionalTab
-              adults={4}
+              adults={2}
               nights={3}
+              rooms={2}
               cityName={'Brisbane'}
               cityCode={'BNE'}
               popularSearches={popularSearches}
@@ -233,6 +236,7 @@ export default function SearchBigHeader() {
             <PromotionalTab
               adults={2}
               nights={3}
+              rooms={1}
               cityName={'Uluru'}
               cityCode={'AYQ'}
               popularSearches={popularSearches}

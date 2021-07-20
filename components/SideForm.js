@@ -47,6 +47,7 @@ export default function SideForm({ addSearchData, data }) {
     }
 
     const guests = e.target.adults.value;
+    const rooms = e.target.rooms.value;
     let startDate = new Date(e.target.dateStart.value);
     const checkInDate = new Date(startDate.getTime() - startDate.getTimezoneOffset() * 60000)
       .toISOString()
@@ -56,7 +57,7 @@ export default function SideForm({ addSearchData, data }) {
       .toISOString()
       .split('T')[0];
 
-    addSearchData([checkInDate, checkOutDate, guests]);
+    addSearchData([checkInDate, checkOutDate, guests, rooms]);
     // setLoading(false)
   };
   return (
@@ -82,7 +83,16 @@ export default function SideForm({ addSearchData, data }) {
         <>
           <Flex mb={4} direction='row' wrap='nowrap' width='100%' justify='space-between'>
             <FormControl>
-              <FormLabel fontSize='12px'>Check In</FormLabel>
+              <FormLabel
+                m='0'
+                p='0'
+                ml={2}
+                fontSize='10px'
+                textTransform='uppercase'
+                fontWeight='600'
+              >
+                Check In
+              </FormLabel>
               <DatePicker
                 name='dateStart'
                 id='dateStart'
@@ -99,7 +109,16 @@ export default function SideForm({ addSearchData, data }) {
               />
             </FormControl>
             <FormControl>
-              <FormLabel fontSize='12px'>Check out</FormLabel>
+              <FormLabel
+                m='0'
+                p='0'
+                ml={2}
+                fontSize='10px'
+                textTransform='uppercase'
+                fontWeight='600'
+              >
+                Check out
+              </FormLabel>
               <DatePicker
                 name='dateEnd'
                 id='dateEnd'
@@ -115,36 +134,60 @@ export default function SideForm({ addSearchData, data }) {
               />
             </FormControl>
           </Flex>
-          <NumberInput
-            allowMouseWheel
-            id='people'
-            min={1}
-            max={2}
-            mb={4}
-            required
-            defaultValue={hotelData.offers[0].guests.adults}
-          >
-            <NumberInputField placeholder='Add guests' bg='white' name='adults' id='adults' />
-            <NumberInputStepper>
-              <NumberIncrementStepper />
-              <NumberDecrementStepper />
-            </NumberInputStepper>
-          </NumberInput>
-          <NumberInput
-            allowMouseWheel
-            id='people'
-            min={1}
-            max={9}
-            mb={4}
-            required
-            defaultValue={hotelData.offers[0].roomQuantity || 1}
-          >
-            <NumberInputField placeholder='Add guests' bg='white' name='rooms' id='rooms' />
-            <NumberInputStepper>
-              <NumberIncrementStepper />
-              <NumberDecrementStepper />
-            </NumberInputStepper>
-          </NumberInput>
+          <FormControl>
+            <FormLabel
+              m='0'
+              p='0'
+              ml={2}
+              fontSize='10px'
+              textTransform='uppercase'
+              fontWeight='600'
+            >
+              Adults per room
+            </FormLabel>
+            <NumberInput
+              allowMouseWheel
+              id='people'
+              min={1}
+              max={2}
+              mb={2}
+              required
+              defaultValue={hotelData.offers[0].guests.adults}
+            >
+              <NumberInputField placeholder='Add guests' bg='white' name='adults' id='adults' />
+              <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+              </NumberInputStepper>
+            </NumberInput>
+          </FormControl>
+          <FormControl>
+            <FormLabel
+              m='0'
+              p='0'
+              ml={2}
+              fontSize='10px'
+              textTransform='uppercase'
+              fontWeight='600'
+            >
+              Number of rooms
+            </FormLabel>
+            <NumberInput
+              allowMouseWheel
+              id='rooms'
+              min={1}
+              max={9}
+              mb={2}
+              required
+              defaultValue={hotelData.offers[0].roomQuantity || 1}
+            >
+              <NumberInputField placeholder='Add guests' bg='white' name='rooms' id='rooms' />
+              <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+              </NumberInputStepper>
+            </NumberInput>
+          </FormControl>
           <Popover onClose={() => setError(false)}>
             <PopoverTrigger>
               <Button

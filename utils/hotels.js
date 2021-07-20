@@ -2,7 +2,7 @@ import { getToken } from './token';
 
 export async function getHotels(data) {
   const amadeus = await getToken();
-  const { cityCode, adults, startDate, endDate } = data;
+  const { cityCode, guests, startDate, endDate, rooms } = data;
   console.log('data', data);
 
   const checkInDate = new Date(startDate.getTime() - startDate.getTimezoneOffset() * 60000)
@@ -14,17 +14,16 @@ export async function getHotels(data) {
     .split('T')[0];
 
   console.log('checkInDate', checkInDate == null ? new Date() : checkInDate);
-
-  const rooms = Math.ceil(adults / 2);
-  console.log(rooms);
-
+  if (guests > 2) {
+    guests = 2;
+  }
   const response = await amadeus.shopping.hotelOffers
     .get({
       cityCode: cityCode,
       checkInDate: checkInDate,
       checkOutDate: checkOutDate,
       // roomQuantity: roomQuantity,
-      adults: 2,
+      adults: guests,
       roomQuantity: rooms,
       radius: 300,
       radiusUnit: 'KM',
@@ -58,9 +57,14 @@ export async function getInitialHotels() {
   return response.result;
 }
 
-export async function getHotelById(hotelId, checkInDate, checkOutDate, guests) {
+export async function getHotelById(hotelId, checkInDate, checkOutDate, guests, rooms) {
   const amadeus = await getToken();
-  const rooms = Math.ceil(guests / 2);
+
+  let adults = guests;
+
+  if (guests > 2) {
+    adults = 2;
+  }
   const response = await amadeus.shopping.hotelOffersByHotel
     .get({
       hotelId: hotelId,
@@ -74,24 +78,7 @@ export async function getHotelById(hotelId, checkInDate, checkOutDate, guests) {
       console.log(error);
     });
 
-  return response.result;
-}
-
-export async function getHotelByIdAll(hotelId, checkInDate, checkOutDate, guests) {
-  const amadeus = await getToken();
-  const response = await amadeus.shopping.hotelOffersByHotel
-    .get({
-      hotelId: hotelId,
-      checkInDate: checkInDate,
-      checkOutDate: checkOutDate,
-      adults: guests,
-      roomQuantity: Math.ceil(guests / 2),
-      currency: 'AUD',
-    })
-    .catch((error) => {
-      return error;
-    });
-
+  console.log('hotel result', response.result);
   return response.result;
 }
 

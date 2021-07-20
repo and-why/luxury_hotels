@@ -1,9 +1,16 @@
 import { Flex, Box, Text, Heading, Link } from '@chakra-ui/react';
 import NextImage from 'next/image';
 
-export default function PromotionalTab({ adults, nights, cityName, cityCode, popularSearches }) {
+export default function PromotionalTab({
+  adults,
+  nights,
+  rooms,
+  cityName,
+  cityCode,
+  popularSearches,
+}) {
   const cityLower = cityName.toLowerCase();
-  const data = { adults, nights, cityName, cityCode };
+  const data = { adults, nights, rooms, cityName, cityCode };
   return (
     <Flex
       w={['50%', '50%', '25%', '25%']}

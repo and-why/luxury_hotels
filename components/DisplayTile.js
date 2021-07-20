@@ -28,6 +28,7 @@ export default function DisplayTile({ hotel }) {
             checkInDate: hotel.offers[0].checkInDate,
             checkOutDate: hotel.offers[0].checkOutDate,
             guests: hotel.offers[0].guests.adults,
+            rooms: hotel.roomQuantity || 1,
           },
         }}
       >

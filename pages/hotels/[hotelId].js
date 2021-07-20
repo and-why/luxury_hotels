@@ -40,7 +40,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import HotelMap from '@/components/HotelMap';
 
-export default function HotelPage({ data, checkInDate, checkOutDate }) {
+export default function HotelPage({ data, checkInDate, checkOutDate, guests, rooms }) {
   console.log(data);
   const router = useRouter();
   const [hotelData, setHotelData] = useState(data.data ? data.data : data);
@@ -51,13 +51,16 @@ export default function HotelPage({ data, checkInDate, checkOutDate }) {
   };
 
   const addSearchData = (data) => {
-    const [checkInDate, checkOutDate, guests] = data;
+    const [checkInDate, checkOutDate, guests, rooms] = data;
+    console.log(data);
+
     router.push({
       pathname: `/hotels/${hotelData.hotel.hotelId}`,
       query: {
         checkInDate: checkInDate,
         checkOutDate: checkOutDate,
         guests: guests,
+        rooms: rooms,
       },
     });
     // setLoading(false);
@@ -173,11 +176,13 @@ export default function HotelPage({ data, checkInDate, checkOutDate }) {
                 Description
               </Heading>
               <Text mb={8}>{hotelData.hotel.description.text}</Text>
-              <HotelMap
-                name={hotelData.hotel.name}
-                latitude={hotelData.hotel.latitude}
-                longitude={hotelData.hotel.longitude}
-              />
+              <Box mb={8}>
+                <HotelMap
+                  name={hotelData.hotel.name}
+                  latitude={hotelData.hotel.latitude}
+                  longitude={hotelData.hotel.longitude}
+                />
+              </Box>
               <Heading as='h4' fontSize='lg' fontWeight='600' mb={4}>
                 Amenities
               </Heading>
@@ -191,10 +196,34 @@ export default function HotelPage({ data, checkInDate, checkOutDate }) {
               <SideForm addSearchData={addSearchData} data={hotelData} />
             </Flex>
           </Flex>
-          <Flex wrap='wrap' justify='space-between' align='flex-start' px={4} mb={4}>
+          <Flex
+            wrap='wrap'
+            justify='flex-start'
+            align='flex-start'
+            px={4}
+            mb={4}
+            direction='column'
+          >
             <Heading as='h4' fontSize='lg' fontWeight='600' mb={4}>
               Offers
             </Heading>
+            <Text>
+              Check In: {hotelData.offers[0].checkInDate}, Check Out:{' '}
+              {hotelData.offers[0].checkOutDate}.
+            </Text>
+            <Text mb={4}>
+              For {hotelData.offers[0].guests.adults} adult
+              {hotelData.offers[0].guests.adults && 's'} in{' '}
+              {hotelData.offers[0].roomQuantity ? hotelData.offers[0].roomQuantity : '1'} room
+              {hotelData.offers[0].roomQuantity > 1 && 's'} for{' '}
+              {(new Date(hotelData.offers[0].checkOutDate) -
+                new Date(hotelData.offers[0].checkInDate)) /
+                24 /
+                60 /
+                60 /
+                1000}{' '}
+              nights
+            </Text>
             <OfferTable offers={hotelData.offers} />
           </Flex>
         </Flex>
@@ -205,16 +234,15 @@ export default function HotelPage({ data, checkInDate, checkOutDate }) {
 
 export async function getServerSideProps(context) {
   // const hotelId = context.params.hotelId;
-  const { checkInDate, checkOutDate, hotelId, guests } = context.query;
-
-  const data = await getHotelById(hotelId, checkInDate, checkOutDate, guests);
+  const { checkInDate, checkOutDate, hotelId, guests, rooms } = context.query;
+  console.log(context.query);
+  const data = await getHotelById(hotelId, checkInDate, checkOutDate, guests, rooms);
 
   return {
     props: {
       data: data,
       checkInDate: checkInDate,
       checkOutDate: checkOutDate,
-      guests: guests,
     },
   };
 }

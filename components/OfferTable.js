@@ -20,21 +20,29 @@ export default function OfferTable({ offers }) {
           <Box as='tr' key={offer.id}>
             <Td>
               {offer.room.typeEstimated.category.toLowerCase().replaceAll('_', ' ')}. <br />
-              {offer.room.typeEstimated.beds} {offer.room.typeEstimated.bedType.toLowerCase()} Bed
-              {offer.room.typeEstimated.beds > 1 && 's'}
+              {offer.room.typeEstimated.bedType && (
+                <>
+                  {offer.room.typeEstimated.beds} {offer.room.typeEstimated.bedType.toLowerCase()}{' '}
+                  Bed
+                  {offer.room.typeEstimated.beds > 1 && 's'}
+                </>
+              )}
             </Td>
             <Td>
               {offer.guests.adults} Adults
               <br />
               <Text fontSize='12px'>
                 (Max sleep:{' '}
-                {offer.room.typeEstimated.bedType != 'SINGLE' &&
+                {offer.room.typeEstimated.bedType &&
+                  offer.room.typeEstimated.bedType != 'SINGLE' &&
                   offer.guests.adults * offer.room.typeEstimated.beds}
                 )
               </Text>
             </Td>
             <Td>{offer.roomQuantity || '1'}</Td>
-            <Td>{offer.boardType.toLowerCase().replaceAll('_', ' ')}</Td>
+            <Td>
+              {offer.boardType ? offer.boardType.toLowerCase().replaceAll('_', ' ') : 'Room Only'}
+            </Td>
             <Td textAlign='right'>
               <Button
                 w='100%'
