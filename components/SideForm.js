@@ -5,6 +5,7 @@ import {
   Button,
   Text,
   FormControl,
+  FormLabel,
   NumberInput,
   NumberInputField,
   NumberInputStepper,
@@ -80,34 +81,39 @@ export default function SideForm({ addSearchData, data }) {
       ) : (
         <>
           <Flex mb={4} direction='row' wrap='nowrap' width='100%' justify='space-between'>
-            <DatePicker
-              name='dateStart'
-              id='dateStart'
-              variant='outline'
-              // className='firstInput'
-              selected={startDate}
-              onChange={(date) => setStartDate(date)}
-              dateFormat='dd MMM yyyy'
-              shouldCloseOnSelect
-              placeholderText={'Check in date'}
-              showTimeSelect={false}
-              todayButton='Today'
-              minDate={new Date()}
-            />
-
-            <DatePicker
-              name='dateEnd'
-              id='dateEnd'
-              variant='outline'
-              // className='secondInput'
-              selected={endDate}
-              onChange={(date) => setEndDate(date)}
-              dateFormat='dd MMM yyyy'
-              shouldCloseOnSelect
-              placeholderText={'Check out date'}
-              showTimeSelect={false}
-              minDate={new Date()}
-            />
+            <FormControl>
+              <FormLabel fontSize='12px'>Check In</FormLabel>
+              <DatePicker
+                name='dateStart'
+                id='dateStart'
+                variant='outline'
+                // className='firstInput'
+                selected={startDate}
+                onChange={(date) => setStartDate(date)}
+                dateFormat='dd MMM yyyy'
+                shouldCloseOnSelect
+                placeholderText={'Check in date'}
+                showTimeSelect={false}
+                todayButton='Today'
+                minDate={new Date()}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel fontSize='12px'>Check out</FormLabel>
+              <DatePicker
+                name='dateEnd'
+                id='dateEnd'
+                variant='outline'
+                // className='secondInput'
+                selected={endDate}
+                onChange={(date) => setEndDate(date)}
+                dateFormat='dd MMM yyyy'
+                shouldCloseOnSelect
+                placeholderText={'Check out date'}
+                showTimeSelect={false}
+                minDate={new Date()}
+              />
+            </FormControl>
           </Flex>
           <NumberInput
             allowMouseWheel

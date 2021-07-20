@@ -68,9 +68,9 @@ export default function SearchBigHeader() {
     setLoading(true);
     setCityName(cityName);
     const startDate = new Date();
-    startDate.setDate(startDate.getDate() + 1);
+    startDate.setDate(startDate.getDate() + 7);
     const endDate = new Date();
-    endDate.setDate(endDate.getDate() + 1 + nights);
+    endDate.setDate(endDate.getDate() + 7 + nights);
 
     const data = { cityCode, adults, startDate, endDate };
     const newData = await getHotels(data);

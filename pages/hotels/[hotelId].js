@@ -38,6 +38,7 @@ import NextLink from 'next/link';
 import NextImage from 'next/image';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import HotelMap from '@/components/HotelMap';
 
 export default function HotelPage({ data, checkInDate, checkOutDate }) {
   console.log(data);
@@ -129,6 +130,8 @@ export default function HotelPage({ data, checkInDate, checkOutDate }) {
                   <Icon
                     color={isFavourite ? 'red' : 'black'}
                     as={isFavourite ? AiFillHeart : AiOutlineHeart}
+                    h='20px'
+                    w='20px'
                   />
                 </Button>
               </Flex>
@@ -170,6 +173,11 @@ export default function HotelPage({ data, checkInDate, checkOutDate }) {
                 Description
               </Heading>
               <Text mb={8}>{hotelData.hotel.description.text}</Text>
+              <HotelMap
+                name={hotelData.hotel.name}
+                latitude={hotelData.hotel.latitude}
+                longitude={hotelData.hotel.longitude}
+              />
               <Heading as='h4' fontSize='lg' fontWeight='600' mb={4}>
                 Amenities
               </Heading>

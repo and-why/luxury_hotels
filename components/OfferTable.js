@@ -10,7 +10,7 @@ export default function OfferTable({ offers }) {
         <Tr>
           <Th>Room type</Th>
           <Th>Sleeps</Th>
-          <Th>Price (price/night)</Th>
+          <Th>Rooms</Th>
           <Th>Board</Th>
           <Th>{''}</Th>
         </Tr>
@@ -33,15 +33,17 @@ export default function OfferTable({ offers }) {
                 )
               </Text>
             </Td>
-            <Td>
-              {formatter.format(offer.price.total)}
-              <br />
-              {formatter.format(offer.price.total)}
-            </Td>
+            <Td>{offer.roomQuantity || '1'}</Td>
             <Td>{offer.boardType.toLowerCase().replaceAll('_', ' ')}</Td>
             <Td textAlign='right'>
-              <Button size='sm' bg='brand.100' m='0' _hover={{ backgroundColor: 'brand.150' }}>
-                Book Now
+              <Button
+                w='100%'
+                size='sm'
+                bg='brand.100'
+                m='0'
+                _hover={{ backgroundColor: 'brand.150' }}
+              >
+                <Text fontWeight='600'>Book for {formatter.format(offer.price.total)}</Text>
               </Button>
             </Td>
           </Box>

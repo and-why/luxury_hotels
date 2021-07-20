@@ -13,9 +13,12 @@ export default function DisplayTile({ hotel }) {
       w={['50%', '50%', '33.3%', '25%']}
       p={4}
       transition='all 0.3s ease'
+      bg='white'
+      borderRadius='10px'
       _hover={{
-        transform: 'scale(1.0025)',
+        transform: 'scale(1.05)',
         transition: 'all 0.3s ease',
+        zIndex: '99',
       }}
     >
       <NextLink
