@@ -6,8 +6,7 @@ import SearchBigHeader from '@/components/SearchBigHeader';
 import { useState } from 'react';
 
 export default function Home(props) {
-  const [data, setData] = useState(props.hotels.data);
-  console.log(data);
+  // const [data, setData] = useState(props.hotels.data);
 
   return (
     <>
@@ -18,8 +17,8 @@ export default function Home(props) {
   );
 }
 
-export async function getStaticProps() {
-  const hotels = await getInitialHotels();
+// export async function getStaticProps() {
+//   const hotels = await getInitialHotels();
 
-  return { props: { hotels }, revalidate: 1 };
-}
+//   return { props: { hotels }, revalidate: 1 };
+// }

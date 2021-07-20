@@ -15,7 +15,14 @@ const theme = extendTheme({
     },
   },
   colors: {
-    brand: { 100: '#DEAD3A', 200: '#E77250', 300: '#586728', 400: '#1C484E', dark: '#10203D' },
+    brand: {
+      100: '#DEAD3A',
+      150: '#ffc107',
+      200: '#E77250',
+      300: '#586728',
+      400: '#1C484E',
+      dark: '#10203D',
+    },
     black: '#10203D',
   },
   fonts: {
@@ -26,7 +33,7 @@ const theme = extendTheme({
     normal: 400,
     medium: 400,
     bold: 400,
-    extraBold: 700,
+    extraBold: 600,
   },
 });
 

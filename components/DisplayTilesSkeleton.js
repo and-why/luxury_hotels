@@ -2,7 +2,7 @@ import { Flex, Skeleton } from '@chakra-ui/react';
 
 export default function DisplayTilesSkeleton() {
   return (
-    <Flex w='100%' p={8} transition='all ease 0.3s'>
+    <Flex w='100%' p={4} transition='all ease 0.3s'>
       <Flex display='column' w='25%'>
         <Skeleton mb={2} height='200px' />
         <Flex>

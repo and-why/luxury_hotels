@@ -1,3 +1,5 @@
+import { useState, useEffect, useRef } from 'react';
+import NextImage from 'next/image';
 import {
   Input,
   Text,
@@ -13,22 +15,22 @@ import {
   NumberDecrementStepper,
   Heading,
   Box,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverArrow,
+  PopoverCloseButton,
+  PopoverHeader,
+  PopoverBody,
 } from '@chakra-ui/react';
-import NextImage from 'next/image';
 import DatePicker from 'react-datepicker';
-import { useState, useEffect, useRef } from 'react';
+import 'react-datepicker/dist/react-datepicker.css';
 import { getHotels } from '@/utils/hotels';
 import DisplayTile from './DisplayTile';
 import DisplayTilesSkeleton from './DisplayTilesSkeleton';
-import 'react-datepicker/dist/react-datepicker.css';
-import Head from 'next/head';
 import PromotionalTab from './PromotionalTab';
 
 export default function SearchBigHeader() {
-  useEffect(() => {
-    AirportInput('addressSearch');
-  }, []);
-
   const cityNameInput = useRef();
   const [data, setData] = useState(false);
   const [cityName, setCityName] = useState(false);
@@ -36,13 +38,20 @@ export default function SearchBigHeader() {
   const today = new Date();
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
+  const [startDate, setStartDate] = useState(today);
+  const [endDate, setEndDate] = useState(tomorrow);
+  const [isError, setError] = useState(false);
 
   const handleSearch = async (e) => {
     e.preventDefault();
     setLoading(true);
+    const cityCode = e.target.addressSearch.getAttribute('data-iata');
+    if (cityCode === null) {
+      setLoading(false);
+      return setError(true);
+    }
     let cityName = e.target.cityName.value;
     cityName = cityName.slice(3);
-    const cityCode = e.target.addressSearch.getAttribute('data-iata');
     const adults = e.target.adults.value;
     const startDate = new Date(e.target.dateStart.value);
     const endDate = new Date(e.target.dateEnd.value);
@@ -58,22 +67,23 @@ export default function SearchBigHeader() {
   const popularSearches = async ({ cityName, cityCode, adults, nights }) => {
     setLoading(true);
     setCityName(cityName);
-    const today = new Date();
-    today.setDate(today.getDate() + 1);
+    const startDate = new Date();
+    startDate.setDate(startDate.getDate() + 1);
     const endDate = new Date();
     endDate.setDate(endDate.getDate() + 1 + nights);
 
-    const data = { cityCode, adults, today, endDate };
+    const data = { cityCode, adults, startDate, endDate };
     const newData = await getHotels(data);
-    setData(newData);
-    console.log(newData);
+    setData(newData.data);
+
     setLoading(false);
   };
+
+  useEffect(() => {
+    AirportInput('addressSearch');
+  }, []);
   return (
     <>
-      <Head>
-        <script src='https://cdn.jsdelivr.net/npm/airport-autocomplete-js@latest/dist/index.browser.min.js'></script>
-      </Head>
       <Flex direction='column'>
         <Flex
           height={!data ? '50vh' : '20vh'}
@@ -83,8 +93,15 @@ export default function SearchBigHeader() {
           transition='all ease 0.5s'
         >
           <NextImage src='/images/roberto-nickson.jpg' layout='fill' objectFit='cover' />
-          <FormControl as='form' onSubmit={handleSearch} maxW='900px' w='100%' p={8}>
-            <Flex>
+          <FormControl
+            as='form'
+            onSubmit={handleSearch}
+            maxW='900px'
+            w='100%'
+            p={8}
+            autoComplete='off'
+          >
+            <Flex justify='space-evenly'>
               <Input
                 ref={cityNameInput}
                 name='cityName'
@@ -101,7 +118,8 @@ export default function SearchBigHeader() {
                 id='dateStart'
                 className='firstInput'
                 variant='unstyled'
-                selected={today || value}
+                selected={startDate}
+                onChange={(date) => setStartDate(date)}
                 dateFormat='dd MMM yyyy'
                 shouldCloseOnSelect
                 placeholderText={'Check in date'}
@@ -115,7 +133,8 @@ export default function SearchBigHeader() {
                 id='dateEnd'
                 className='secondInput'
                 variant='unstyled'
-                selected={tomorrow || value}
+                selected={endDate}
+                onChange={(date) => setEndDate(date)}
                 dateFormat='dd MMM yyyy'
                 shouldCloseOnSelect
                 placeholderText={'Check out date'}
@@ -131,9 +150,30 @@ export default function SearchBigHeader() {
                 </NumberInputStepper>
               </NumberInput>
 
-              <Button w='20%' ml={4} type='submit'>
-                Submit
-              </Button>
+              <Popover onClose={() => setError(false)}>
+                <PopoverTrigger>
+                  <Button
+                    w='20%'
+                    type='submit'
+                    ml={4}
+                    bg='brand.100'
+                    _hover={{ backgroundColor: 'brand.150' }}
+                    isLoading={loading}
+                  >
+                    Submit
+                  </Button>
+                </PopoverTrigger>
+                {isError && (
+                  <PopoverContent>
+                    <PopoverArrow />
+                    <PopoverCloseButton />
+                    <PopoverHeader fontWeight='600'>Select Location!</PopoverHeader>
+                    <PopoverBody>
+                      Please select the closest airport from the city dropdown?
+                    </PopoverBody>
+                  </PopoverContent>
+                )}
+              </Popover>
             </Flex>
           </FormControl>
         </Flex>
@@ -143,11 +183,18 @@ export default function SearchBigHeader() {
             <Heading fontSize='2xl' p={8}>
               Results for {cityName}
             </Heading>
-            <Flex px={4} justify='flex-start' align='flex-start' w='100%' wrap='wrap'>
-              {data.data.length
-                ? data.data.map((hotel) => {
+            <Flex
+              px={2}
+              justify='flex-start'
+              align='flex-start'
+              w='100%'
+              wrap='wrap'
+              transition='all ease 0.5s'
+            >
+              {data.length
+                ? data.map((hotel, index) => {
                     console.log(hotel);
-                    return <DisplayTile hotel={hotel} />;
+                    return <DisplayTile key={index} hotel={hotel} />;
                   })
                 : !loading && (
                     <Heading as='h3' fontSize='xl' textAlign='center' w='100%'>
@@ -157,7 +204,7 @@ export default function SearchBigHeader() {
             </Flex>
           </>
         )}
-        <Box p={4}>
+        <Box p={4} transition='all ease 0.5s'>
           <Heading fontSize='2xl' p={4}>
             Popular Searches
           </Heading>

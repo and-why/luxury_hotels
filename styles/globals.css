@@ -26,6 +26,9 @@ a {
   color: inherit;
   text-decoration: none;
 }
+a:hover {
+  text-decoration: none !important;
+}
 
 * {
   box-sizing: border-box;
@@ -33,15 +36,24 @@ a {
 
 .react-datepicker-wrapper input {
   height: 40px;
-  width: 125px;
+  width: 100%;
+  padding: 10px;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  border: 1px solid;
+  border-color: inherit;
+  border-radius: 5px;
+  background: var(--chakra-colors-white);
 }
-.firstInput {
+input.firstInput {
   border-radius: 6px 0 0 6px;
   padding-left: 10px;
+  width: 125px;
   margin-left: 16px;
 }
-.secondInput {
+input.secondInput {
   border-radius: 0 6px 6px 0;
+  width: 125px;
   padding-right: 10px;
   margin-right: 16px;
 }
@@ -59,4 +71,14 @@ a {
 .autocomplete-result.addressSearch:hover {
   cursor: pointer;
   background: rgb(206, 201, 201);
+}
+
+.borderRadius {
+  border-radius: 5px;
+}
+.borderRadius2 {
+  border-radius: 10px;
+}
+.relative {
+  position: relative;
 }
