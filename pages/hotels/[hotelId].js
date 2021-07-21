@@ -2,41 +2,13 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import SideForm from '@/components/SideForm';
 import OfferTable from '@/components/OfferTable';
-import {
-  Flex,
-  Spinner,
-  Heading,
-  Link,
-  Box,
-  Button,
-  Text,
-  Icon,
-  FormControl,
-  Input,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverArrow,
-  PopoverCloseButton,
-  PopoverHeader,
-  PopoverBody,
-  List,
-  ListItem,
-  ListIcon,
-} from '@chakra-ui/react';
+import { Flex, Heading, Link, Box, Button, Text, Icon } from '@chakra-ui/react';
 import { ArrowBackIcon, StarIcon } from '@chakra-ui/icons';
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
-import { BsHouseFill } from 'react-icons/bs';
-import { getHotelById, getHotelByIdAll } from '@/utils/hotels';
+import { getHotelById } from '@/utils/hotels';
 import Layout from '@/components/Layout';
 import NextLink from 'next/link';
 import NextImage from 'next/image';
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import HotelMap from '@/components/HotelMap';
 
@@ -52,7 +24,6 @@ export default function HotelPage({ data, checkInDate, checkOutDate, guests, roo
 
   const addSearchData = (data) => {
     const [checkInDate, checkOutDate, guests, rooms] = data;
-    console.log(data);
 
     router.push({
       pathname: `/hotels/${hotelData.hotel.hotelId}`,
@@ -94,8 +65,8 @@ export default function HotelPage({ data, checkInDate, checkOutDate, guests, roo
   }
   return (
     <Layout>
-      <Flex align='center' justify='center' px={[8, 4, 16, 32]}>
-        <Flex w='100%' maxW='1440px' justify='space-between' direction='column'>
+      <Flex align='center' justify='center'>
+        <Flex w='100%' maxW='1440px' justify='space-between' direction='column' px={[8, 4, 16, 32]}>
           <NextLink href='/'>
             <Link>
               <Button variant='ghost' size='sm' mb={2}>
@@ -145,12 +116,12 @@ export default function HotelPage({ data, checkInDate, checkOutDate, guests, roo
               hotelData.hotel.media.map((image, index) => (
                 <Flex wrap='wrap' w='100%' mb={8}>
                   {index === 0 && process.env.NODE_ENV ? (
-                    <Box w='100%' p={1}>
+                    <Box w='100%' p={1} w='100%'>
                       <NextImage
                         className='borderRadius2'
                         src={'/images/roberto-nickson-room.jpg'}
                         height='550px'
-                        width='1280px'
+                        width='1440px'
                         objectFit='cover'
                       />
                     </Box>
@@ -172,10 +143,14 @@ export default function HotelPage({ data, checkInDate, checkOutDate, guests, roo
           {/* Main Content */}
           <Flex direction='row' wrap='wrap' justify='space-between' align='flex-start' mb={4}>
             <Flex direction='column' w={['100%', '100%', '50%', '60%']} p={4}>
-              <Heading as='h3' fontSize='lg' fontWeight='600' mb={4}>
-                Description
-              </Heading>
-              <Text mb={8}>{hotelData.hotel.description.text}</Text>
+              {hotelData.hotel.description && (
+                <>
+                  <Heading as='h3' fontSize='lg' fontWeight='600' mb={4}>
+                    Description
+                  </Heading>
+                  <Text mb={8}>{hotelData.hotel.description.text}</Text>{' '}
+                </>
+              )}
               <Box mb={8}>
                 <HotelMap
                   name={hotelData.hotel.name}
@@ -183,16 +158,8 @@ export default function HotelPage({ data, checkInDate, checkOutDate, guests, roo
                   longitude={hotelData.hotel.longitude}
                 />
               </Box>
-              <Heading as='h4' fontSize='lg' fontWeight='600' mb={4}>
-                Amenities
-              </Heading>
-              <Text textTransform='capitalize'>
-                {hotelData.hotel.amenities.map((amenity, index) => {
-                  return `${amenity.toLowerCase().replaceAll('_', ' ')} • `;
-                })}
-              </Text>
             </Flex>
-            <Flex w={['100%', 'auto', '50%', '40%']} p={4}>
+            <Flex w={['100%', 'auto', '50%', '40%']} p={4} id='form'>
               <SideForm addSearchData={addSearchData} data={hotelData} />
             </Flex>
           </Flex>
@@ -205,25 +172,51 @@ export default function HotelPage({ data, checkInDate, checkOutDate, guests, roo
             direction='column'
           >
             <Heading as='h4' fontSize='lg' fontWeight='600' mb={4}>
+              Amenities
+            </Heading>
+            <Text textTransform='capitalize' mb={16}>
+              {hotelData.hotel.amenities.map((amenity, index) => {
+                return `${amenity.toLowerCase().replaceAll('_', ' ')} • `;
+              })}
+            </Text>
+            <Heading as='h4' fontSize='lg' fontWeight='600' mb={4}>
               Offers
             </Heading>
-            <Text>
-              Check In: {hotelData.offers[0].checkInDate}, Check Out:{' '}
-              {hotelData.offers[0].checkOutDate}.
-            </Text>
-            <Text mb={4}>
-              For {hotelData.offers[0].guests.adults} adult
-              {hotelData.offers[0].guests.adults && 's'} in{' '}
-              {hotelData.offers[0].roomQuantity ? hotelData.offers[0].roomQuantity : '1'} room
-              {hotelData.offers[0].roomQuantity > 1 && 's'} for{' '}
-              {(new Date(hotelData.offers[0].checkOutDate) -
-                new Date(hotelData.offers[0].checkInDate)) /
-                24 /
-                60 /
-                60 /
-                1000}{' '}
-              nights
-            </Text>
+            <Box as='a' bg='gray.100' p={4} my={4} w='100%' href='#form'>
+              <Text textTransform='uppercase' fontSize='xl' color='gray.600'>
+                Check In:{' '}
+                <Text as='span' fontSize='2xl' fontWeight='600'>
+                  {hotelData.offers[0].checkInDate}
+                </Text>
+                , Check Out:{' '}
+                <Text as='span' fontSize='2xl' fontWeight='600'>
+                  {hotelData.offers[0].checkOutDate}
+                </Text>
+                .
+              </Text>
+              <Text textTransform='uppercase' fontSize='xl' color='gray.600'>
+                For{' '}
+                <Text as='span' fontSize='2xl' fontWeight='600'>
+                  {hotelData.offers[0].guests.adults}
+                </Text>{' '}
+                adult
+                {hotelData.offers[0].guests.adults && 's'} in{' '}
+                <Text as='span' fontSize='2xl' fontWeight='600'>
+                  {hotelData.offers[0].roomQuantity ? hotelData.offers[0].roomQuantity : '1'}
+                </Text>{' '}
+                room
+                {hotelData.offers[0].roomQuantity > 1 && 's'} for{' '}
+                <Text as='span' fontSize='2xl' fontWeight='600'>
+                  {(new Date(hotelData.offers[0].checkOutDate) -
+                    new Date(hotelData.offers[0].checkInDate)) /
+                    24 /
+                    60 /
+                    60 /
+                    1000}
+                </Text>{' '}
+                nights
+              </Text>
+            </Box>
             <OfferTable offers={hotelData.offers} />
           </Flex>
         </Flex>

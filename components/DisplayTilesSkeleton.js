@@ -2,9 +2,18 @@ import { Flex, Skeleton } from '@chakra-ui/react';
 
 export default function DisplayTilesSkeleton() {
   return (
-    <Flex w='100%' p={4} transition='all ease 0.3s'>
-      <Flex display='column' w='25%'>
-        <Skeleton mb={2} height='200px' />
+    <Flex
+      w='100%'
+      maxW='1440px'
+      px={[8, 4, 16, 32]}
+      py={4}
+      direction='column'
+      justify='space-between'
+      transition='all ease 0.3s'
+      wrap='wrap'
+    >
+      <Flex display='column' w={['50%', '50%', '33.3%', '25%']} px={2} mb={4}>
+        <Skeleton mb={2} h={['100px', '150px', '180px', '200px']} />
         <Flex>
           <Skeleton mb={2} height='20px' width='60%' />
           <Skeleton mb={2} height='20px' width='40%' ml={4} />
@@ -12,8 +21,8 @@ export default function DisplayTilesSkeleton() {
         <Skeleton mb={2} height='20px' />
         <Skeleton mb={2} />
       </Flex>
-      <Flex display='column' w='25%' ml={4}>
-        <Skeleton mb={2} height='200px' />
+      <Flex display='column' w={['50%', '50%', '33.3%', '25%']} px={2} mb={4}>
+        <Skeleton mb={2} h={['100px', '150px', '180px', '200px']} />
         <Flex>
           <Skeleton mb={2} height='20px' width='60%' />
           <Skeleton mb={2} height='20px' width='40%' ml={4} />
@@ -21,8 +30,8 @@ export default function DisplayTilesSkeleton() {
         <Skeleton mb={2} height='20px' />
         <Skeleton mb={2} />
       </Flex>
-      <Flex display='column' w='25%' ml={4}>
-        <Skeleton mb={2} height='200px' />
+      <Flex display='column' w={['50%', '50%', '33.3%', '25%']} px={2} mb={4}>
+        <Skeleton mb={2} h={['100px', '150px', '180px', '200px']} />
         <Flex>
           <Skeleton mb={2} height='20px' width='60%' />
           <Skeleton mb={2} height='20px' width='40%' ml={4} />
@@ -30,8 +39,8 @@ export default function DisplayTilesSkeleton() {
         <Skeleton mb={2} height='20px' />
         <Skeleton mb={2} />
       </Flex>
-      <Flex display='column' w='25%' mx={4}>
-        <Skeleton mb={2} height='200px' />
+      <Flex display='column' w={['50%', '50%', '33.3%', '25%']} px={2} mb={4}>
+        <Skeleton mb={2} h={['100px', '150px', '180px', '200px']} />
         <Flex>
           <Skeleton mb={2} height='20px' width='60%' />
           <Skeleton mb={2} height='20px' width='40%' ml={4} />

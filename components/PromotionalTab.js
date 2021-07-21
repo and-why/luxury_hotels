@@ -13,8 +13,9 @@ export default function PromotionalTab({
   const data = { adults, nights, rooms, cityName, cityCode };
   return (
     <Flex
-      w={['50%', '50%', '25%', '25%']}
+      w={['50%', '25%', '25%', '25%']}
       px={2}
+      mb={4}
       position='relative'
       pointer='cursor'
       transition='all 0.3s ease'

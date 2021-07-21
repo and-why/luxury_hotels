@@ -11,7 +11,7 @@ export default function DisplayTile({ hotel }) {
     <Flex
       direction='column'
       w={['50%', '50%', '33.3%', '25%']}
-      p={4}
+      p={2}
       transition='all 0.3s ease'
       bg='white'
       borderRadius='10px'

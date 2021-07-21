@@ -10,6 +10,7 @@ body {
   margin: 0;
   font-family: 'Inter', sans-serif;
   color: #10203d;
+  scroll-behavior: smooth;
 }
 
 h1,
@@ -62,6 +63,7 @@ input.secondInput {
   position: absolute;
   background: white;
   z-index: 99;
+  width: 100%;
 }
 .autocomplete-result.addressSearch {
   padding: 10px;

@@ -2,21 +2,14 @@ import { getToken } from './token';
 
 export async function getHotels(data) {
   const amadeus = await getToken();
-  const { cityCode, guests, startDate, endDate, rooms } = data;
-  console.log('data', data);
+  var { cityCode, checkInDate, checkOutDate, guests, rooms } = data;
+  console.log('data received by getHotels()', data);
 
-  const checkInDate = new Date(startDate.getTime() - startDate.getTimezoneOffset() * 60000)
-    .toISOString()
-    .split('T')[0];
-
-  const checkOutDate = new Date(endDate.getTime() - endDate.getTimezoneOffset() * 60000)
-    .toISOString()
-    .split('T')[0];
-
-  console.log('checkInDate', checkInDate == null ? new Date() : checkInDate);
   if (guests > 2) {
+    rooms = Math.ceil(guests / 2);
     guests = 2;
   }
+
   const response = await amadeus.shopping.hotelOffers
     .get({
       cityCode: cityCode,
@@ -34,7 +27,8 @@ export async function getHotels(data) {
     })
     .catch((x) => console.log(x));
 
-  response.result;
+  console.log('data returned from getHotels()', response.result);
+
   return response.result;
 }
 export async function getInitialHotels() {

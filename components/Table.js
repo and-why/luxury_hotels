@@ -9,6 +9,7 @@ export const Th = (props) => (
     color='black'
     fontWeight='600'
     p={2}
+    py={6}
     backgroundColor='brand.100'
     {...props}
   />
