@@ -43,7 +43,7 @@ export default function HotelPage({ data, checkInDate, checkOutDate, guests, roo
   if (hotelData.errors) {
     return (
       <Layout>
-        <Flex align='center' justify='center' px={[8, 4, 16, 32]}>
+        <Flex align='center' justify='center' px={[2, 4, 16, 32]}>
           <Flex w='100%' maxW='1440px' justify='space-between' direction='column'>
             <NextLink href='/'>
               <Link>
@@ -53,7 +53,7 @@ export default function HotelPage({ data, checkInDate, checkOutDate, guests, roo
                 </Button>
               </Link>
             </NextLink>
-            <Flex align='center' justify='center' px={[8, 4, 16, 32]}>
+            <Flex align='center' justify='center' px={[2, 4, 16, 32]}>
               <Heading textTransform='capitalize'>
                 Sorry. {hotelData.errors[0].title.toLowerCase()}
               </Heading>
@@ -66,7 +66,7 @@ export default function HotelPage({ data, checkInDate, checkOutDate, guests, roo
   return (
     <Layout>
       <Flex align='center' justify='center'>
-        <Flex w='100%' maxW='1440px' justify='space-between' direction='column' px={[8, 4, 16, 32]}>
+        <Flex w='100%' maxW='1440px' justify='space-between' direction='column' px={[2, 4, 16, 32]}>
           <NextLink href='/'>
             <Link>
               <Button variant='ghost' size='sm' mb={2}>

@@ -7,7 +7,7 @@ export default function Navbar() {
   const user = false;
 
   return (
-    <Flex w='100%' maxW='1440px' px={[8, 4, 16, 32]} py={4} justify='space-between' align='center'>
+    <Flex w='100%' maxW='1440px' px={[2, 4, 16, 32]} py={4} justify='space-between' align='center'>
       <Flex>
         <NextLink href='/' as={`/`} passHref>
           <Link>

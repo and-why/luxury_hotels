@@ -22,16 +22,11 @@ import PromotionalTab from './PromotionalTab';
 import FullSearchForm from './FullSearchForm';
 
 export default function SearchBigHeader() {
-  const cityNameInput = useRef();
   const [data, setData] = useState(false);
-  const [cityName, setCityName] = useState(false);
   const [loading, setLoading] = useState(false);
   const today = new Date();
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
-  const [startDate, setStartDate] = useState(today);
-  const [endDate, setEndDate] = useState(tomorrow);
-  const [isError, setError] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   // const handleSearch = async (e) => {
@@ -139,7 +134,7 @@ export default function SearchBigHeader() {
           <Flex
             w='100%'
             maxW='1440px'
-            px={[8, 4, 16, 32]}
+            px={[2, 4, 16, 32]}
             py={4}
             direction='column'
             justify='space-between'
@@ -173,7 +168,7 @@ export default function SearchBigHeader() {
           transition='all ease 0.5s'
           w='100%'
           maxW='1440px'
-          px={[8, 4, 16, 32]}
+          px={[2, 4, 16, 32]}
           py={4}
           direction='column'
           justify='space-between'

@@ -5,7 +5,7 @@ export default function DisplayTilesSkeleton() {
     <Flex
       w='100%'
       maxW='1440px'
-      px={[8, 4, 16, 32]}
+      px={[2, 4, 16, 32]}
       py={4}
       justify='space-between'
       transition='all ease 0.3s'
