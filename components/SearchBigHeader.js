@@ -103,7 +103,7 @@ export default function SearchBigHeader() {
             layout='fill'
             objectFit='cover'
           />
-          <Flex direction='column'>
+          <Flex direction='column' p={4}>
             <Heading
               color='white'
               zIndex='99'

@@ -22,7 +22,7 @@ export default function HotelMap({ latitude, longitude, name }) {
       onViewportChange={setViewport}
       mapboxApiAccessToken={apikey}
     >
-      <Marker latitude={latitude} longitude={longitude} offsetTop={-20}>
+      <Marker latitude={latitude} longitude={longitude} offsetTop={-20} offsetLeft={-20}>
         <Icon as={ImLocation} color='brand.100' h='40px' w='40px' />
       </Marker>
     </ReactMapGL>
