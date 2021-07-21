@@ -23,6 +23,7 @@ import FullSearchForm from './FullSearchForm';
 
 export default function SearchBigHeader() {
   const [data, setData] = useState(false);
+  const [cityName, setCityName] = useState(false);
   const [loading, setLoading] = useState(false);
   const today = new Date();
   const tomorrow = new Date();
