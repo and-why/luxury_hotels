@@ -96,7 +96,13 @@ export default function SearchBigHeader() {
           align='center'
           transition='all ease 0.5s'
         >
-          <NextImage src='/images/roberto-nickson.jpg' layout='fill' objectFit='cover' />
+          <NextImage
+            src='/images/roberto-nickson.jpg'
+            placeholder='blur'
+            blurDataURL='/images/blur/roberto-nickson.jpg'
+            layout='fill'
+            objectFit='cover'
+          />
           <Flex direction='column'>
             <Heading
               color='white'

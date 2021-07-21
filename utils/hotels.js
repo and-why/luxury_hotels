@@ -21,7 +21,7 @@ export async function getHotels(data) {
       radius: 300,
       radiusUnit: 'KM',
       // amenities: ,
-      ratings: '2,3,4,5',
+      ratings: '4,5',
       bestRateOnly: true,
       currency: 'AUD',
     })

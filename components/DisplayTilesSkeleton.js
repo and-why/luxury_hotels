@@ -7,7 +7,6 @@ export default function DisplayTilesSkeleton() {
       maxW='1440px'
       px={[8, 4, 16, 32]}
       py={4}
-      direction='column'
       justify='space-between'
       transition='all ease 0.3s'
       wrap='wrap'

@@ -120,6 +120,8 @@ export default function HotelPage({ data, checkInDate, checkOutDate, guests, roo
                       <NextImage
                         className='borderRadius2'
                         src={'/images/roberto-nickson-room.jpg'}
+                        placeholder='blur'
+                        blurDataURL={'/images/blue/roberto-nickson-room.jpg'}
                         height='550px'
                         width='1440px'
                         objectFit='cover'

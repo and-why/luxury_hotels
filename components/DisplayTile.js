@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 export default function DisplayTile({ hotel }) {
   const hotelName = hotel.hotel.name.toLowerCase();
   console.log(hotel);
-
+  const randomInt = Math.floor(Math.random() * 7);
   return (
     <Flex
       direction='column'
@@ -35,10 +35,13 @@ export default function DisplayTile({ hotel }) {
         <a>
           {hotel.hotel.media && process.env.NODE_ENV ? (
             <NextImage
-              src={`/images/melbourne.jpg`}
+              src={`/images/placeholder/hotel-${randomInt}.jpg`}
               height='400px'
               width='400px'
               className='borderRadius'
+              quality='100'
+              placeholder='blur'
+              blurDataURL={`/images/placeholder/blur/hotel-${randomInt}.jpg`}
             />
           ) : (
             <NextImage
