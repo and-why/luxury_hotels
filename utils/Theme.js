@@ -5,12 +5,19 @@ const theme = extendTheme({
     global: {
       body: {
         fontWeight: 400,
+        color: 'black',
       },
       h1: {
-        fontWeight: 400,
+        fontWeight: 600,
+        color: 'black',
       },
       h2: {
-        fontWeight: 400,
+        fontWeight: 600,
+        color: 'black',
+      },
+      h3: {
+        fontWeight: 600,
+        color: 'black',
       },
     },
   },
@@ -21,9 +28,9 @@ const theme = extendTheme({
       200: '#E77250',
       300: '#586728',
       400: '#1C484E',
-      dark: '#10203D',
+      dark: '#484848',
     },
-    black: '#10203D',
+    black: '#484848',
   },
   fonts: {
     heading: 'Roboto Slab',
@@ -32,7 +39,7 @@ const theme = extendTheme({
   fontWeights: {
     normal: 400,
     medium: 400,
-    bold: 400,
+    bold: 600,
     extraBold: 600,
   },
 });

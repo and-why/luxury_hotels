@@ -6,6 +6,7 @@ module.exports = {
       'pdt.multimediarepository.testing.amadeus.com',
       'amadeus.com',
       'avatars.githubusercontent.com',
+      'lh3.googleusercontent.com',
     ],
   },
 };

@@ -9,8 +9,9 @@ body {
   padding: 0;
   margin: 0;
   font-family: 'Inter', sans-serif;
-  color: #10203d;
+  color: #484848;
   scroll-behavior: smooth;
+  text-rendering: optimizeLegibility;
 }
 
 h1,
@@ -20,7 +21,7 @@ h4,
 h5,
 h6 {
   font-family: 'Roboto Slab', serif;
-  font-weight: 400;
+  font-weight: 600;
 }
 
 a {
@@ -80,6 +81,9 @@ input.secondInput {
 }
 .borderRadius2 {
   border-radius: 10px;
+}
+.roundedImage {
+  border-radius: 50%;
 }
 .relative {
   position: relative;

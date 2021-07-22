@@ -30,28 +30,6 @@ export default function SearchBigHeader() {
   tomorrow.setDate(tomorrow.getDate() + 1);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  // const handleSearch = async (e) => {
-  //   e.preventDefault();
-  //   setLoading(true);
-  //   const cityCode = e.target.addressSearch.getAttribute('data-iata');
-  //   if (cityCode === null) {
-  //     setLoading(false);
-  //     return setError(true);
-  //   }
-  //   let cityName = e.target.cityName.value;
-  //   cityName = cityName.slice(3);
-  //   const guests = e.target.adults.value;
-  //   const startDate = new Date(e.target.dateStart.value);
-  //   const endDate = new Date(e.target.dateEnd.value);
-  //   const rooms = 1;
-  //   setCityName(cityName);
-  //   const data = { cityCode, guests, startDate, endDate, rooms };
-  //   console.log(data);
-  //   const newData = await getHotels(data);
-  //   setData(newData);
-  //   setLoading(false);
-  // };
-
   const addSearchData = async (data) => {
     setLoading(true);
     onClose();
