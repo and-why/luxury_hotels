@@ -13,6 +13,7 @@ import {
   DrawerCloseButton,
   DrawerHeader,
   DrawerBody,
+  Spinner,
 } from '@chakra-ui/react';
 import { HamburgerIcon } from '@chakra-ui/icons';
 import { LogoIcon } from './icons/icons';
@@ -31,11 +32,9 @@ export default function Navbar() {
     onClose();
   };
 
-  useEffect(() => {
-    if (user) {
-      console.log(user);
-    }
-  }, []);
+  if (!user) {
+    return <Spinner />;
+  }
 
   return (
     <Container>
