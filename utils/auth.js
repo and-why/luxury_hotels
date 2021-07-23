@@ -1,7 +1,8 @@
 import firebase from '@/lib/firebase';
 import React, { useState, useEffect, useContext, createContext } from 'react';
-import { createUser } from './db';
+import { createUser, getUserData } from './db';
 import cookie from 'js-cookie';
+import { useRouter } from 'next/router';
 
 const authContext = createContext();
 
@@ -15,6 +16,7 @@ export const useAuth = () => {
 };
 
 function useProvideAuth() {
+  const router = useRouter();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -24,8 +26,10 @@ function useProvideAuth() {
       const { token, ...userWithoutToken } = user;
 
       createUser(user.uid, userWithoutToken);
-      setUser(user);
+      const newUser = await getUserData(user.uid);
 
+      console.log(newUser);
+      setUser(newUser);
       cookie.set('bare-comments-auth', true, { expires: 1 });
 
       setLoading(false);
@@ -71,6 +75,7 @@ function useProvideAuth() {
       .signOut()
       .then(() => {
         handleUser(false);
+        router.push('/');
       });
   };
 
@@ -98,7 +103,5 @@ const formatUser = async (user) => {
     name: user.displayName,
     provider: user.providerData[0].providerId,
     photoUrl: user.photoURL,
-    dob: null,
-    phone: null,
   };
 };

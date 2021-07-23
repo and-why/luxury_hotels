@@ -44,9 +44,9 @@ export default function Navbar() {
       <Flex align='center'>
         {user ? (
           <Button ref={menuBtn} onClick={onOpen} variant='outline' leftIcon={<HamburgerIcon />}>
-            {user.photoUrl ? (
+            {user?.photoUrl ? (
               <NextImage
-                src={user.photoUrl}
+                src={user?.photoUrl}
                 height='25px'
                 width='25px'
                 className='roundedImage'
@@ -54,7 +54,7 @@ export default function Navbar() {
                 blurDataURL='/images/placeholder/user.png'
               />
             ) : (
-              Account
+              'Account'
             )}
           </Button>
         ) : (
