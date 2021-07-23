@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import NextImage from 'next/image';
 import NextLink from 'next/link';
 import {
@@ -30,6 +30,12 @@ export default function Navbar() {
     signout();
     onClose();
   };
+
+  useEffect(() => {
+    if (user) {
+      console.log(user);
+    }
+  }, []);
 
   return (
     <Container>
