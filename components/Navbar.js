@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import NextImage from 'next/image';
 import NextLink from 'next/link';
 import {
@@ -13,7 +13,6 @@ import {
   DrawerCloseButton,
   DrawerHeader,
   DrawerBody,
-  Spinner,
 } from '@chakra-ui/react';
 import { HamburgerIcon } from '@chakra-ui/icons';
 import { LogoIcon } from './icons/icons';
@@ -32,10 +31,6 @@ export default function Navbar() {
     onClose();
   };
 
-  if (!user) {
-    return <Spinner />;
-  }
-
   return (
     <Container>
       <Flex>
@@ -49,9 +44,9 @@ export default function Navbar() {
       <Flex align='center'>
         {user ? (
           <Button ref={menuBtn} onClick={onOpen} variant='outline' leftIcon={<HamburgerIcon />}>
-            {user.photoUrl ? (
+            {user?.photoUrl ? (
               <NextImage
-                src={user.photoUrl}
+                src={user?.photoUrl}
                 height='25px'
                 width='25px'
                 className='roundedImage'
