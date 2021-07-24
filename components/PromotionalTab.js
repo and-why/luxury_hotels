@@ -34,6 +34,8 @@ export default function PromotionalTab({
           width='400px'
           objectFit='cover'
           className='borderRadius relative'
+          placeholder='blur'
+          blurDataURL={`/images/blur/${cityLower}`}
         />
         <Box mt={1} maxW='90%' borderBottomLeftRadius='5px'>
           <Text fontSize='sm' fontWeight='600'>

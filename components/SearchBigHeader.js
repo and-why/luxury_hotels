@@ -175,11 +175,11 @@ export default function SearchBigHeader() {
                 popularSearches={popularSearches}
               />
               <PromotionalTab
-                adults={4}
+                adults={2}
                 nights={3}
-                rooms={2}
-                cityName={'Brisbane'}
-                cityCode={'BNE'}
+                rooms={1}
+                cityName={'Auckland'}
+                cityCode={'AKL'}
                 popularSearches={popularSearches}
               />
               <PromotionalTab

@@ -1,6 +1,7 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 import Head from 'next/head';
 import Navbar from './Navbar';
+import Footer from './Footer';
 
 export default function Layout({ children }) {
   return (
@@ -18,6 +19,7 @@ export default function Layout({ children }) {
       <Flex justify='center' align='center' w='100%'>
         {children}
       </Flex>
+      <Footer />
     </>
   );
 }
