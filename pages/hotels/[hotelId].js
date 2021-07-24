@@ -11,15 +11,22 @@ import NextLink from 'next/link';
 import NextImage from 'next/image';
 import 'react-datepicker/dist/react-datepicker.css';
 import HotelMap from '@/components/HotelMap';
+import { useAuth } from '@/utils/auth';
+import { updateFavourites } from '@/utils/db';
 
 export default function HotelPage({ data, checkInDate, checkOutDate, guests, rooms }) {
   console.log(data);
   const router = useRouter();
+  const { user } = useAuth();
   const [hotelData, setHotelData] = useState(data.data ? data.data : data);
 
   const [isFavourite, setFavourite] = useState(false);
   const handleFavourite = () => {
     setFavourite(!isFavourite);
+    const userId = user?.uid;
+    console.log('sending data', hotelData.hotel, userId);
+    const favourite = { userId, ...hotelData.hotel };
+    updateFavourites(userId, favourite);
   };
 
   const addSearchData = (data) => {
@@ -36,6 +43,7 @@ export default function HotelPage({ data, checkInDate, checkOutDate, guests, roo
     });
     // setLoading(false);
   };
+
   useEffect(() => {
     setHotelData(data.data ? data.data : data);
   }, [addSearchData]);
@@ -86,12 +94,18 @@ export default function HotelPage({ data, checkInDate, checkOutDate, guests, roo
                 </Flex>
                 <Flex mr={4} textTransform='capitalize'>
                   <Link
-                    href={`https://www.google.com/maps/place/${hotelData.hotel.name}@${hotelData.hotel.latitude},${hotelData.hotel.longitude}`}
+                    href={`https://www.google.com/maps/place/${hotelData.hotel.latitude},${hotelData.hotel.longitude}`}
                   >
                     <address>
-                      {hotelData.hotel.address.lines.map((line) => `${line.toLowerCase()}, `)}
-                      {hotelData.hotel.address.cityName.toLowerCase()},{' '}
-                      {hotelData.hotel.address.postalCode}, {hotelData.hotel.cityCode}
+                      <Flex>
+                        {hotelData.hotel.address.lines.map((line, index) => {
+                          return <Text mr='5px' key={index}>{`${line.toLowerCase()},`}</Text>;
+                        })}
+                        <Text>
+                          {hotelData.hotel.address.cityName.toLowerCase()},{' '}
+                          {hotelData.hotel.address.postalCode}, {hotelData.hotel.cityCode}
+                        </Text>
+                      </Flex>
                     </address>
                   </Link>
                 </Flex>
@@ -114,14 +128,14 @@ export default function HotelPage({ data, checkInDate, checkOutDate, guests, roo
           <Flex w='100%'>
             {hotelData.hotel.media[0] &&
               hotelData.hotel.media.map((image, index) => (
-                <Flex wrap='wrap' w='100%' mb={8}>
+                <Flex key={index} wrap='wrap' w='100%' mb={8}>
                   {index === 0 && process.env.NODE_ENV ? (
                     <Box w='100%' p={1} w='100%'>
                       <NextImage
                         className='borderRadius2'
                         src={'/images/roberto-nickson-room.jpg'}
                         placeholder='blur'
-                        blurDataURL={'/images/blue/roberto-nickson-room.jpg'}
+                        blurDataURL={'/images/blur/roberto-nickson-room.jpg'}
                         height='550px'
                         width='1440px'
                         objectFit='cover'
@@ -178,7 +192,11 @@ export default function HotelPage({ data, checkInDate, checkOutDate, guests, roo
             </Heading>
             <Text textTransform='capitalize' mb={16}>
               {hotelData.hotel.amenities.map((amenity, index) => {
-                return `${amenity.toLowerCase().replaceAll('_', ' ')} • `;
+                return (
+                  <Text as='span' key={index}>{`${amenity
+                    .toLowerCase()
+                    .replaceAll('_', ' ')} • `}</Text>
+                );
               })}
             </Text>
             <Heading as='h4' fontSize='lg' fontWeight='600' mb={4}>

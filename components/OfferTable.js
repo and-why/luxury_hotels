@@ -17,17 +17,20 @@ export default function OfferTable({ offers }) {
       </thead>
       <tbody>
         {offers.map((offer, index) => (
-          <>
+          <Box as='tr' key={offer.id}>
             {offer.room.typeEstimated && (
-              <Box as='tr' key={offer.id}>
+              <>
                 <Td>
-                  {offer.room.typeEstimated.category.toLowerCase().replaceAll('_', ' ')}. <br />
+                  <Text>
+                    {offer.room.typeEstimated.category &&
+                      offer.room.typeEstimated.category.toLowerCase().replaceAll('_', ' ')}
+                  </Text>
                   {offer.room.typeEstimated.bedType && (
-                    <>
+                    <Text>
                       {offer.room.typeEstimated.beds}{' '}
                       {offer.room.typeEstimated.bedType.toLowerCase()} Bed
                       {offer.room.typeEstimated.beds > 1 && 's'}
-                    </>
+                    </Text>
                   )}
                 </Td>
                 <Td>
@@ -58,9 +61,9 @@ export default function OfferTable({ offers }) {
                     <Text fontWeight='600'>Book for {formatter.format(offer.price.total)}</Text>
                   </Button>
                 </Td>
-              </Box>
+              </>
             )}
-          </>
+          </Box>
         ))}
       </tbody>
     </Table>

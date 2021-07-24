@@ -40,3 +40,22 @@ export function updateUser(id, data) {
   console.log(data);
   return firestore.collection('users').doc(id).update(data);
 }
+
+export function updateFavourites(userId, data) {
+  console.log('recieved data:', data);
+  const hotelId = data.hotelId;
+  const ref = firestore.collection('favourites').doc(hotelId);
+  ref
+    .set({ hotelData: data }, { merge: true })
+    .then(() => {
+      console.log('Document successfully written!');
+    })
+    .catch((error) => {
+      console.log(error);
+      // ref.set({ hotelData: data });
+    });
+  ref.update({
+    userIds: firebase.firestore.FieldValue.arrayUnion(userId),
+  });
+  return;
+}

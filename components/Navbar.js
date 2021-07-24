@@ -45,14 +45,7 @@ export default function Navbar() {
         {user ? (
           <Button ref={menuBtn} onClick={onOpen} variant='outline' leftIcon={<HamburgerIcon />}>
             {user?.photoUrl ? (
-              <NextImage
-                src={user?.photoUrl}
-                height='25px'
-                width='25px'
-                className='roundedImage'
-                placeholder='blur'
-                blurDataURL='/images/placeholder/user.png'
-              />
+              <NextImage src={user?.photoUrl} height='25px' width='25px' className='roundedImage' />
             ) : (
               'Account'
             )}

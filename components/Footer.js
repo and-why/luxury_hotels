@@ -14,7 +14,7 @@ import Container from './Container';
 
 export default function Footer() {
   return (
-    <Flex bg='black' justify='center' direction='column' w='100%'>
+    <Flex bg='black' justify='center' direction='column' w='100%' mt={16}>
       <Container>
         <Flex direction='column' w='100%'>
           <Flex bg='black' direction='column' w='100%'>
