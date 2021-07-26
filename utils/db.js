@@ -44,18 +44,38 @@ export function updateUser(id, data) {
 export function updateFavourites(userId, data) {
   console.log('recieved data:', data);
   const hotelId = data.hotelId;
-  const ref = firestore.collection('favourites').doc(hotelId);
-  ref
+  firestore
+    .collection('favourites')
+    .doc(hotelId)
     .set({ hotelData: data }, { merge: true })
     .then(() => {
       console.log('Document successfully written!');
     })
     .catch((error) => {
       console.log(error);
-      // ref.set({ hotelData: data });
     });
-  ref.update({
-    userIds: firebase.firestore.FieldValue.arrayUnion(userId),
-  });
+
+  firestore
+    .collection('users')
+    .doc(userId)
+    .update({
+      hotelIds: firebase.firestore.FieldValue.arrayUnion(hotelId),
+    });
   return;
+}
+
+export function removeFromFavourites(userId, data) {
+  console.log('recieved data:', data);
+  const hotelId = data.hotelId;
+  firestore
+    .collection('users')
+    .doc(userId)
+    .update({
+      hotelIds: firebase.firestore.FieldValue.arrayRemove(hotelId),
+    });
+  return;
+}
+
+export function getFavourites(userId) {
+  const ref = firestore.collection('favourites').where;
 }

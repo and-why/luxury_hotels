@@ -40,9 +40,11 @@ export default function SideForm({ addSearchData, data }) {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    // setLoading(true);
-
-    if (e.target.dateEnd.value <= e.target.dateStart.value) {
+    setLoading(true);
+    setError(false);
+    if (
+      new Date(e.target.dateEnd.value).getTime() <= new Date(e.target.dateStart.value).getTime()
+    ) {
       return setError(true);
     }
 
@@ -58,7 +60,7 @@ export default function SideForm({ addSearchData, data }) {
       .split('T')[0];
 
     addSearchData([checkInDate, checkOutDate, guests, rooms]);
-    // setLoading(false)
+    setLoading(false);
   };
   return (
     <FormControl

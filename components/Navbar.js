@@ -80,6 +80,7 @@ export default function Navbar() {
                       onClick={handleSignout}
                       leftIcon={<Icon as={BiLogOut} />}
                       colorScheme='red'
+                      m={4}
                     >
                       Log out
                     </Button>

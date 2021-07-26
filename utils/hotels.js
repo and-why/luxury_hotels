@@ -31,19 +31,15 @@ export async function getHotels(data) {
 
   return response.result;
 }
-export async function getInitialHotels() {
+export async function getAllHotels(cityCode) {
   const amadeus = await getToken();
+  console.log('cityCode:', cityCode);
   const response = await amadeus.shopping.hotelOffers
     .get({
-      cityCode: 'MEL',
-      // checkInDate: '2021-08-01',
-      // checkOutDate: '2021-08-25',
-      // roomQuantity: roomQuantity,
-      // adults: adults,
+      cityCode: cityCode,
       radius: 300,
       radiusUnit: 'KM',
-      // amenities: ,
-      ratings: '5',
+      ratings: '4, 5',
       bestRateOnly: true,
     })
     .catch((x) => console.log(x));

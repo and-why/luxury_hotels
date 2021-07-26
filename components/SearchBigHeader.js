@@ -37,7 +37,6 @@ export default function SearchBigHeader() {
     const [cityCode, checkInDate, checkOutDate, guests, rooms] = data;
     const newData = await getHotels({ cityCode, checkInDate, checkOutDate, guests, rooms });
     setData(newData.data);
-    console.log('data received to be set', newData);
     setLoading(false);
   };
 

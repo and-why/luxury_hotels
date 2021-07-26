@@ -12,21 +12,33 @@ import NextImage from 'next/image';
 import 'react-datepicker/dist/react-datepicker.css';
 import HotelMap from '@/components/HotelMap';
 import { useAuth } from '@/utils/auth';
-import { updateFavourites } from '@/utils/db';
+import { updateFavourites, removeFromFavourites } from '@/utils/db';
+import { mutate } from 'swr';
 
 export default function HotelPage({ data, checkInDate, checkOutDate, guests, rooms }) {
-  console.log(data);
+  console.log('hotelId Page ', data);
   const router = useRouter();
   const { user } = useAuth();
+
   const [hotelData, setHotelData] = useState(data.data ? data.data : data);
 
   const [isFavourite, setFavourite] = useState(false);
-  const handleFavourite = () => {
-    setFavourite(!isFavourite);
+
+  const handleFavourite = async () => {
     const userId = user?.uid;
-    console.log('sending data', hotelData.hotel, userId);
     const favourite = { userId, ...hotelData.hotel };
-    updateFavourites(userId, favourite);
+    console.log(isFavourite);
+    if (!isFavourite) {
+      updateFavourites(userId, favourite);
+      const newData = user.hotelIds.push(hotelData.hotel.hotelId);
+      setFavourite(true);
+      return mutate(user, { ...user, hotelIds: newData }, true);
+    } else {
+      const newData = user.hotelIds.filter((hotelId) => hotelId !== hotelData.hotel.hotelId);
+      removeFromFavourites(userId, favourite);
+      setFavourite(false);
+      return mutate(user, { ...user, hotelIds: newData }, true);
+    }
   };
 
   const addSearchData = (data) => {
@@ -45,8 +57,10 @@ export default function HotelPage({ data, checkInDate, checkOutDate, guests, roo
   };
 
   useEffect(() => {
-    setHotelData(data.data ? data.data : data);
-  }, [addSearchData]);
+    if (user) {
+      setFavourite(user.hotelIds.includes(hotelData.hotel.hotelId));
+    }
+  }, [user]);
 
   if (hotelData.errors) {
     return (
@@ -75,14 +89,14 @@ export default function HotelPage({ data, checkInDate, checkOutDate, guests, roo
     <Layout>
       <Flex align='center' justify='center'>
         <Flex w='100%' maxW='1440px' justify='space-between' direction='column' px={[2, 4, 16, 32]}>
-          <NextLink href='/'>
+          {/* <NextLink href='/'>
             <Link>
               <Button variant='ghost' size='sm' mb={2}>
                 <ArrowBackIcon mr={2} />
-                <Text fontSize='sm'>Back to Search</Text>
+                <Text fontSize='sm'>Back to Home</Text>
               </Button>
             </Link>
-          </NextLink>
+          </NextLink> */}
 
           <Flex direction='column' mb={2}>
             <Heading mb={2}>{hotelData.hotel.name}</Heading>
@@ -111,17 +125,19 @@ export default function HotelPage({ data, checkInDate, checkOutDate, guests, roo
                 </Flex>
               </Flex>
               <Flex align='center'>
-                <Button size='sm' variant='ghost' onClick={handleFavourite}>
-                  <Text fontWeight='600' fontSize='sm' mr={1}>
-                    Favourite
-                  </Text>
-                  <Icon
-                    color={isFavourite ? 'red' : 'black'}
-                    as={isFavourite ? AiFillHeart : AiOutlineHeart}
-                    h='20px'
-                    w='20px'
-                  />
-                </Button>
+                {user && (
+                  <Button size='sm' variant='ghost' onClick={handleFavourite}>
+                    <Text fontWeight='600' fontSize='sm' mr={1}>
+                      Favourite
+                    </Text>
+                    <Icon
+                      color={isFavourite ? 'red' : 'black'}
+                      as={isFavourite ? AiFillHeart : AiOutlineHeart}
+                      h='20px'
+                      w='20px'
+                    />
+                  </Button>
+                )}
               </Flex>
             </Flex>
           </Flex>
@@ -129,7 +145,7 @@ export default function HotelPage({ data, checkInDate, checkOutDate, guests, roo
             {hotelData.hotel.media[0] &&
               hotelData.hotel.media.map((image, index) => (
                 <Flex key={index} wrap='wrap' w='100%' mb={8}>
-                  {index === 0 && process.env.NODE_ENV ? (
+                  {index === 0 && process.env.NODE_ENV /*=== 'development' */ ? (
                     <Box w='100%' p={1} w='100%'>
                       <NextImage
                         className='borderRadius2'
@@ -248,7 +264,6 @@ export default function HotelPage({ data, checkInDate, checkOutDate, guests, roo
 export async function getServerSideProps(context) {
   // const hotelId = context.params.hotelId;
   const { checkInDate, checkOutDate, hotelId, guests, rooms } = context.query;
-  console.log(context.query);
   const data = await getHotelById(hotelId, checkInDate, checkOutDate, guests, rooms);
 
   return {
@@ -256,6 +271,8 @@ export async function getServerSideProps(context) {
       data: data,
       checkInDate: checkInDate,
       checkOutDate: checkOutDate,
+      guests: guests,
+      rooms: rooms,
     },
   };
 }
