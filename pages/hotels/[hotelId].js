@@ -11,33 +11,32 @@ import NextLink from 'next/link';
 import NextImage from 'next/image';
 import 'react-datepicker/dist/react-datepicker.css';
 import HotelMap from '@/components/HotelMap';
+import Container from '@/components/Container';
 import { useAuth } from '@/utils/auth';
 import { updateFavourites, removeFromFavourites } from '@/utils/db';
 import { mutate } from 'swr';
 
-export default function HotelPage({ data, checkInDate, checkOutDate, guests, rooms }) {
+export default function HotelPage({ hotelId, data, checkInDate, checkOutDate, guests, rooms }) {
   console.log('hotelId Page ', data);
   const router = useRouter();
   const { user } = useAuth();
-
   const [hotelData, setHotelData] = useState(data.data ? data.data : data);
-
   const [isFavourite, setFavourite] = useState(false);
 
   const handleFavourite = async () => {
     const userId = user?.uid;
-    const favourite = { userId, ...hotelData.hotel };
     console.log(isFavourite);
     if (!isFavourite) {
+      const favourite = { userId, ...hotelData.hotel };
       updateFavourites(userId, favourite);
-      const newData = user.hotelIds.push(hotelData.hotel.hotelId);
-      setFavourite(true);
-      return mutate(user, { ...user, hotelIds: newData }, true);
+      user.hotelIds.push(hotelData.hotel.hotelId);
+      return setFavourite(true);
     } else {
-      const newData = user.hotelIds.filter((hotelId) => hotelId !== hotelData.hotel.hotelId);
+      const favourite = { userId, ...hotelData.hotel };
       removeFromFavourites(userId, favourite);
-      setFavourite(false);
-      return mutate(user, { ...user, hotelIds: newData }, true);
+      const index = user.hotelIds.indexOf(hotelData.hotel.hotelId)
+      user.hotelIds.splice(index, 1)
+      return setFavourite(false);
     }
   };
 
@@ -45,7 +44,7 @@ export default function HotelPage({ data, checkInDate, checkOutDate, guests, roo
     const [checkInDate, checkOutDate, guests, rooms] = data;
 
     router.push({
-      pathname: `/hotels/${hotelData.hotel.hotelId}`,
+      pathname: `/hotels/${hotelId}`,
       query: {
         checkInDate: checkInDate,
         checkOutDate: checkOutDate,
@@ -65,7 +64,7 @@ export default function HotelPage({ data, checkInDate, checkOutDate, guests, roo
   if (hotelData.errors) {
     return (
       <Layout>
-        <Flex align='center' justify='center' px={[2, 4, 16, 32]}>
+        <Container>
           <Flex w='100%' maxW='1440px' justify='space-between' direction='column'>
             <NextLink href='/'>
               <Link>
@@ -80,10 +79,10 @@ export default function HotelPage({ data, checkInDate, checkOutDate, guests, roo
                 Sorry. {hotelData.errors[0].title.toLowerCase()}
               </Heading>
               <Text mb={8}>Try another date or search combination.</Text>
-              <SideForm addSearchData={addSearchData} />
+              <SideForm addSearchData={addSearchData} hotelId={hotelId} />
             </Flex>
           </Flex>
-        </Flex>
+        </Container>
       </Layout>
     );
   }
@@ -270,6 +269,7 @@ export async function getServerSideProps(context) {
 
   return {
     props: {
+      hotelId: hotelId,
       data: data,
       checkInDate: checkInDate,
       checkOutDate: checkOutDate,

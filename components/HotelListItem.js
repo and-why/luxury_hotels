@@ -19,14 +19,13 @@ export default function HotelListItem({ favourite }) {
     console.log(isFavourite);
     if (!isFavourite) {
       updateFavourites(userId, newFavourite);
-      const newData = user.hotelIds.push(favourite.hotelData.hotelId);
-      setFavourite(true);
-      return mutate(user, { ...user, hotelIds: newData }, true);
+      user.hotelIds.push(favourite.hotelId);
+      return setFavourite(true);
     } else {
-      const newData = user.hotelIds.filter((hotelId) => hotelId !== favourite.hotelData.hotelId);
       removeFromFavourites(userId, newFavourite);
-      setFavourite(false);
-      return mutate(user, { ...user, hotelIds: newData }, true);
+      const index = user.hotelIds.indexOf(favourite.hotelData.hotelId)
+      user.hotelIds.splice(index, 1)
+      return setFavourite(false);
     }
   };
   useEffect(() => {
@@ -47,6 +46,7 @@ export default function HotelListItem({ favourite }) {
   const endDate = new Date();
   endDate.setDate(endDate.getDate() + 9);
   return (
+    <Box position='relative'>
     <NextLink
       href={{
         pathname: `/hotels/${favourite.id}`,
@@ -63,8 +63,8 @@ export default function HotelListItem({ favourite }) {
       }}
     >
       <Link>
-        <Flex borderBottom='1px solid' borderBottomColor='gray.100' p={2}>
-          <Box w='35%' maxW='300px' p={2}>
+        <Flex borderBottom='1px solid' borderBottomColor='gray.100' py={2} w='100%'>
+          <Box w='100%' maxW='300px' >
             <NextImage
               src={
                 process.env.NODE_ENV /*=== 'development'*/
@@ -79,7 +79,7 @@ export default function HotelListItem({ favourite }) {
               blurDataURL={`/images/placeholder/blur/hotel-${randomInt}.jpg`}
             />
           </Box>
-          <Flex w='65%' p={2} direction='column' justify='space-between'>
+          <Flex w='100%' py={2} px={4} direction='column' justify='space-between'>
             <Box>
               <Text textTransform='capitalize' fontSize='sm' mb={1}>
                 {favourite.hotelData.address.cityName.toLowerCase()}{' '}
@@ -90,16 +90,7 @@ export default function HotelListItem({ favourite }) {
                 <Heading key={favourite.id} fontSize='lg' textTransform='capitalize'>
                   {favourite.hotelData.name.toLowerCase()}
                 </Heading>
-                {user && (
-                  <Button size='sm' variant='ghost' onClick={handleFavourite} h='20px' w='20px'>
-                    <Icon
-                      color={isFavourite ? 'red' : 'black'}
-                      as={isFavourite ? AiFillHeart : AiOutlineHeart}
-                      h='20px'
-                      w='20px'
-                    />
-                  </Button>
-                )}
+                
               </Flex>
             </Box>
             <Flex align='center' py={2}>
@@ -109,5 +100,26 @@ export default function HotelListItem({ favourite }) {
         </Flex>
       </Link>
     </NextLink>
+    {user && (
+      <Button
+        size='sm'
+        variant='ghost'
+        onClick={handleFavourite}
+        h='20px'
+        w='20px'
+        zIndex='999'
+        position='absolute'
+        top='15px'
+        right='0'
+      >
+        <Icon
+          color={isFavourite ? 'red' : 'black'}
+          as={isFavourite ? AiFillHeart : AiOutlineHeart}
+          h='20px'
+          w='20px'
+        />
+      </Button>
+    )}
+    </Box>
   );
 }

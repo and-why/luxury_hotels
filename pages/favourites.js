@@ -13,8 +13,9 @@ export default function FavouritesPage() {
 
   const [favourites, setFavourites] = useState();
 
-  const allFavs = data?.favourites;
-  const userFavs = user?.hotelIds;
+  const init = () => {
+  const allFavs = data.favourites;
+  const userFavs = user.hotelIds;
 
   const newFavourites = allFavs?.reduce((filtered, fav) => {
     for (let i = 0; i < userFavs?.length; i++) {
@@ -24,11 +25,16 @@ export default function FavouritesPage() {
     }
     return filtered;
   }, []);
+
+  return newFavourites
+  }
+
   useEffect(() => {
-    if (user) {
-      setFavourites(newFavourites);
+    if (user && data) {
+      setFavourites(init());
     }
-  }, [user]);
+  }, [user, data]);
+
   console.log('favourites', favourites);
   return (
     <Layout>

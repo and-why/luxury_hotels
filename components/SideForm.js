@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Flex,
   Spinner,
@@ -31,22 +31,26 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { formatter } from '@/utils/functions';
 
 export default function SideForm({ addSearchData, data }) {
-  const [hotelData, setHotelData] = useState();
+  const [hotelData, setHotelData] = useState(data);
   const [isLoading, setLoading] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(
+    new Date(startDate).setDate(new Date(startDate).getDate() + 1),
+  );
   const [price, setPrice] = useState(0.0);
   const [guests, setGuests] = useState(2);
   const [rooms, setRooms] = useState(1);
   const [isError, setError] = useState(false);
-  if (data) {
-    setHotelData(data);
-    setStartDate(new Date(hotelData.offers[0].checkInDate));
-    setEndDate(new Date(hotelData.offers[0].checkOutDate));
-    setPrice(hotelData.offers[0].price.total);
-    setGuests(hotelData.offers[0].guests.adults);
-    setRooms(hotelData.roomQuantity);
-  }
+
+  useEffect(() => {
+    if (data) {
+      setStartDate(new Date(hotelData.offers[0].checkInDate));
+      setEndDate(new Date(hotelData.offers[0].checkOutDate));
+      setPrice(hotelData.offers[0].price.total);
+      setGuests(hotelData.offers[0].guests.adults);
+      setRooms(hotelData.roomQuantity);
+    }
+  }, [data]);
 
   console.log('hotel', hotelData);
 
@@ -113,7 +117,10 @@ export default function SideForm({ addSearchData, data }) {
                 variant='outline'
                 // className='firstInput'
                 selected={startDate}
-                onChange={(date) => setStartDate(date)}
+                onChange={(date) => {
+                  setStartDate(date);
+                  setEndDate(new Date(date).setDate(new Date(date).getDate() + 1));
+                }}
                 dateFormat='dd MMM yyyy'
                 shouldCloseOnSelect
                 placeholderText={'Check in date'}
@@ -144,7 +151,7 @@ export default function SideForm({ addSearchData, data }) {
                 shouldCloseOnSelect
                 placeholderText={'Check out date'}
                 showTimeSelect={false}
-                minDate={new Date()}
+                minDate={new Date(startDate).setDate(new Date(startDate).getDate() + 1)}
               />
             </FormControl>
           </Flex>
