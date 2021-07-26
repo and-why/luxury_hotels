@@ -44,7 +44,9 @@ export default function FullSearchForm({ addSearchData }) {
     e.preventDefault();
     // setLoading(true);
 
-    if (e.target.dateEnd.value <= e.target.dateStart.value) {
+    if (
+      new Date(e.target.dateEnd.value).getTime() <= new Date(e.target.dateStart.value).getTime()
+    ) {
       return setDateError(true);
     }
     const cityCode = e.target.addressSearch.getAttribute('data-iata');

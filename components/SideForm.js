@@ -31,12 +31,24 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { formatter } from '@/utils/functions';
 
 export default function SideForm({ addSearchData, data }) {
-  const hotelData = data;
-  console.log('hotel', hotelData);
+  const [hotelData, setHotelData] = useState();
   const [isLoading, setLoading] = useState(false);
-  const [startDate, setStartDate] = useState(new Date(hotelData.offers[0].checkInDate));
-  const [endDate, setEndDate] = useState(new Date(hotelData.offers[0].checkOutDate));
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+  const [price, setPrice] = useState(0.0);
+  const [guests, setGuests] = useState(2);
+  const [rooms, setRooms] = useState(1);
   const [isError, setError] = useState(false);
+  if (data) {
+    setHotelData(data);
+    setStartDate(new Date(hotelData.offers[0].checkInDate));
+    setEndDate(new Date(hotelData.offers[0].checkOutDate));
+    setPrice(hotelData.offers[0].price.total);
+    setGuests(hotelData.offers[0].guests.adults);
+    setRooms(hotelData.roomQuantity);
+  }
+
+  console.log('hotel', hotelData);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -73,7 +85,7 @@ export default function SideForm({ addSearchData, data }) {
     >
       <Flex align='baseline'>
         <Text fontSize='xl' fontWeight='600' mb={4}>
-          {formatter.format(hotelData.offers[0].price.total)}
+          {formatter.format(price)}
         </Text>
         <Text ml={1} fontSize='sm'>
           total
@@ -154,7 +166,7 @@ export default function SideForm({ addSearchData, data }) {
               max={2}
               mb={2}
               required
-              defaultValue={hotelData.offers[0].guests.adults}
+              defaultValue={guests}
             >
               <NumberInputField placeholder='Add guests' bg='white' name='adults' id='adults' />
               <NumberInputStepper>
@@ -181,7 +193,7 @@ export default function SideForm({ addSearchData, data }) {
               max={9}
               mb={2}
               required
-              defaultValue={hotelData.offers[0].roomQuantity || 1}
+              defaultValue={rooms}
             >
               <NumberInputField placeholder='Add guests' bg='white' name='rooms' id='rooms' />
               <NumberInputStepper>

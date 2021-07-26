@@ -57,7 +57,7 @@ export default function HotelPage({ data, checkInDate, checkOutDate, guests, roo
   };
 
   useEffect(() => {
-    if (user) {
+    if (user && data.data) {
       setFavourite(user.hotelIds.includes(hotelData.hotel.hotelId));
     }
   }, [user]);
@@ -71,14 +71,16 @@ export default function HotelPage({ data, checkInDate, checkOutDate, guests, roo
               <Link>
                 <Button variant='ghost' size='sm' mb={2}>
                   <ArrowBackIcon mr={2} />
-                  <Text fontSize='sm'>Back to Search</Text>
+                  <Text fontSize='sm'>Back to Home</Text>
                 </Button>
               </Link>
             </NextLink>
-            <Flex align='center' justify='center' px={[2, 4, 16, 32]}>
-              <Heading textTransform='capitalize'>
+            <Flex align='center' direction='column' justify='center' px={[2, 4, 16, 32]}>
+              <Heading textTransform='capitalize' as='h3' fontSize='lg' mb={4}>
                 Sorry. {hotelData.errors[0].title.toLowerCase()}
               </Heading>
+              <Text mb={8}>Try another date or search combination.</Text>
+              <SideForm addSearchData={addSearchData} />
             </Flex>
           </Flex>
         </Flex>

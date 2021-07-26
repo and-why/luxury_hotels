@@ -5,30 +5,30 @@ import HotelListItem from '@/components/HotelListItem';
 import Container from '@/components/Container';
 import { Flex, Heading, Box } from '@chakra-ui/react';
 import useSWR from 'swr';
+import { useEffect, useState } from 'react';
 
 export default function FavouritesPage() {
   const { user } = useAuth();
   const { data } = useSWR(`/api/favourites/${user?.uid}`);
 
-  if (!user || !data) {
-    return (
-      <Layout>
-        <Heading>Favourites</Heading>
-      </Layout>
-    );
-  }
+  const [favourites, setFavourites] = useState();
 
-  const allFavs = data.favourites;
-  const userFavs = user.hotelIds;
+  const allFavs = data?.favourites;
+  const userFavs = user?.hotelIds;
 
-  const favourites = allFavs.reduce((filtered, fav) => {
-    for (let i = 0; i < userFavs.length; i++) {
+  const newFavourites = allFavs?.reduce((filtered, fav) => {
+    for (let i = 0; i < userFavs?.length; i++) {
       if (fav.id == userFavs[i]) {
         filtered.push(fav);
       }
     }
     return filtered;
   }, []);
+  useEffect(() => {
+    if (user) {
+      setFavourites(newFavourites);
+    }
+  }, [user]);
   console.log('favourites', favourites);
   return (
     <Layout>

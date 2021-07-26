@@ -14,12 +14,14 @@ export default function Layout({ children }) {
         <script src='https://cdn.jsdelivr.net/npm/airport-autocomplete-js@latest/dist/index.browser.min.js'></script>
       </Head>
       <Flex direction='column' justify='space-between' minH='100vh'>
-        <Flex justify='center' align='center' w='100%'>
-          <Navbar />
-        </Flex>
-        <Flex justify='center' align='center' w='100%'>
-          {children}
-        </Flex>
+        <Box>
+          <Flex justify='center' align='center' w='100%'>
+            <Navbar />
+          </Flex>
+          <Flex justify='center' align='center' w='100%'>
+            {children}
+          </Flex>
+        </Box>
         <Footer />
       </Flex>
     </>
