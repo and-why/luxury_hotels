@@ -65,6 +65,11 @@ export default function Navbar() {
                 {user && (
                   <>
                     <Flex direction='column' mb={32}>
+                      <NextLink href='/' passHref>
+                        <Link fontSize='xl' p={4} w='100%' _hover={{ background: 'gray.200' }}>
+                          Home
+                        </Link>
+                      </NextLink>
                       <NextLink href='/account' passHref>
                         <Link fontSize='xl' p={4} w='100%' _hover={{ background: 'gray.200' }}>
                           Account
