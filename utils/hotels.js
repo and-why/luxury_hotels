@@ -27,7 +27,9 @@ export async function getHotels(data) {
     })
     .catch((x) => console.log(x));
 
-  console.log('data returned from getHotels()', response.result);
+  // if (response.result.error) {
+  //   return response.result.error;
+  // }
 
   return response.result;
 }

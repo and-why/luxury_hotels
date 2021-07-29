@@ -2,6 +2,7 @@ import { Flex, Text, Box, Link } from '@chakra-ui/react';
 import NextImage from 'next/image';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
+import { formatter } from '@/utils/functions';
 
 export default function DisplayTile({ hotel }) {
   const hotelName = hotel.hotel.name.toLowerCase();
@@ -77,7 +78,7 @@ export default function DisplayTile({ hotel }) {
                 textOverflow='ellipsis'
                 overflow='hidden'
               >
-                ${hotel.offers[0].price.total}
+                ${formatter.format(hotel.offers[0].price.total)}
               </Text>
             </Flex>
           </Flex>

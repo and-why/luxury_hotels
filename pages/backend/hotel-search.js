@@ -9,58 +9,58 @@ import {
   FormHelperText,
   Button,
   Spinner,
+  Flex,
 } from '@chakra-ui/react';
 import Layout from '@/components/Layout';
-import getHotels from '@/utils/hotels';
+import { getHotels } from '@/utils/hotels';
 import { useForm } from 'react-hook-form';
 import { getToken } from '@/utils/token';
 import useSWR, { mutate } from 'swr';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import FullSearchForm from '@/components/FullSearchForm';
+import Container from '@/components/Container';
+import DisplayTile from '@/components/DisplayTile';
+import HotelListItem from '@/components/HotelListItem';
 
 export default function HotelSearchPage() {
-  const { handleSubmit, register, reset, errors } = useForm();
   const [loading, setLoading] = useState(false);
-
   const [data, setData] = useState(false);
 
-  const handleSearch = async ({ cityCode }) => {
+  const addSearchData = async (data) => {
     setLoading(true);
-    const newData = await fetch(`/api/${cityCode}`).then((response) => response.json());
-
-    setData(newData);
-    console.log(newData);
+    const [cityCode, checkInDate, checkOutDate, guests, rooms] = data;
+    const newData = await getHotels({ cityCode, checkInDate, checkOutDate, guests, rooms });
+    setData(newData.data);
     setLoading(false);
   };
+  useEffect(() => {}, []);
+
   return (
     <>
       <Layout>
-        <Heading>Search For Hotels</Heading>
-        {!loading ? (
-          <FormControl as='form' onSubmit={handleSubmit(handleSearch)}>
-            <Input
-              type='text'
-              id='city-name'
-              placeholder='CityCode'
-              {...register('cityCode', {
-                required: 'Required',
-                message: 'please enter a site',
-              })}
-            />
-            <Button type='submit'>Submit</Button>
-          </FormControl>
-        ) : (
-          <Spinner />
-        )}
-        {data &&
-          !loading &&
-          data.data.map((hotel) => {
-            return (
-              <div key={hotel.hotel.hotelId}>
-                <Text>{hotel.hotel.name}</Text>
-                {hotel.hotel.media && hotel.hotel.media.map((image) => <Image src={image.uri} />)}
-              </div>
-            );
-          })}
+        <Container>
+          <Flex direction='column'>
+            <Heading>Search For Hotels</Heading>
+            <FullSearchForm addSearchData={addSearchData} />
+            <Flex
+              px={2}
+              justify='flex-start'
+              align='flex-start'
+              w='100%'
+              wrap='wrap'
+              transition='all ease 0.5s'
+            >
+              {data.length ? (
+                data.map((hotel, index) => {
+                  console.log('hotel ' + index, hotel);
+                  return <HotelListItem key={index} hotel={hotel} />;
+                })
+              ) : (
+                <Text>Waiting</Text>
+              )}
+            </Flex>
+          </Flex>
+        </Container>
       </Layout>
     </>
   );

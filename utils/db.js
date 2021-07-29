@@ -42,7 +42,7 @@ export function updateUser(id, data) {
 }
 
 export function updateFavourites(userId, data) {
-  console.log('recieved data:', data);
+  console.log('recieved data to updateFavourites - db.js:', data);
   const hotelId = data.hotelId;
   firestore
     .collection('favourites')
@@ -65,7 +65,7 @@ export function updateFavourites(userId, data) {
 }
 
 export function removeFromFavourites(userId, data) {
-  console.log('recieved data:', data);
+  console.log('recieved data for removeFromFavourites - db.js:', data);
   const hotelId = data.hotelId;
   firestore
     .collection('users')
@@ -78,4 +78,26 @@ export function removeFromFavourites(userId, data) {
 
 export function getFavourites(userId) {
   const ref = firestore.collection('favourites').where;
+}
+
+export function updateApproved(data) {
+  console.log('recieved data for updateApproved:', data);
+  const hotelId = data.hotelId;
+  firestore
+    .collection('approved')
+    .doc(hotelId)
+    .set({ hotelData: data }, { merge: true })
+    .then(() => {
+      console.log('Document successfully written!');
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+  return;
+}
+
+export function removeFromApproved(data) {
+  // remove from a
+  return;
 }

@@ -1,4 +1,4 @@
-import getAllHotels from '@/utils/hotels';
+import {getAllHotels} from '@/utils/hotels';
 
 export default async (req, res) => {
   try {
