@@ -67,9 +67,9 @@ export default function HotelListItem({ favourite }) {
             <Box w='100%' maxW='300px'>
               <NextImage
                 src={
-                  process.env.NODE_ENV /*=== 'development'*/
+                  process.env.NODE_ENV === 'development'
                     ? `/images/placeholder/hotel-${randomInt}.jpg`
-                    : favourite.hotelData.image.uri
+                    : favourite.hotelData.image && favourite.hotelData.image[0].uri
                 }
                 height='200px'
                 width='300px'
