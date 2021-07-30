@@ -25,11 +25,14 @@ export async function getHotels(data) {
       bestRateOnly: true,
       currency: 'AUD',
     })
-    .catch((x) => console.log(x));
+    .catch((res) => {
+      console.log('getHotel() caught error', res);
+      return res.response.body;
+    });
 
-  // if (response.result.error) {
-  //   return response.result.error;
-  // }
+  if (response.result.error) {
+    return response.result.error;
+  }
 
   return response.result;
 }
