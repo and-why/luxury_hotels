@@ -34,7 +34,7 @@ export default function DisplayTile({ data }) {
         }}
       >
         <a>
-          {!data.hotel.media || process.env.? (
+          {!data.hotel.media || process.env.NODE_ENV === 'development' ? (
             <NextImage
               src={`/images/placeholder/hotel-${randomInt}.jpg`}
               height='400px'
@@ -50,6 +50,8 @@ export default function DisplayTile({ data }) {
               height='400px'
               width='400px'
               objectFit='cover'
+              placeholder='blur'
+              blurDataURL={`/images/placeholder/blur/hotel-${randomInt}.jpg`}
             />
           )}
 

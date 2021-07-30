@@ -34,8 +34,8 @@ export default function HotelPage({ hotelId, data, checkInDate, checkOutDate, gu
     } else {
       const favourite = { userId, ...hotelData.hotel };
       removeFromFavourites(userId, favourite);
-      const index = user.hotelIds.indexOf(hotelData.hotel.hotelId)
-      user.hotelIds.splice(index, 1)
+      const index = user.hotelIds.indexOf(hotelData.hotel.hotelId);
+      user.hotelIds.splice(index, 1);
       return setFavourite(false);
     }
   };
@@ -143,35 +143,25 @@ export default function HotelPage({ hotelId, data, checkInDate, checkOutDate, gu
             </Flex>
           </Flex>
           <Flex w='100%'>
-            {hotelData.hotel.media[0] &&
+            {process.env.NODE_ENV === 'development' || !hotelData.hotel.media ? (
+              <Box w='100%' p={1} w='100%'>
+                <NextImage
+                  className='borderRadius2'
+                  src={'/images/roberto-nickson-room.jpg'}
+                  placeholder='blur'
+                  blurDataURL={'/images/blur/roberto-nickson-room.jpg'}
+                  height='550px'
+                  width='1440px'
+                  objectFit='cover'
+                />
+              </Box>
+            ) : (
               hotelData.hotel.media.map((image, index) => (
-                <Flex key={index} wrap='wrap' w='100%' mb={8}>
-                  {index === 0 && process.env.NODE_ENV /*=== 'development' */ ? (
-                    <Box w='100%' p={1} w='100%'>
-                      <NextImage
-                        className='borderRadius2'
-                        src={'/images/roberto-nickson-room.jpg'}
-                        placeholder='blur'
-                        blurDataURL={'/images/blur/roberto-nickson-room.jpg'}
-                        height='550px'
-                        width='1440px'
-                        objectFit='cover'
-                      />
-                    </Box>
-                  ) : (
-                    <Box w='100%'>
-                      <NextImage src={image.uri} height='550px' width='550px' objectFit='cover' />
-                    </Box>
-                  )}
-                  {index > 0 && index < 6 && (
-                    <Flex>
-                      <Box p={1}>
-                        {<NextImage key={index} src={image.uri} height='550px' width='550px' />}
-                      </Box>
-                    </Flex>
-                  )}
-                </Flex>
-              ))}
+                <Box w='100%' key={index}>
+                  <NextImage src={image.uri} height='550px' width='550px' objectFit='cover' />
+                </Box>
+              ))
+            )}
           </Flex>
           {/* Main Content */}
           <Flex direction='row' wrap='wrap' justify='space-between' align='flex-start' mb={4}>
