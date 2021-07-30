@@ -48,6 +48,7 @@ export default function DisplayTile({ data }) {
             <NextImage
               src={data.hotel.media[0].uri}
               height='400px'
+              className='borderRadius'
               width='400px'
               objectFit='cover'
               placeholder='blur'
