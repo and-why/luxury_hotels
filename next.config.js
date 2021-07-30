@@ -7,6 +7,8 @@ module.exports = {
       'amadeus.com',
       'avatars.githubusercontent.com',
       'lh3.googleusercontent.com',
+      'cloudfront.net',
+      'd2573qu6qrjt8c.cloudfront.net',
     ],
   },
 };
