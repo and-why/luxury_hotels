@@ -36,6 +36,7 @@ export default function SearchBigHeader() {
 
     const [cityCode, checkInDate, checkOutDate, guests, rooms] = data;
     const newData = await getHotels({ cityCode, checkInDate, checkOutDate, guests, rooms });
+    console.log(newData);
     setData(newData.data);
     setLoading(false);
   };
@@ -130,8 +131,8 @@ export default function SearchBigHeader() {
             >
               {data.length
                 ? data.map((hotel, index) => {
-                    console.log(hotel);
-                    return <DisplayTile key={index} hotel={hotel} />;
+                    console.log('map data', hotel);
+                    return <DisplayTile key={index} data={hotel} />;
                   })
                 : !loading && (
                     <Heading as='h3' fontSize='xl' textAlign='center' w='100%'>

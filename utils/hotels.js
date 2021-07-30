@@ -70,8 +70,11 @@ export async function getHotelById(hotelId, checkInDate, checkOutDate, guests, r
       console.log(error);
     });
 
-  console.log('hotel result', response.result);
-  return response.result;
+  console.log('hotel result', response);
+  if (response.result) {
+    return response.result;
+  }
+  return response;
 }
 
 export async function getHotelByOfferId(hotelOfferId) {

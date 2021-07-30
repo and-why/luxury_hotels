@@ -4,9 +4,9 @@ import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { formatter } from '@/utils/functions';
 
-export default function DisplayTile({ hotel }) {
-  const hotelName = hotel.hotel.name.toLowerCase();
-  console.log(hotel);
+export default function DisplayTile({ data }) {
+  const hotelName = data.hotel.name.toLowerCase();
+  console.log(data);
   const randomInt = Math.floor(Math.random() * 7);
   return (
     <Flex
@@ -24,17 +24,17 @@ export default function DisplayTile({ hotel }) {
     >
       <NextLink
         href={{
-          pathname: `/hotels/${hotel.hotel.hotelId}`,
+          pathname: `/hotels/${data.hotel.hotelId}`,
           query: {
-            checkInDate: hotel.offers[0].checkInDate,
-            checkOutDate: hotel.offers[0].checkOutDate,
-            guests: hotel.offers[0].guests.adults,
-            rooms: hotel.roomQuantity || 1,
+            checkInDate: data.offers[0].checkInDate,
+            checkOutDate: data.offers[0].checkOutDate,
+            guests: data.offers[0].guests.adults,
+            rooms: data.roomQuantity || 1,
           },
         }}
       >
         <a>
-          {hotel.hotel.media && process.env.NODE_ENV ? (
+          {!data.hotel.media ? (
             <NextImage
               src={`/images/placeholder/hotel-${randomInt}.jpg`}
               height='400px'
@@ -46,7 +46,7 @@ export default function DisplayTile({ hotel }) {
             />
           ) : (
             <NextImage
-              src={hotel.hotel.media[0].uri}
+              src={data.hotel.media[0].uri}
               height='400px'
               width='400px'
               objectFit='cover'
@@ -78,12 +78,12 @@ export default function DisplayTile({ hotel }) {
                 textOverflow='ellipsis'
                 overflow='hidden'
               >
-                ${formatter.format(hotel.offers[0].price.total)}
+                ${formatter.format(data.offers[0].price.total)}
               </Text>
             </Flex>
           </Flex>
           <Text fontSize='sm' color='gray.400'>
-            {hotel.hotel.rating ? `${hotel.hotel.rating} stars` : 'No rating'}{' '}
+            {data.hotel.rating ? `${data.hotel.rating} stars` : 'No rating'}{' '}
           </Text>
         </a>
       </NextLink>
