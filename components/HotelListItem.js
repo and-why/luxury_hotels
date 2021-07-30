@@ -69,7 +69,9 @@ export default function HotelListItem({ favourite }) {
                 src={
                   process.env.NODE_ENV === 'development'
                     ? `/images/placeholder/hotel-${randomInt}.jpg`
-                    : favourite.hotelData.image && favourite.hotelData.image[0].uri
+                    : favourite.hotelData.media
+                    ? favourite.hotelData.media[0].uri
+                    : `/images/placeholder/hotel-${randomInt}.jpg`
                 }
                 height='200px'
                 width='300px'
