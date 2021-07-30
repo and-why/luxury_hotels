@@ -34,7 +34,7 @@ export default function DisplayTile({ data }) {
         }}
       >
         <a>
-          {!data.hotel.media ? (
+          {!data.hotel.media || process.env.? (
             <NextImage
               src={`/images/placeholder/hotel-${randomInt}.jpg`}
               height='400px'
@@ -78,7 +78,7 @@ export default function DisplayTile({ data }) {
                 textOverflow='ellipsis'
                 overflow='hidden'
               >
-                ${formatter.format(data.offers[0].price.total)}
+                {formatter.format(data.offers[0].price.total)}
               </Text>
             </Flex>
           </Flex>
