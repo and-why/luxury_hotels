@@ -10,9 +10,11 @@ export default function OfferTable({ offers }) {
         <Tr>
           <Th>Room type</Th>
           <Th>Sleeps</Th>
-          <Th>Rooms</Th>
+          <Th display={['none', 'none', offers[0].roomQuantity > 1 ? 'table-cell' : 'none']}>
+            Rooms
+          </Th>
           <Th>Board</Th>
-          <Th>{''}</Th>
+          <Th>Book</Th>
         </Tr>
       </thead>
       <tbody>
@@ -44,7 +46,9 @@ export default function OfferTable({ offers }) {
                     )
                   </Text>
                 </Td>
-                <Td>{offer.roomQuantity || '1'}</Td>
+                <Td display={['none', 'none', offers[0].roomQuantity > 1 ? 'table-cell' : 'none']}>
+                  {offer.roomQuantity || '1'}
+                </Td>
                 <Td>
                   {offer.boardType
                     ? offer.boardType.toLowerCase().replaceAll('_', ' ')
@@ -58,7 +62,7 @@ export default function OfferTable({ offers }) {
                     m='0'
                     _hover={{ backgroundColor: 'brand.150' }}
                   >
-                    <Text fontWeight='600'>Book for {formatter.format(offer.price.total)}</Text>
+                    <Text fontWeight='600'>{formatter.format(offer.price.total)}</Text>
                   </Button>
                 </Td>
               </>

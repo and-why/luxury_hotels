@@ -105,15 +105,6 @@ export default function HotelPage({ hotelId, data, checkInDate, checkOutDate, gu
     <Layout>
       <Flex align='center' justify='center'>
         <Flex w='100%' maxW='1440px' justify='space-between' direction='column' px={[2, 4, 16, 32]}>
-          {/* <NextLink href='/'>
-            <Link>
-              <Button variant='ghost' size='sm' mb={2}>
-                <ArrowBackIcon mr={2} />
-                <Text fontSize='sm'>Back to Home</Text>
-              </Button>
-            </Link>
-          </NextLink> */}
-
           <Flex direction='column' mb={2}>
             <Heading mb={2}>{hotelData.hotel.name}</Heading>
             <Flex align='center' w='100%' justify='space-between'>
@@ -127,7 +118,7 @@ export default function HotelPage({ hotelId, data, checkInDate, checkOutDate, gu
                     href={`https://www.google.com/maps/place/${hotelData.hotel.latitude},${hotelData.hotel.longitude}`}
                   >
                     <address>
-                      <Flex>
+                      <Flex wrap='wrap'>
                         {hotelData.hotel.address.lines.map((line, index) => {
                           return <Text mr='5px' key={index}>{`${line.toLowerCase()},`}</Text>;
                         })}
@@ -216,20 +207,23 @@ export default function HotelPage({ hotelId, data, checkInDate, checkOutDate, gu
                   </Flex>
                 </DrawerHeader>
                 <DrawerBody w='100%'>
-                  {hotelData.hotel.media.map((image) => {
-                    return (
-                      <Box w='100%' p={1}>
-                        <NextImage
-                          src={image.uri}
-                          width='1200px'
-                          height='450px'
-                          objectFit='cover'
-                          placeholder='blur'
-                          blurDataURL={'/images/blur/roberto-nickson-room.jpg'}
-                        />
-                      </Box>
-                    );
-                  })}
+                  <Flex flexWrap={('nowrap', 'nowrap', 'wrap')}>
+                    {hotelData.hotel.media.map((image) => {
+                      const randomInt = Math.floor(Math.random() * 7);
+                      return (
+                        <Box w={('100%', '100%', '50%')} p={1}>
+                          <NextImage
+                            src={image.uri}
+                            width='600px'
+                            height='400px'
+                            objectFit='cover'
+                            placeholder='blur'
+                            blurDataURL={`/images/placeholder/hotel-${randomInt}.jpg`}
+                          />
+                        </Box>
+                      );
+                    })}
+                  </Flex>
                 </DrawerBody>
               </DrawerContent>
             </Drawer>
@@ -315,7 +309,9 @@ export default function HotelPage({ hotelId, data, checkInDate, checkOutDate, gu
                 nights
               </Text>
             </Box>
-            <OfferTable offers={hotelData.offers} />
+            <Box overflowX='scroll' w='100%'>
+              <OfferTable offers={hotelData.offers} />
+            </Box>
           </Flex>
         </Flex>
       </Flex>
