@@ -56,15 +56,10 @@ export default function SideForm({ addSearchData, data }) {
     ) {
       return setError(true);
     }
-
     const guests = e.target.adults.value;
     const rooms = e.target.rooms.value;
-    // let startDate = new Date(e.target.dateStart.value);
-    // const checkInDate = new Date(startDate.getTime() - startDate.getTimezoneOffset() * 60000)
-    //   .toISOString()
-    //   .split('T')[0];
     const checkInDate = formatDate(e.target.dateStart.value);
-    const checkOutDate = formatDate(e.target.dateEnd);
+    const checkOutDate = formatDate(e.target.dateEnd.value);
 
     addSearchData([checkInDate, checkOutDate, guests, rooms]);
     setLoading(false);

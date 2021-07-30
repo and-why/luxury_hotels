@@ -2,7 +2,21 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import SideForm from '@/components/SideForm';
 import OfferTable from '@/components/OfferTable';
-import { Flex, Heading, Link, Box, Button, Text, Icon } from '@chakra-ui/react';
+import {
+  Flex,
+  Heading,
+  Link,
+  Box,
+  Button,
+  Text,
+  Icon,
+  useDisclosure,
+  Drawer,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerHeader,
+  DrawerBody,
+} from '@chakra-ui/react';
 import { ArrowBackIcon, StarIcon } from '@chakra-ui/icons';
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import { getHotelById } from '@/utils/hotels';
@@ -22,6 +36,7 @@ export default function HotelPage({ hotelId, data, checkInDate, checkOutDate, gu
   const { user } = useAuth();
   const [hotelData, setHotelData] = useState(data.data ? data.data : data);
   const [isFavourite, setFavourite] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleFavourite = async () => {
     const userId = user?.uid;
@@ -142,35 +157,83 @@ export default function HotelPage({ hotelId, data, checkInDate, checkOutDate, gu
               </Flex>
             </Flex>
           </Flex>
-          <Flex w='100%'>
+          <Box w='100%' position='relative'>
             {process.env.NODE_ENV === 'development' || !hotelData.hotel.media ? (
-              <Box w='100%' p={1} w='100%'>
+              <Box w='100%' p={1} onClick={onOpen} position='relative' cursor='pointer'>
                 <NextImage
                   src={'/images/roberto-nickson-room.jpg'}
                   className='borderRadius2'
                   placeholder='blur'
                   blurDataURL={'/images/blur/roberto-nickson-room.jpg'}
-                  height='550px'
-                  width='1440px'
+                  height='450px'
+                  width='1200px'
                   objectFit='cover'
                 />
               </Box>
             ) : (
-              hotelData.hotel.media.map((image, index) => (
-                <Box w='100%' key={index}>
-                  <NextImage
-                    src={image.uri}
-                    className='borderRadius2'
-                    placeholder='blur'
-                    blurDataURL={'/images/blur/roberto-nickson-room.jpg'}
-                    height='550px'
-                    width='1440px'
-                    objectFit='cover'
-                  />
-                </Box>
-              ))
+              <Box w='100%' p={1} onClick={onOpen} position='relative'>
+                <NextImage
+                  src={hotelData.hotel.media[0].uri}
+                  className='borderRadius2'
+                  placeholder='blur'
+                  blurDataURL={'/images/blur/roberto-nickson-room.jpg'}
+                  height='450px'
+                  width='1200px'
+                  objectFit='cover'
+                />
+              </Box>
             )}
-          </Flex>
+            <Box
+              cursor='pointer'
+              h='100%'
+              w='100%'
+              position='absolute'
+              opacity='0'
+              top='0'
+              transition='all ease 0.3s'
+              _hover={{ opacity: '1', transition: 'all ease 0.3s' }}
+            >
+              <Button
+                colorScheme='blackAlpha'
+                onClick={onOpen}
+                position='absolute'
+                top='50%'
+                right='50%'
+                transform='translate(50%, -50%)'
+              >
+                View all images
+              </Button>
+            </Box>
+            <Drawer onClose={onClose} isOpen={isOpen} size='full' placement='bottom' w='100%'>
+              <DrawerOverlay />
+              <DrawerContent w='100%'>
+                <DrawerHeader>
+                  <Flex justify='space-between'>
+                    <Heading>Gallary</Heading>
+                    <Button variant='ghost' onClick={onClose} _hover={{ bg: 'black.100' }}>
+                      Close
+                    </Button>
+                  </Flex>
+                </DrawerHeader>
+                <DrawerBody w='100%'>
+                  {hotelData.hotel.media.map((image) => {
+                    return (
+                      <Box w='100%' p={1}>
+                        <NextImage
+                          src={image.uri}
+                          width='1200px'
+                          height='450px'
+                          objectFit='cover'
+                          placeholder='blur'
+                          blurDataURL={'/images/blur/roberto-nickson-room.jpg'}
+                        />
+                      </Box>
+                    );
+                  })}
+                </DrawerBody>
+              </DrawerContent>
+            </Drawer>
+          </Box>
           {/* Main Content */}
           <Flex direction='row' wrap='wrap' justify='space-between' align='flex-start' mb={4}>
             <Flex direction='column' w={['100%', '100%', '50%', '60%']} p={4}>

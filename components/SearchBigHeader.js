@@ -186,8 +186,8 @@ export default function SearchBigHeader() {
                 adults={2}
                 nights={3}
                 rooms={1}
-                cityName={'Uluru'}
-                cityCode={'AYQ'}
+                cityName={'Paris'}
+                cityCode={'LBG'}
                 popularSearches={popularSearches}
               />
             </Flex>
