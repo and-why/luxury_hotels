@@ -146,8 +146,8 @@ export default function HotelPage({ hotelId, data, checkInDate, checkOutDate, gu
             {process.env.NODE_ENV === 'development' || !hotelData.hotel.media ? (
               <Box w='100%' p={1} w='100%'>
                 <NextImage
-                  className='borderRadius2'
                   src={'/images/roberto-nickson-room.jpg'}
+                  className='borderRadius2'
                   placeholder='blur'
                   blurDataURL={'/images/blur/roberto-nickson-room.jpg'}
                   height='550px'
@@ -158,7 +158,15 @@ export default function HotelPage({ hotelId, data, checkInDate, checkOutDate, gu
             ) : (
               hotelData.hotel.media.map((image, index) => (
                 <Box w='100%' key={index}>
-                  <NextImage src={image.uri} height='550px' width='550px' objectFit='cover' />
+                  <NextImage
+                    src={image.uri}
+                    className='borderRadius2'
+                    placeholder='blur'
+                    blurDataURL={'/images/blur/roberto-nickson-room.jpg'}
+                    height='550px'
+                    width='1440px'
+                    objectFit='cover'
+                  />
                 </Box>
               ))
             )}

@@ -64,6 +64,7 @@ export async function getHotelById(hotelId, checkInDate, checkOutDate, guests, r
       checkOutDate: checkOutDate,
       adults: 2,
       roomQuantity: rooms,
+      view: 'FULL_ALL_IMAGES',
       currency: 'AUD',
     })
     .catch((error) => {
