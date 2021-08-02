@@ -22,40 +22,21 @@ import {
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { formatter, formatDate } from '@/utils/functions';
+import Link from 'next/link';
 
-export default function SideForm({ addSearchData, data }) {
-  const [hotelData, setHotelData] = useState(data);
+export default function SideForm({ addSearchData, data, dictionary }) {
+  const [hotelData, setHotelData] = useState(data.data);
   const [isLoading, setLoading] = useState(false);
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(
-    new Date(startDate).setDate(new Date(startDate).getDate() + 1),
+  const [startDate, setStartDate] = useState(
+    new Date(hotelData.offers[0].checkInDate || new Date()),
   );
-  const [price, setPrice] = useState(0.0);
-  const [guests, setGuests] = useState(2);
-  const [rooms, setRooms] = useState(1);
-  const [isError, setError] = useState(false);
-
-  useEffect(() => {
-    if (data) {
-      setStartDate(new Date(hotelData.offers[0].checkInDate));
-      setEndDate(new Date(hotelData.offers[0].checkOutDate));
-      setPrice(hotelData.offers[0].price.total);
-      setGuests(hotelData.offers[0].guests.adults);
-      setRooms(hotelData.roomQuantity);
-    }
-  }, [data]);
-
-  console.log('hotel', hotelData);
-
+  const [endDate, setEndDate] = useState(
+    new Date(hotelData.offers[0].checkOutDate || new Date(startDate).getDate() + 1),
+  );
+  console.log(dictionary);
   const handleSearch = (e) => {
     e.preventDefault();
     setLoading(true);
-    setError(false);
-    if (
-      new Date(e.target.dateEnd.value).getTime() <= new Date(e.target.dateStart.value).getTime()
-    ) {
-      return setError(true);
-    }
     const guests = e.target.adults.value;
     const rooms = e.target.rooms.value;
     const checkInDate = formatDate(e.target.dateStart.value);
@@ -64,6 +45,11 @@ export default function SideForm({ addSearchData, data }) {
     addSearchData([checkInDate, checkOutDate, guests, rooms]);
     setLoading(false);
   };
+  useEffect(() => {
+    if (data) {
+      setHotelData(data.data);
+    }
+  }, [handleSearch]);
   return (
     <FormControl
       as='form'
@@ -75,7 +61,11 @@ export default function SideForm({ addSearchData, data }) {
     >
       <Flex align='baseline'>
         <Text fontSize='xl' fontWeight='600' mb={4}>
-          {formatter.format(price)}
+          {formatter.format(
+            dictionary
+              ? hotelData.offers[0].price.total * dictionary.currencyConversionLookupRates.EUR.rate
+              : hotelData.offers[0].price.total || 0.0,
+          )}
         </Text>
         <Text ml={1} fontSize='sm'>
           total
@@ -105,7 +95,9 @@ export default function SideForm({ addSearchData, data }) {
                 selected={startDate}
                 onChange={(date) => {
                   setStartDate(date);
-                  setEndDate(new Date(date).setDate(new Date(date).getDate() + 1));
+                  if (date >= endDate) {
+                    setEndDate(new Date(date).setDate(new Date(date).getDate() + 1));
+                  }
                 }}
                 dateFormat='dd MMM yyyy'
                 shouldCloseOnSelect
@@ -132,7 +124,10 @@ export default function SideForm({ addSearchData, data }) {
                 variant='outline'
                 // className='secondInput'
                 selected={endDate}
-                onChange={(date) => setEndDate(date)}
+                onChange={(date) => {
+                  setEndDate(date);
+                  handleSearch;
+                }}
                 dateFormat='dd MMM yyyy'
                 shouldCloseOnSelect
                 placeholderText={'Check out date'}
@@ -159,7 +154,7 @@ export default function SideForm({ addSearchData, data }) {
               max={2}
               mb={2}
               required
-              defaultValue={guests}
+              defaultValue={hotelData.offers[0].guests.adults || 2}
             >
               <NumberInputField placeholder='Add guests' bg='white' name='adults' id='adults' />
               <NumberInputStepper>
@@ -186,40 +181,67 @@ export default function SideForm({ addSearchData, data }) {
               max={9}
               mb={2}
               required
-              defaultValue={rooms}
+              defaultValue={hotelData.roomQuantity || 1}
             >
-              <NumberInputField placeholder='Add guests' bg='white' name='rooms' id='rooms' />
+              <NumberInputField placeholder='Add rooms' bg='white' name='rooms' id='rooms' />
               <NumberInputStepper>
                 <NumberIncrementStepper />
                 <NumberDecrementStepper />
               </NumberInputStepper>
             </NumberInput>
           </FormControl>
-          <Popover onClose={() => setError(false)}>
-            <PopoverTrigger>
-              <Button
-                w='100%'
-                type='submit'
-                bg='brand.100'
-                _hover={{ backgroundColor: 'brand.150' }}
-                isLoading={isLoading}
-              >
-                Submit
-              </Button>
-            </PopoverTrigger>
-            {isError && (
-              <PopoverContent>
-                <PopoverArrow />
-                <PopoverCloseButton />
-                <PopoverHeader fontWeight='600'>Error!</PopoverHeader>
-                <PopoverBody>
-                  The Check Out Date must be at least one day in the future of the Check In Date?
-                </PopoverBody>
-              </PopoverContent>
-            )}
-          </Popover>
+
+          <Button
+            w='100%'
+            type='submit'
+            bg='brand.100'
+            _hover={{ backgroundColor: 'brand.150' }}
+            isLoading={isLoading}
+            mb={4}
+          >
+            Submit
+          </Button>
         </>
       )}
+      <Text fontSize='sm' align='center'>
+        You won't be charged yet
+      </Text>
+      <Text fontSize='sm' align='center' mb={4}>
+        <Link color='teal.500' href='#offerTable'>
+          Price shown is the best price found, there may be more options are listed below.
+        </Link>
+      </Text>
+      <Flex justify='space-between'>
+        <Text fontSize='sm'>
+          {formatter.format(
+            hotelData.offers[0].price.total /
+              ((new Date(hotelData.offers[0].checkOutDate) -
+                new Date(hotelData.offers[0].checkInDate)) /
+                24 /
+                60 /
+                60 /
+                1000),
+          )}{' '}
+          x{' '}
+          {(new Date(hotelData.offers[0].checkOutDate) -
+            new Date(hotelData.offers[0].checkInDate)) /
+            24 /
+            60 /
+            60 /
+            1000}{' '}
+          night
+          {(new Date(hotelData.offers[0].checkOutDate) -
+            new Date(hotelData.offers[0].checkInDate)) /
+            24 /
+            60 /
+            60 /
+            1000 >
+            1 && 's'}
+        </Text>
+        <Text ml={2} fontSize='sm'>
+          {formatter.format(hotelData.offers[0].price.total)}
+        </Text>
+      </Flex>
     </FormControl>
   );
 }

@@ -2,7 +2,7 @@ import { Flex, Box, Text, Heading, Link } from '@chakra-ui/react';
 import NextImage from 'next/image';
 
 export default function PromotionalTab({
-  adults,
+  guests,
   nights,
   rooms,
   cityName,
@@ -10,7 +10,7 @@ export default function PromotionalTab({
   popularSearches,
 }) {
   const cityLower = cityName.toLowerCase();
-  const data = { adults, nights, rooms, cityName, cityCode };
+  const data = { guests, nights, rooms, cityName, cityCode };
   return (
     <Flex
       w={['50%', '25%', '25%', '25%']}
@@ -29,20 +29,20 @@ export default function PromotionalTab({
     >
       <Link onClick={() => popularSearches(data)} position='relative'>
         <NextImage
-          src={`/images/${cityLower}.jpg`}
+          src={`/images/promos/${cityLower}.jpg`}
           height='400px'
           width='400px'
           objectFit='cover'
           className='borderRadius relative'
           placeholder='blur'
-          blurDataURL={`/images/blur/${cityLower}.jpg`}
+          blurDataURL={`/images/promos/blur/${cityLower}.jpg`}
         />
         <Box mt={1} maxW='90%' borderBottomLeftRadius='5px'>
           <Text fontSize='sm' fontWeight='600'>
             {cityName}
           </Text>
           <Text fontSize='sm'>
-            {adults} adults for {nights} nights
+            {guests} adults for {nights} nights
           </Text>
         </Box>
       </Link>

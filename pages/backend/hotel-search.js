@@ -52,7 +52,6 @@ export default function HotelSearchPage() {
             >
               {data.length ? (
                 data.map((hotel, index) => {
-                  console.log('hotel ' + index, hotel);
                   return <HotelListItem key={index} hotel={hotel} />;
                 })
               ) : (

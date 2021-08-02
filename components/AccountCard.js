@@ -3,7 +3,6 @@ import { Flex, Text, Icon, Link } from '@chakra-ui/react';
 import { ChevronRightIcon } from '@chakra-ui/icons';
 
 export default function AccountCard({ linkref, icon, heading, text, color }) {
-  console.log(linkref);
   return (
     <Flex m={2} boxShadow='base' borderRadius='5px' direction='column' w='300px'>
       <NextLink href={linkref} passHref>

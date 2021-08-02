@@ -15,7 +15,6 @@ export default function ProfileGenderInput({ data }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('submitted');
 
     const gender = e.target.gender.value;
     updateUser(user.uid, { gender: gender });

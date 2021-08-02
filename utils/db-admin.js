@@ -4,7 +4,6 @@ export async function getAllFavourites(userId, route) {
   try {
     let ref = db.collection('favourites');
 
-    console.log(ref);
     if (route) {
       ref = ref.where('route', '==', route);
     }
@@ -26,7 +25,6 @@ export async function getAllApproved(route) {
   try {
     let ref = db.collection('approved');
 
-    console.log(ref);
     if (route) {
       ref = ref.where('route', '==', route);
     }

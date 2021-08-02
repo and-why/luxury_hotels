@@ -28,7 +28,6 @@ function useProvideAuth() {
       createUser(user.uid, userWithoutToken);
       const newUser = await getUserData(user.uid);
 
-      console.log(newUser);
       setUser(newUser);
       cookie.set('bare-comments-auth', true, { expires: 1 });
 

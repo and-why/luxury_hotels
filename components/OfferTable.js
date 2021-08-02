@@ -3,15 +3,15 @@ import NextLink from 'next/link';
 import { Table, Tr, Th, Td } from './Table';
 import { formatter } from '@/utils/functions';
 
-export default function OfferTable({ offers }) {
+export default function OfferTable({ offers, dictionary }) {
   return (
-    <Table w='100%'>
+    <Table w='100%' id='offerTable'>
       <thead>
         <Tr>
           <Th>Room type</Th>
           <Th>Sleeps</Th>
           <Th display={['none', 'none', offers[0].roomQuantity > 1 ? 'table-cell' : 'none']}>
-            Rooms
+            Room
           </Th>
           <Th>Board</Th>
           <Th>Book</Th>
@@ -62,7 +62,13 @@ export default function OfferTable({ offers }) {
                     m='0'
                     _hover={{ backgroundColor: 'brand.150' }}
                   >
-                    <Text fontWeight='600'>{formatter.format(offer.price.total)}</Text>
+                    <Text fontWeight='600'>
+                      {formatter.format(
+                        dictionary
+                          ? offer.price.total * dictionary.currencyConversionLookupRates.EUR.rate
+                          : offer.price.total,
+                      )}
+                    </Text>
                   </Button>
                 </Td>
               </>

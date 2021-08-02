@@ -16,7 +16,7 @@ export default function HotelListItem({ favourite }) {
   const handleFavourite = async () => {
     const userId = user?.uid;
     const newFavourite = { userId, ...favourite.hotelData };
-    console.log(isFavourite);
+
     if (!isFavourite) {
       updateFavourites(userId, newFavourite);
       user.hotelIds.push(favourite.hotelId);

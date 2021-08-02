@@ -12,7 +12,6 @@ import NextLink from 'next/link';
 export default function AccountPage() {
   const { user, signout } = useAuth();
   const router = useRouter();
-  console.log(user);
 
   const handleSignout = () => {
     signout();

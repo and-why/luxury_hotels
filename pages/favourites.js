@@ -14,20 +14,20 @@ export default function FavouritesPage() {
   const [favourites, setFavourites] = useState();
 
   const init = () => {
-  const allFavs = data.favourites;
-  const userFavs = user.hotelIds;
+    const allFavs = data.favourites;
+    const userFavs = user.hotelIds;
 
-  const newFavourites = allFavs?.reduce((filtered, fav) => {
-    for (let i = 0; i < userFavs?.length; i++) {
-      if (fav.id == userFavs[i]) {
-        filtered.push(fav);
+    const newFavourites = allFavs?.reduce((filtered, fav) => {
+      for (let i = 0; i < userFavs?.length; i++) {
+        if (fav.id == userFavs[i]) {
+          filtered.push(fav);
+        }
       }
-    }
-    return filtered;
-  }, []);
+      return filtered;
+    }, []);
 
-  return newFavourites
-  }
+    return newFavourites;
+  };
 
   useEffect(() => {
     if (user && data) {
@@ -35,7 +35,6 @@ export default function FavouritesPage() {
     }
   }, [user, data]);
 
-  console.log('favourites', favourites);
   return (
     <Layout>
       <Container>
@@ -45,7 +44,6 @@ export default function FavouritesPage() {
           </Heading>
           <Flex direction='column'>
             {favourites?.map((favourite) => {
-              console.log(favourite);
               return <HotelListItem key={favourite.id} favourite={favourite} />;
             })}
           </Flex>

@@ -24,25 +24,20 @@ export function getUserData(uid) {
     .get()
     .then((doc) => {
       if (doc.exists) {
-        console.log('doc', doc.data());
         return doc.data();
-      } else {
-        return console.log('No such document!');
       }
     })
     .catch((error) => {
-      return console.log('Error getting document:', error);
+      return error;
     });
   return data;
 }
 
 export function updateUser(id, data) {
-  console.log(data);
   return firestore.collection('users').doc(id).update(data);
 }
 
 export function updateFavourites(userId, data) {
-  console.log('recieved data to updateFavourites - db.js:', data);
   const hotelId = data.hotelId;
   firestore
     .collection('favourites')
@@ -65,7 +60,6 @@ export function updateFavourites(userId, data) {
 }
 
 export function removeFromFavourites(userId, data) {
-  console.log('recieved data for removeFromFavourites - db.js:', data);
   const hotelId = data.hotelId;
   firestore
     .collection('users')
@@ -81,7 +75,6 @@ export function getFavourites(userId) {
 }
 
 export function updateApproved(data) {
-  console.log('recieved data for updateApproved:', data);
   const hotelId = data.hotelId;
   firestore
     .collection('approved')

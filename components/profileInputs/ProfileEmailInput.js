@@ -13,7 +13,6 @@ export default function ProfileEmailInput({ data }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('submitted');
 
     const email = e.target.email.value;
 

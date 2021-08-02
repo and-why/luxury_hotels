@@ -7,7 +7,7 @@ export default function ProfileNameInput({ data }) {
   const [isEditable, setEditable] = useState(false);
   const { user } = useAuth();
   const [name, setName] = useState(data);
-  console.log(user);
+
   const firstname = name?.split(' ')[0];
   const surname = name?.split(' ')[1];
 
@@ -17,7 +17,6 @@ export default function ProfileNameInput({ data }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('submitted');
 
     const firstname = e.target.firstname.value;
     const surname = e.target.surname.value;

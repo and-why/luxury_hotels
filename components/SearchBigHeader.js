@@ -20,6 +20,7 @@ import DisplayTile from './DisplayTile';
 import DisplayTilesSkeleton from './DisplayTilesSkeleton';
 import PromotionalTab from './PromotionalTab';
 import FullSearchForm from './FullSearchForm';
+import { formatDate } from '@/utils/functions';
 
 export default function SearchBigHeader() {
   const [data, setData] = useState(false);
@@ -33,11 +34,10 @@ export default function SearchBigHeader() {
   const addSearchData = async (data) => {
     setLoading(true);
     onClose();
-
     const [cityCode, checkInDate, checkOutDate, guests, rooms] = data;
+
     const newData = await getHotels({ cityCode, checkInDate, checkOutDate, guests, rooms });
-    console.log(newData);
-    setData(newData.data);
+    setData(newData);
     setLoading(false);
   };
 
@@ -47,11 +47,16 @@ export default function SearchBigHeader() {
     const startDate = new Date();
     startDate.setDate(startDate.getDate() + 7);
     const endDate = new Date();
-    endDate.setDate(endDate.getDate() + 7 + nights);
+    endDate.setDate(endDate.getDate() + (7 + nights));
 
-    const data = { cityCode, guests, startDate, endDate, rooms };
+    const checkInDate = formatDate(startDate);
+    const checkOutDate = formatDate(endDate);
+
+    const data = { cityCode, guests, checkInDate, checkOutDate, rooms };
+
     const newData = await getHotels(data);
-    setData(newData.data);
+
+    setData(newData);
 
     setLoading(false);
   };
@@ -129,10 +134,9 @@ export default function SearchBigHeader() {
               wrap='wrap'
               transition='all ease 0.5s'
             >
-              {data.length
-                ? data.map((hotel, index) => {
-                    console.log('map data', hotel);
-                    return <DisplayTile key={index} data={hotel} />;
+              {data.data.length
+                ? data.data.map((hotel, index) => {
+                    return <DisplayTile key={index} data={hotel} dictionary={data.dictionaries} />;
                   })
                 : !loading && (
                     <Heading as='h3' fontSize='xl' textAlign='center' w='100%'>
@@ -159,7 +163,7 @@ export default function SearchBigHeader() {
             </Heading>
             <Flex wrap='wrap'>
               <PromotionalTab
-                adults={2}
+                guests={2}
                 nights={2}
                 rooms={1}
                 cityName={'Melbourne'}
@@ -167,7 +171,7 @@ export default function SearchBigHeader() {
                 popularSearches={popularSearches}
               />
               <PromotionalTab
-                adults={2}
+                guests={2}
                 nights={3}
                 rooms={1}
                 cityName={'Sydney'}
@@ -175,15 +179,15 @@ export default function SearchBigHeader() {
                 popularSearches={popularSearches}
               />
               <PromotionalTab
-                adults={2}
+                guests={2}
                 nights={3}
                 rooms={1}
-                cityName={'Auckland'}
-                cityCode={'AKL'}
+                cityName={'Rome'}
+                cityCode={'FCO'}
                 popularSearches={popularSearches}
               />
               <PromotionalTab
-                adults={2}
+                guests={2}
                 nights={3}
                 rooms={1}
                 cityName={'Paris'}

@@ -39,13 +39,12 @@ export default function ProfileDobInput({ data }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('submitted');
 
     const day = e.target.day.value;
     const month = e.target.month.value;
     const year = e.target.year.value;
     const dob = [day, month, year];
-    console.log(dob);
+
     updateUser(user.uid, { dob: dob });
     setDay(day);
     setMonth(month);

@@ -31,25 +31,24 @@ import { updateFavourites, removeFromFavourites } from '@/utils/db';
 import { mutate } from 'swr';
 
 export default function HotelPage({ hotelId, data, checkInDate, checkOutDate, guests, rooms }) {
-  console.log('hotelId Page ', data);
   const router = useRouter();
   const { user } = useAuth();
-  const [hotelData, setHotelData] = useState(data.data ? data.data : data);
+  const [hotelData, setHotelData] = useState(data);
   const [isFavourite, setFavourite] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleFavourite = async () => {
     const userId = user?.uid;
-    console.log(isFavourite);
+
     if (!isFavourite) {
-      const favourite = { userId, ...hotelData.hotel };
+      const favourite = { userId, ...hotelData.data.hotel };
       updateFavourites(userId, favourite);
-      user.hotelIds.push(hotelData.hotel.hotelId);
+      user.hotelIds.push(hotelData.data.hotel.hotelId);
       return setFavourite(true);
     } else {
-      const favourite = { userId, ...hotelData.hotel };
+      const favourite = { userId, ...hotelData.data.hotel };
       removeFromFavourites(userId, favourite);
-      const index = user.hotelIds.indexOf(hotelData.hotel.hotelId);
+      const index = user.hotelIds.indexOf(hotelData.data.hotel.hotelId);
       user.hotelIds.splice(index, 1);
       return setFavourite(false);
     }
@@ -72,9 +71,10 @@ export default function HotelPage({ hotelId, data, checkInDate, checkOutDate, gu
 
   useEffect(() => {
     if (user && data.data) {
-      setFavourite(user.hotelIds.includes(hotelData.hotel.hotelId));
+      setFavourite(user.hotelIds.includes(hotelData.data.hotel.hotelId));
+      setHotelData(data);
     }
-  }, [user]);
+  }, [user, addSearchData]);
 
   if (hotelData.errors) {
     return (
@@ -94,7 +94,11 @@ export default function HotelPage({ hotelId, data, checkInDate, checkOutDate, gu
                 Sorry. {hotelData.errors[0].title.toLowerCase()}
               </Heading>
               <Text mb={8}>Try another date or search combination.</Text>
-              <SideForm addSearchData={addSearchData} hotelId={hotelId} />
+              <SideForm
+                addSearchData={addSearchData}
+                hotelId={hotelId}
+                dictionary={data.dictionaries ? data.dictionaries : null}
+              />
             </Flex>
           </Flex>
         </Container>
@@ -106,25 +110,25 @@ export default function HotelPage({ hotelId, data, checkInDate, checkOutDate, gu
       <Flex align='center' justify='center'>
         <Flex w='100%' maxW='1440px' justify='space-between' direction='column' px={[2, 4, 16, 32]}>
           <Flex direction='column' mb={2}>
-            <Heading mb={2}>{hotelData.hotel.name}</Heading>
+            <Heading mb={2}>{hotelData.data.hotel.name}</Heading>
             <Flex align='center' w='100%' justify='space-between'>
               <Flex>
                 <Flex align='center' mr={4}>
-                  <Text fontWeight='600'>{hotelData.hotel.rating}</Text>
+                  <Text fontWeight='600'>{hotelData.data.hotel.rating}</Text>
                   <StarIcon ml={1} color='brand.100' />
                 </Flex>
                 <Flex mr={4} textTransform='capitalize'>
                   <Link
-                    href={`https://www.google.com/maps/place/${hotelData.hotel.latitude},${hotelData.hotel.longitude}`}
+                    href={`https://www.google.com/maps/place/${hotelData.data.hotel.latitude},${hotelData.data.hotel.longitude}`}
                   >
                     <address>
                       <Flex wrap='wrap'>
-                        {hotelData.hotel.address.lines.map((line, index) => {
+                        {hotelData.data.hotel.address.lines.map((line, index) => {
                           return <Text mr='5px' key={index}>{`${line.toLowerCase()},`}</Text>;
                         })}
                         <Text>
-                          {hotelData.hotel.address.cityName.toLowerCase()},{' '}
-                          {hotelData.hotel.address.postalCode}, {hotelData.hotel.cityCode}
+                          {hotelData.data.hotel.address.cityName.toLowerCase()},{' '}
+                          {hotelData.data.hotel.address.postalCode}, {hotelData.data.hotel.cityCode}
                         </Text>
                       </Flex>
                     </address>
@@ -149,7 +153,7 @@ export default function HotelPage({ hotelId, data, checkInDate, checkOutDate, gu
             </Flex>
           </Flex>
           <Box w='100%' position='relative'>
-            {process.env.NODE_ENV === 'development' || !hotelData.hotel.media ? (
+            {process.env.NODE_ENV === 'development' || !hotelData.data.hotel.media ? (
               <Box w='100%' p={1} onClick={onOpen} position='relative' cursor='pointer'>
                 <NextImage
                   src={'/images/roberto-nickson-room.jpg'}
@@ -164,7 +168,7 @@ export default function HotelPage({ hotelId, data, checkInDate, checkOutDate, gu
             ) : (
               <Box w='100%' p={1} onClick={onOpen} position='relative'>
                 <NextImage
-                  src={hotelData.hotel.media[0].uri}
+                  src={hotelData.data.hotel.media[0].uri}
                   className='borderRadius2'
                   placeholder='blur'
                   blurDataURL={'/images/blur/roberto-nickson-room.jpg'}
@@ -208,7 +212,7 @@ export default function HotelPage({ hotelId, data, checkInDate, checkOutDate, gu
                 </DrawerHeader>
                 <DrawerBody w='100%'>
                   <Flex flexWrap={('nowrap', 'nowrap', 'wrap')}>
-                    {hotelData.hotel.media.map((image) => {
+                    {hotelData.data.hotel.media.map((image) => {
                       const randomInt = Math.floor(Math.random() * 7);
                       return (
                         <Box w={('100%', '100%', '50%')} p={1}>
@@ -231,24 +235,28 @@ export default function HotelPage({ hotelId, data, checkInDate, checkOutDate, gu
           {/* Main Content */}
           <Flex direction='row' wrap='wrap' justify='space-between' align='flex-start' mb={4}>
             <Flex direction='column' w={['100%', '100%', '50%', '60%']} p={4}>
-              {hotelData.hotel.description && (
+              {hotelData.data.hotel.description && (
                 <>
                   <Heading as='h3' fontSize='lg' fontWeight='600' mb={4}>
                     Description
                   </Heading>
-                  <Text mb={8}>{hotelData.hotel.description.text}</Text>{' '}
+                  <Text mb={8}>{hotelData.data.hotel.description.text}</Text>{' '}
                 </>
               )}
               <Box mb={8}>
                 <HotelMap
-                  name={hotelData.hotel.name}
-                  latitude={hotelData.hotel.latitude}
-                  longitude={hotelData.hotel.longitude}
+                  name={hotelData.data.hotel.name}
+                  latitude={hotelData.data.hotel.latitude}
+                  longitude={hotelData.data.hotel.longitude}
                 />
               </Box>
             </Flex>
             <Flex w={['100%', 'auto', '50%', '40%']} p={4} id='form'>
-              <SideForm addSearchData={addSearchData} data={hotelData} />
+              <SideForm
+                addSearchData={addSearchData}
+                data={hotelData}
+                dictionary={data.dictionaries ? data.dictionaries : null}
+              />
             </Flex>
           </Flex>
           <Flex
@@ -263,7 +271,7 @@ export default function HotelPage({ hotelId, data, checkInDate, checkOutDate, gu
               Amenities
             </Heading>
             <Text textTransform='capitalize' mb={16}>
-              {hotelData.hotel.amenities.map((amenity, index) => {
+              {hotelData.data.hotel.amenities.map((amenity, index) => {
                 return (
                   <Text as='span' key={index}>{`${amenity
                     .toLowerCase()
@@ -278,29 +286,31 @@ export default function HotelPage({ hotelId, data, checkInDate, checkOutDate, gu
               <Text textTransform='uppercase' fontSize='xl' color='gray.600'>
                 Check In:{' '}
                 <Text as='span' fontSize='2xl' fontWeight='600'>
-                  {hotelData.offers[0].checkInDate}
+                  {hotelData.data.offers[0].checkInDate}
                 </Text>
                 , Check Out:{' '}
                 <Text as='span' fontSize='2xl' fontWeight='600'>
-                  {hotelData.offers[0].checkOutDate}
+                  {hotelData.data.offers[0].checkOutDate}
                 </Text>
                 .
               </Text>
               <Text textTransform='uppercase' fontSize='xl' color='gray.600'>
                 For{' '}
                 <Text as='span' fontSize='2xl' fontWeight='600'>
-                  {hotelData.offers[0].guests.adults}
+                  {hotelData.data.offers[0].guests.adults}
                 </Text>{' '}
                 adult
-                {hotelData.offers[0].guests.adults && 's'} in{' '}
+                {hotelData.data.offers[0].guests.adults && 's'} in{' '}
                 <Text as='span' fontSize='2xl' fontWeight='600'>
-                  {hotelData.offers[0].roomQuantity ? hotelData.offers[0].roomQuantity : '1'}
+                  {hotelData.data.offers[0].roomQuantity
+                    ? hotelData.data.offers[0].roomQuantity
+                    : '1'}
                 </Text>{' '}
                 room
-                {hotelData.offers[0].roomQuantity > 1 && 's'} for{' '}
+                {hotelData.data.offers[0].roomQuantity > 1 && 's'} for{' '}
                 <Text as='span' fontSize='2xl' fontWeight='600'>
-                  {(new Date(hotelData.offers[0].checkOutDate) -
-                    new Date(hotelData.offers[0].checkInDate)) /
+                  {(new Date(hotelData.data.offers[0].checkOutDate) -
+                    new Date(hotelData.data.offers[0].checkInDate)) /
                     24 /
                     60 /
                     60 /
@@ -310,7 +320,10 @@ export default function HotelPage({ hotelId, data, checkInDate, checkOutDate, gu
               </Text>
             </Box>
             <Box overflowX='scroll' w='100%'>
-              <OfferTable offers={hotelData.offers} />
+              <OfferTable
+                offers={hotelData.data.offers}
+                dictionary={data.dictionaries ? data.dictionaries : null}
+              />
             </Box>
           </Flex>
         </Flex>
@@ -324,10 +337,12 @@ export async function getServerSideProps(context) {
   const { checkInDate, checkOutDate, hotelId, guests, rooms } = context.query;
   const data = await getHotelById(hotelId, checkInDate, checkOutDate, guests, rooms);
 
+  console.log('returned to [hotelId].js data.result', data.result);
+
   return {
     props: {
       hotelId: hotelId,
-      data: data,
+      data: data.result,
       checkInDate: checkInDate,
       checkOutDate: checkOutDate,
       guests: guests,

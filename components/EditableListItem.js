@@ -10,7 +10,6 @@ export default function EditableListItem({ heading, detail, type, formDetails })
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('submitted');
 
     const { firstname, surname, gender } = e.target.elements;
     const name = null || firstname.value + ' ' + surname.value;

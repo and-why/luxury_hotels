@@ -4,9 +4,9 @@ import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { formatter } from '@/utils/functions';
 
-export default function DisplayTile({ data }) {
+export default function DisplayTile({ data, dictionary }) {
   const hotelName = data.hotel.name.toLowerCase();
-  console.log(data);
+
   const randomInt = Math.floor(Math.random() * 7);
   return (
     <Flex
@@ -81,7 +81,11 @@ export default function DisplayTile({ data }) {
                 textOverflow='ellipsis'
                 overflow='hidden'
               >
-                {formatter.format(data.offers[0].price.total)}
+                {formatter.format(
+                  dictionary
+                    ? data.offers[0].price.total * dictionary.currencyConversionLookupRates.EUR.rate
+                    : data.offers[0].price.total,
+                )}
               </Text>
             </Flex>
           </Flex>

@@ -1,13 +1,14 @@
 import { getToken } from './token';
+import { formatDate } from '@/utils/functions';
 
 export async function getHotels(data) {
   const amadeus = await getToken();
   var { cityCode, checkInDate, checkOutDate, guests, rooms } = data;
-  console.log('data received by getHotels()', data);
 
   if (guests > 2) {
     rooms = Math.ceil(guests / 2);
     guests = 2;
+    s;
   }
 
   const response = await amadeus.shopping.hotelOffers
@@ -26,7 +27,6 @@ export async function getHotels(data) {
       currency: 'AUD',
     })
     .catch((res) => {
-      console.log('getHotel() caught error', res);
       return res.response.body;
     });
 
@@ -38,7 +38,7 @@ export async function getHotels(data) {
 }
 export async function getAllHotels(cityCode) {
   const amadeus = await getToken();
-  console.log('cityCode:', cityCode);
+
   const response = await amadeus.shopping.hotelOffers
     .get({
       cityCode: cityCode,
@@ -47,7 +47,7 @@ export async function getAllHotels(cityCode) {
       ratings: '4, 5',
       bestRateOnly: true,
     })
-    .catch((x) => console.log(x));
+    .catch((error) => error);
 
   return response.result;
 }
@@ -65,19 +65,15 @@ export async function getHotelById(hotelId, checkInDate, checkOutDate, guests, r
       hotelId: hotelId,
       checkInDate: checkInDate,
       checkOutDate: checkOutDate,
-      adults: 2,
+      adults: adults,
       roomQuantity: rooms,
       view: 'FULL_ALL_IMAGES',
       currency: 'AUD',
     })
     .catch((error) => {
-      console.log(error);
+      return error.response;
     });
 
-  console.log('hotel result', response);
-  if (response.result) {
-    return response.result;
-  }
   return response;
 }
 
@@ -88,7 +84,7 @@ export async function getHotelByOfferId(hotelOfferId) {
     .get({
       hotelId: hotelId,
     })
-    .catch((x) => console.log(x));
+    .catch((error) => error);
 
-  return response.result;
+  return response;
 }
