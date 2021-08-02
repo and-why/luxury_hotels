@@ -267,7 +267,7 @@ export default function HotelPage({ hotelId, data, checkInDate, checkOutDate, gu
                 return (
                   <Text as='span' key={index}>{`${amenity
                     .toLowerCase()
-                    .replaceAll('_', ' ')} • `}</Text>
+                    .replace(/_/g, ' ')} • `}</Text>
                 );
               })}
             </Text>

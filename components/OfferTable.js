@@ -25,7 +25,7 @@ export default function OfferTable({ offers }) {
                 <Td>
                   <Text>
                     {offer.room.typeEstimated.category &&
-                      offer.room.typeEstimated.category.toLowerCase().replaceAll('_', ' ')}
+                      offer.room.typeEstimated.category.toLowerCase().replace(/_/g, ' ')}
                   </Text>
                   {offer.room.typeEstimated.bedType && (
                     <Text>
