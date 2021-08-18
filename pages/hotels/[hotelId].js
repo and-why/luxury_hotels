@@ -31,6 +31,7 @@ import { updateFavourites, removeFromFavourites } from '@/utils/db';
 import { mutate } from 'swr';
 
 export default function HotelPage({ hotelId, data, checkInDate, checkOutDate, guests, rooms }) {
+  console.log('returned to [hotelId].js data.result', data);
   const router = useRouter();
   const { user } = useAuth();
   const [hotelData, setHotelData] = useState(data);
@@ -71,7 +72,7 @@ export default function HotelPage({ hotelId, data, checkInDate, checkOutDate, gu
 
   useEffect(() => {
     if (user && data.data) {
-      setFavourite(user.hotelIds.includes(hotelData.data.hotel.hotelId));
+      setFavourite(user.hotelIds?.includes(hotelData.data.hotel.hotelId));
       setHotelData(data);
     }
   }, [user, addSearchData]);
@@ -337,7 +338,7 @@ export async function getServerSideProps(context) {
   const { checkInDate, checkOutDate, hotelId, guests, rooms } = context.query;
   const data = await getHotelById(hotelId, checkInDate, checkOutDate, guests, rooms);
 
-  console.log('returned to [hotelId].js data.result', data.result);
+  // console.log('returned to [hotelId].js data.result', data.result);
 
   return {
     props: {

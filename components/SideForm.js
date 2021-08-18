@@ -25,13 +25,16 @@ import { formatter, formatDate } from '@/utils/functions';
 import Link from 'next/link';
 
 export default function SideForm({ addSearchData, data, dictionary }) {
-  const [hotelData, setHotelData] = useState(data.data);
+  console.log(data);
+  const [hotelData, setHotelData] = useState(data?.data);
   const [isLoading, setLoading] = useState(false);
   const [startDate, setStartDate] = useState(
-    new Date(hotelData.offers[0].checkInDate || new Date()),
+    hotelData ? new Date(hotelData.offers[0].checkInDate) : new Date(),
   );
   const [endDate, setEndDate] = useState(
-    new Date(hotelData.offers[0].checkOutDate || new Date(startDate).getDate() + 1),
+    hotelData
+      ? new Date(hotelData.offers[0].checkOutDate)
+      : new Date(startDate).setDate(new Date(startDate).getDate() + 2),
   );
   console.log(dictionary);
   const handleSearch = (e) => {
@@ -61,11 +64,13 @@ export default function SideForm({ addSearchData, data, dictionary }) {
     >
       <Flex align='baseline'>
         <Text fontSize='xl' fontWeight='600' mb={4}>
-          {formatter.format(
-            dictionary
-              ? hotelData.offers[0].price.total * dictionary.currencyConversionLookupRates.EUR.rate
-              : hotelData.offers[0].price.total || 0.0,
-          )}
+          {hotelData &&
+            formatter.format(
+              dictionary
+                ? hotelData.offers[0].price.total *
+                    dictionary.currencyConversionLookupRates.EUR.rate
+                : hotelData.offers[0].price.total || 0.0,
+            )}
         </Text>
         <Text ml={1} fontSize='sm'>
           total
@@ -154,7 +159,7 @@ export default function SideForm({ addSearchData, data, dictionary }) {
               max={2}
               mb={2}
               required
-              defaultValue={hotelData.offers[0].guests.adults || 2}
+              defaultValue={2 || hotelData.offers[0].guests.adults}
             >
               <NumberInputField placeholder='Add guests' bg='white' name='adults' id='adults' />
               <NumberInputStepper>
@@ -181,7 +186,7 @@ export default function SideForm({ addSearchData, data, dictionary }) {
               max={9}
               mb={2}
               required
-              defaultValue={hotelData.roomQuantity || 1}
+              defaultValue={1 || hotelData.roomQuantity}
             >
               <NumberInputField placeholder='Add rooms' bg='white' name='rooms' id='rooms' />
               <NumberInputStepper>
@@ -212,34 +217,36 @@ export default function SideForm({ addSearchData, data, dictionary }) {
         </Link>
       </Text>
       <Flex justify='space-between'>
-        <Text fontSize='sm'>
-          {formatter.format(
-            hotelData.offers[0].price.total /
-              ((new Date(hotelData.offers[0].checkOutDate) -
-                new Date(hotelData.offers[0].checkInDate)) /
-                24 /
-                60 /
-                60 /
-                1000),
-          )}{' '}
-          x{' '}
-          {(new Date(hotelData.offers[0].checkOutDate) -
-            new Date(hotelData.offers[0].checkInDate)) /
-            24 /
-            60 /
-            60 /
-            1000}{' '}
-          night
-          {(new Date(hotelData.offers[0].checkOutDate) -
-            new Date(hotelData.offers[0].checkInDate)) /
-            24 /
-            60 /
-            60 /
-            1000 >
-            1 && 's'}
-        </Text>
+        {hotelData && (
+          <Text fontSize='sm'>
+            {formatter.format(
+              hotelData.offers[0].price.total /
+                ((new Date(hotelData.offers[0].checkOutDate) -
+                  new Date(hotelData.offers[0].checkInDate)) /
+                  24 /
+                  60 /
+                  60 /
+                  1000),
+            )}{' '}
+            x{' '}
+            {(new Date(hotelData.offers[0].checkOutDate) -
+              new Date(hotelData.offers[0].checkInDate)) /
+              24 /
+              60 /
+              60 /
+              1000}{' '}
+            night
+            {(new Date(hotelData.offers[0].checkOutDate) -
+              new Date(hotelData.offers[0].checkInDate)) /
+              24 /
+              60 /
+              60 /
+              1000 >
+              1 && 's'}
+          </Text>
+        )}
         <Text ml={2} fontSize='sm'>
-          {formatter.format(hotelData.offers[0].price.total)}
+          {hotelData && formatter.format(hotelData.offers[0].price.total)}
         </Text>
       </Flex>
     </FormControl>
