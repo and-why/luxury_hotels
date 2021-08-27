@@ -225,7 +225,9 @@ export default function SideForm({ addSearchData, data, dictionary, currency }) 
               {formatter.format(
                 (dictionary
                   ? hotelData.offers[0].price.total *
-                    dictionary.currencyConversionLookupRates.EUR.rate
+                    dictionary.currencyConversionLookupRates[
+                      [Object.keys(dictionary.currencyConversionLookupRates)]
+                    ].rate
                   : hotelData.offers[0].price.total || 0.0) /
                   ((new Date(hotelData.offers[0].checkOutDate) -
                     new Date(hotelData.offers[0].checkInDate)) /
@@ -255,7 +257,9 @@ export default function SideForm({ addSearchData, data, dictionary, currency }) 
                 formatter.format(
                   dictionary
                     ? hotelData.offers[0].price.total *
-                        dictionary.currencyConversionLookupRates.EUR.rate
+                        dictionary.currencyConversionLookupRates[
+                          [Object.keys(dictionary.currencyConversionLookupRates)]
+                        ].rate
                     : hotelData.offers[0].price.total || 0.0,
                 )}
             </Text>
