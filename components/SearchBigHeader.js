@@ -52,8 +52,7 @@ export default function SearchBigHeader({ height }) {
           </Flex>
           <NextImage
             src='/images/hero.png'
-            placeholder='blur'
-            blurDataURL='/images/blur/hero.png'
+            priority='true'
             // layout='fill'
             height={500}
             width={500}

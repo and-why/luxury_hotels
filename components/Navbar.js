@@ -39,7 +39,7 @@ export default function Navbar({ search }) {
   const homepage = router.pathname === '/' ? true : false;
   const { isOpen, onOpen, onClose } = useDisclosure();
   const menuBtn = useRef();
-  console.log(search);
+
   const handleSignout = () => {
     signout();
     onClose();

@@ -6,7 +6,7 @@ export default function SoloCitiesPage(props) {
   const data = [
     {
       name: 'Bangkok-Thailand',
-      code: 'MDK',
+      code: 'DMK',
       guests: 1,
       known:
         'Eat like a local and experience streets bustling with vendors selling delicacies to enjoy',

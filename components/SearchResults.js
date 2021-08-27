@@ -4,9 +4,10 @@ import Container from './Container';
 import DisplayTile from './DisplayTile';
 
 export default function SearchResults({ data }) {
-  console.log('SearchResults:', data);
+  // console.log('SearchResults:', data);
 
   if (!data) return <p>loading</p>;
+
   return (
     <Container>
       <Flex direction='column' w='100%' justify='flex-start'>
@@ -22,19 +23,15 @@ export default function SearchResults({ data }) {
           transition='all ease 0.5s'
           env
         >
+          <Box padding={2} w={['50%', '50%', '33.3%', '25%']}>
+            <NextImage
+              src={`/images/search/${Math.floor(Math.random() * 15)}.png`}
+              height={250}
+              width={250}
+            />
+          </Box>
           {data ? (
-            data.map((hotel, index) => {
-              if (index === Math.floor(Math.random() * 6)) {
-                return (
-                  <Box padding={2} w={['50%', '50%', '33.3%', '25%']}>
-                    <NextImage
-                      src={`/images/search/${Math.floor(Math.random() * 15)}.png`}
-                      height={250}
-                      width={250}
-                    />
-                  </Box>
-                );
-              }
+            data.data.map((hotel, index) => {
               return <DisplayTile key={index} data={hotel} dictionary={data.dictionaries} />;
             })
           ) : (
@@ -42,6 +39,13 @@ export default function SearchResults({ data }) {
               No results for those dates or location.
             </Heading>
           )}
+          <Box padding={2} w={['50%', '50%', '33.3%', '25%']}>
+            <NextImage
+              src={`/images/search/${Math.floor(Math.random() * 15)}.png`}
+              height={250}
+              width={250}
+            />
+          </Box>
         </Flex>
       </Flex>
     </Container>

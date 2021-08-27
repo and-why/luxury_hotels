@@ -83,7 +83,10 @@ export default function DisplayTile({ data, dictionary }) {
               >
                 {formatter.format(
                   dictionary
-                    ? data.offers[0].price.total * dictionary.currencyConversionLookupRates.EUR.rate
+                    ? data.offers[0].price.total *
+                        dictionary.currencyConversionLookupRates[
+                          [Object.keys(dictionary.currencyConversionLookupRates)]
+                        ].rate
                     : data.offers[0].price.total,
                 )}
               </Text>

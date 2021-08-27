@@ -65,7 +65,10 @@ export default function OfferTable({ offers, dictionary }) {
                     <Text fontWeight='600'>
                       {formatter.format(
                         dictionary
-                          ? offer.price.total * dictionary.currencyConversionLookupRates.EUR.rate
+                          ? offer.price.total *
+                              dictionary.currencyConversionLookupRates[
+                                [Object.keys(dictionary.currencyConversionLookupRates)]
+                              ].rate
                           : offer.price.total,
                       )}
                     </Text>

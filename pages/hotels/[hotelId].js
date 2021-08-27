@@ -30,7 +30,7 @@ import { useAuth } from '@/utils/auth';
 import { updateFavourites, removeFromFavourites } from '@/utils/db';
 
 export default function HotelPage({ hotelId, data, checkInDate, checkOutDate, guests, rooms }) {
-  console.log('returned to [hotelId].js data.result', data);
+  // console.log('returned to [hotelId].js data.result', data);
   const router = useRouter();
   const { user } = useAuth();
   const [hotelData, setHotelData] = useState(data);
@@ -70,7 +70,7 @@ export default function HotelPage({ hotelId, data, checkInDate, checkOutDate, gu
 
   useEffect(() => {
     if (user && data.data) {
-      setFavourite(user.hotelIds?.includes(hotelData.data.hotel.hotelId));
+      setFavourite(user.hotelIds?.includes(hotelData?.data.hotel.hotelId));
       setHotelData(data);
     }
   }, [user, addSearchData]);
@@ -152,7 +152,7 @@ export default function HotelPage({ hotelId, data, checkInDate, checkOutDate, gu
             </Flex>
           </Flex>
           <Box w='100%' position='relative'>
-            {process.env.NODE_ENV === 'development' || !hotelData.data.hotel.media ? (
+            {!hotelData.data.hotel.media ? (
               <Box w='100%' p={1} onClick={onOpen} position='relative' cursor='pointer'>
                 <NextImage
                   src={'/images/roberto-nickson-room.jpg'}
@@ -188,7 +188,9 @@ export default function HotelPage({ hotelId, data, checkInDate, checkOutDate, gu
               _hover={{ opacity: '1', transition: 'all ease 0.3s' }}
             >
               <Button
-                colorScheme='blackAlpha'
+                colorScheme='blackAlpha.400'
+                height='100%'
+                width='100%'
                 onClick={onOpen}
                 position='absolute'
                 top='50%'

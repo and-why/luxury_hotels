@@ -8,7 +8,7 @@ import { getHotels } from '@/utils/hotels';
 import { Flex } from '@chakra-ui/layout';
 
 export default function SearchPage({ data }) {
-  console.log('SearchPageData:', data);
+  // console.log('SearchPageData:', data);
 
   if (data.errors) {
     return (
@@ -23,7 +23,7 @@ export default function SearchPage({ data }) {
   return (
     <Layout>
       <div>
-        <SearchResults data={data.data} />
+        <SearchResults data={data} />
       </div>
     </Layout>
   );
@@ -32,7 +32,6 @@ export default function SearchPage({ data }) {
 export async function getServerSideProps(context) {
   const { cityCode, checkInDate, checkOutDate, guests, rooms } = context.query;
   const data = await getHotels({ cityCode, checkInDate, checkOutDate, guests, rooms });
-  console.log(data);
 
   if (!data) {
     return { notFound: true };
