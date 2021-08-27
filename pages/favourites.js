@@ -38,11 +38,11 @@ export default function FavouritesPage() {
   return (
     <Layout>
       <Container>
-        <Flex direction='column'>
+        <Flex direction='column' w='100%'>
           <Heading fontSize='2xl' mb={8}>
             Favourites
           </Heading>
-          <Flex direction='column'>
+          <Flex direction='column' w={['100%', '100%', '50%']}>
             {favourites?.map((favourite) => {
               return <HotelListItem key={favourite.id} favourite={favourite} />;
             })}

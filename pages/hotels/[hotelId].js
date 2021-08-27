@@ -30,7 +30,7 @@ import { useAuth } from '@/utils/auth';
 import { updateFavourites, removeFromFavourites } from '@/utils/db';
 
 export default function HotelPage({ hotelId, data, checkInDate, checkOutDate, guests, rooms }) {
-  console.log('returned to [hotelId].js data.result', data);
+  // console.log('returned to [hotelId].js data.result', data);
   const router = useRouter();
   const { user } = useAuth();
   const [hotelData, setHotelData] = useState(data);
@@ -188,7 +188,7 @@ export default function HotelPage({ hotelId, data, checkInDate, checkOutDate, gu
               _hover={{ opacity: '1', transition: 'all ease 0.3s' }}
             >
               <Button
-                colorScheme='blackAlpha.400'
+                colorScheme='blackAlpha'
                 height='100%'
                 width='100%'
                 onClick={onOpen}

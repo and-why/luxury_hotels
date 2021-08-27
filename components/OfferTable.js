@@ -35,17 +35,7 @@ export default function OfferTable({ offers, dictionary }) {
                     </Text>
                   )}
                 </Td>
-                <Td>
-                  {offer.guests.adults} Adults
-                  <br />
-                  <Text fontSize='12px'>
-                    (Max sleep:{' '}
-                    {offer.room.typeEstimated.bedType &&
-                      offer.room.typeEstimated.bedType != 'SINGLE' &&
-                      offer.guests.adults * offer.room.typeEstimated.beds}
-                    )
-                  </Text>
-                </Td>
+                <Td>{offer.guests.adults} adults</Td>
                 <Td display={['none', 'none', offers[0].roomQuantity > 1 ? 'table-cell' : 'none']}>
                   {offer.roomQuantity || '1'}
                 </Td>

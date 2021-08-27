@@ -16,7 +16,7 @@ export default function SearchModal({ children }) {
       <Button
         bg='white'
         fontWeight='400'
-        color='gray.400'
+        color='black'
         boxShadow='xs'
         onClick={onOpen}
         cursor='text'
