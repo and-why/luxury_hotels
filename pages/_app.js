@@ -4,7 +4,7 @@ import '../styles/globals.css';
 import { AuthProvider } from '@/utils/auth';
 import NProgress from 'nprogress';
 import Router from 'next/router';
-import 'nprogress/nprogress.css';
+import '../styles/nprogress.css';
 
 function MyApp({ Component, pageProps }) {
   NProgress.configure({

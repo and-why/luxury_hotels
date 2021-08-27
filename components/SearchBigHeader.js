@@ -13,61 +13,23 @@ import {
   ModalCloseButton,
   useDisclosure,
 } from '@chakra-ui/react';
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { getHotels } from '@/utils/hotels';
-import DisplayTile from './DisplayTile';
 import DisplayTilesSkeleton from './DisplayTilesSkeleton';
-import PromotionalTab from './PromotionalTab';
 import FullSearchForm from './FullSearchForm';
-import { formatDate } from '@/utils/functions';
+import SearchModal from './SearchModal';
 
-export default function SearchBigHeader() {
-  const [data, setData] = useState(false);
-  const [cityName, setCityName] = useState(false);
+export default function SearchBigHeader({ height }) {
   const [loading, setLoading] = useState(false);
   const today = new Date();
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const addSearchData = async (data) => {
-    setLoading(true);
-    onClose();
-    const [cityCode, checkInDate, checkOutDate, guests, rooms] = data;
-
-    const newData = await getHotels({ cityCode, checkInDate, checkOutDate, guests, rooms });
-    setData(newData);
-    setLoading(false);
-  };
-
-  const popularSearches = async ({ cityName, cityCode, rooms, guests, nights }) => {
-    setLoading(true);
-    setCityName(cityName);
-    const startDate = new Date();
-    startDate.setDate(startDate.getDate() + 7);
-    const endDate = new Date();
-    endDate.setDate(endDate.getDate() + (7 + nights));
-
-    const checkInDate = formatDate(startDate);
-    const checkOutDate = formatDate(endDate);
-
-    const data = { cityCode, guests, checkInDate, checkOutDate, rooms };
-
-    const newData = await getHotels(data);
-
-    setData(newData);
-
-    setLoading(false);
-  };
-
-  useEffect(() => {}, []);
-
   return (
     <>
       <Flex direction='column' align='center' w='100%'>
         <Flex
-          height={!data ? '50vh' : '30vh'}
+          height={height || '70vh'}
           minH='200px'
           w='100%'
           position='relative'
@@ -92,111 +54,10 @@ export default function SearchBigHeader() {
             >
               Find the best luxury hotels
             </Heading>
-            <Button
-              bg='white'
-              fontWeight='400'
-              color='gray.400'
-              onClick={onOpen}
-              cursor='text'
-              _hover={{ backgroundColor: 'white', color: 'black' }}
-            >
-              Where are you going?
-            </Button>
+            <SearchModal>Where are you going?</SearchModal>
           </Flex>
-          <Modal isOpen={isOpen} onClose={onClose}>
-            <ModalOverlay />
-            <ModalContent p={8}>
-              <ModalCloseButton />
-              <ModalBody>
-                <FullSearchForm addSearchData={addSearchData} />
-              </ModalBody>
-            </ModalContent>
-          </Modal>
         </Flex>
         {loading && <DisplayTilesSkeleton />}
-        {data && !loading && (
-          <Flex
-            w='100%'
-            maxW='1440px'
-            px={[2, 4, 16, 32]}
-            py={4}
-            direction='column'
-            justify='space-between'
-          >
-            <Heading fontSize='2xl' p={4}>
-              Search Results
-            </Heading>
-            <Flex
-              px={2}
-              justify='flex-start'
-              align='flex-start'
-              w='100%'
-              wrap='wrap'
-              transition='all ease 0.5s'
-            >
-              {data.data.length
-                ? data.data.map((hotel, index) => {
-                    return <DisplayTile key={index} data={hotel} dictionary={data.dictionaries} />;
-                  })
-                : !loading && (
-                    <Heading as='h3' fontSize='xl' textAlign='center' w='100%'>
-                      No results for those dates or location.
-                    </Heading>
-                  )}
-            </Flex>
-          </Flex>
-        )}
-        <Flex
-          p={4}
-          transition='all ease 0.5s'
-          w='100%'
-          maxW='1440px'
-          px={[2, 4, 16, 32]}
-          py={4}
-          direction='column'
-          justify='space-between'
-          align='center'
-        >
-          <Box>
-            <Heading fontSize='2xl' p={4}>
-              Popular Searches
-            </Heading>
-            <Flex wrap='wrap'>
-              <PromotionalTab
-                guests={2}
-                nights={2}
-                rooms={1}
-                cityName={'Melbourne'}
-                cityCode={'MEL'}
-                popularSearches={popularSearches}
-              />
-              <PromotionalTab
-                guests={2}
-                nights={3}
-                rooms={1}
-                cityName={'Sydney'}
-                cityCode={'SYD'}
-                popularSearches={popularSearches}
-              />
-              <PromotionalTab
-                guests={2}
-                nights={3}
-                rooms={1}
-                cityName={'Rome'}
-                cityCode={'FCO'}
-                popularSearches={popularSearches}
-              />
-              <PromotionalTab
-                guests={2}
-                nights={3}
-                rooms={1}
-                cityName={'Paris'}
-                cityCode={'LBG'}
-                popularSearches={popularSearches}
-              />
-            </Flex>
-          </Box>
-        </Flex>
       </Flex>
     </>
   );

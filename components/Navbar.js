@@ -13,19 +13,33 @@ import {
   DrawerCloseButton,
   DrawerHeader,
   DrawerBody,
+  Grid,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
 } from '@chakra-ui/react';
 import { HamburgerIcon } from '@chakra-ui/icons';
 import { LogoIcon } from './icons/icons';
 import { BiLogOut } from 'react-icons/bi';
 import { useAuth } from '@/utils/auth';
-import { useDisclosure } from '@chakra-ui/react';
 import Container from './Container';
+import FullSearchForm from './FullSearchForm';
+import SearchModal from './SearchModal';
+import { useRouter } from 'next/router';
 
-export default function Navbar() {
+export default function Navbar({ search }) {
   const { user, signinWithGoogle, signout, loading } = useAuth();
+  const router = useRouter();
+
+  // if homepage, don't show the search icon in navigation
+  const homepage = router.pathname === '/' ? true : false;
   const { isOpen, onOpen, onClose } = useDisclosure();
   const menuBtn = useRef();
-
+  console.log(search);
   const handleSignout = () => {
     signout();
     onClose();
@@ -33,69 +47,83 @@ export default function Navbar() {
 
   return (
     <Container>
-      <Flex>
-        <NextLink href='/' as={`/`} passHref>
-          <Link>
-            <LogoIcon h={8} w={32} />
-          </Link>
-        </NextLink>
-      </Flex>
+      <Grid
+        width='100%'
+        templateColumns='repeat(3, minmax(250px, 1fr))'
+        justify='space-between'
+        align='center'
+      >
+        <Flex>
+          <NextLink href='/' as={`/`} passHref>
+            <Link>
+              <LogoIcon h={8} w={32} />
+            </Link>
+          </NextLink>
+        </Flex>
 
-      <Flex align='center'>
-        {user ? (
-          <Button ref={menuBtn} onClick={onOpen} variant='outline' leftIcon={<HamburgerIcon />}>
-            {user?.photoUrl ? (
-              <NextImage src={user?.photoUrl} height='25px' width='25px' className='roundedImage' />
-            ) : (
-              'Account'
-            )}
-          </Button>
-        ) : (
-          <Button variant='outline' onClick={signinWithGoogle} isLoading={loading}>
-            Log in
-          </Button>
-        )}
+        {!homepage ? <SearchModal>Where are you going?</SearchModal> : <div />}
 
-        <Drawer isOpen={isOpen} placement='right' onClose={onClose} finalFocusRef={menuBtn}>
-          <DrawerOverlay />
-          <DrawerContent>
-            <DrawerCloseButton mr={8} />
-            <DrawerBody mt={16} p={0}>
-              <Flex direction='column'>
-                {user && (
-                  <>
-                    <Flex direction='column' mb={32}>
-                      <NextLink href='/' passHref>
-                        <Link fontSize='xl' p={4} w='100%' _hover={{ background: 'gray.200' }}>
-                          Home
-                        </Link>
-                      </NextLink>
-                      <NextLink href='/account' passHref>
-                        <Link fontSize='xl' p={4} w='100%' _hover={{ background: 'gray.200' }}>
-                          Account
-                        </Link>
-                      </NextLink>
-                      <NextLink href='/favourites' passHref>
-                        <Link fontSize='xl' p={4} w='100%' _hover={{ background: 'gray.200' }}>
-                          Favourites
-                        </Link>
-                      </NextLink>
-                    </Flex>
-                    <Button
-                      onClick={handleSignout}
-                      leftIcon={<Icon as={BiLogOut} />}
-                      colorScheme='red'
-                      m={4}
-                    >
-                      Log out
-                    </Button>
-                  </>
-                )}
-              </Flex>
-            </DrawerBody>
-          </DrawerContent>
-        </Drawer>
-      </Flex>
+        <Flex align='center' justify='flex-end'>
+          {user ? (
+            <Button ref={menuBtn} onClick={onOpen} variant='outline' leftIcon={<HamburgerIcon />}>
+              {user?.photoUrl ? (
+                <NextImage
+                  src={user?.photoUrl}
+                  height='25px'
+                  width='25px'
+                  className='roundedImage'
+                />
+              ) : (
+                'Account'
+              )}
+            </Button>
+          ) : (
+            <Button variant='outline' onClick={signinWithGoogle} isLoading={loading}>
+              Log in
+            </Button>
+          )}
+
+          <Drawer isOpen={isOpen} placement='right' onClose={onClose} finalFocusRef={menuBtn}>
+            <DrawerOverlay />
+            <DrawerContent>
+              <DrawerCloseButton mr={8} />
+              <DrawerBody mt={16} p={0}>
+                <Flex direction='column'>
+                  {user && (
+                    <>
+                      <Flex direction='column' mb={32}>
+                        <NextLink href='/' passHref>
+                          <Link fontSize='xl' p={4} w='100%' _hover={{ background: 'gray.200' }}>
+                            Home
+                          </Link>
+                        </NextLink>
+                        <NextLink href='/account' passHref>
+                          <Link fontSize='xl' p={4} w='100%' _hover={{ background: 'gray.200' }}>
+                            Account
+                          </Link>
+                        </NextLink>
+                        <NextLink href='/favourites' passHref>
+                          <Link fontSize='xl' p={4} w='100%' _hover={{ background: 'gray.200' }}>
+                            Favourites
+                          </Link>
+                        </NextLink>
+                      </Flex>
+                      <Button
+                        onClick={handleSignout}
+                        leftIcon={<Icon as={BiLogOut} />}
+                        colorScheme='red'
+                        m={4}
+                      >
+                        Log out
+                      </Button>
+                    </>
+                  )}
+                </Flex>
+              </DrawerBody>
+            </DrawerContent>
+          </Drawer>
+        </Flex>
+      </Grid>
     </Container>
   );
 }
