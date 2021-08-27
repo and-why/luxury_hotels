@@ -11,8 +11,8 @@ export async function getToken() {
   } else {
     const amadeus = await new Amadeus({
       hostname: 'production',
-      clientId: process.env.NEXT_PUBLIC_AMADEUS_API_KEY_PROD,
-      clientSecret: process.env.NEXT_PUBLIC_AMADEUS_API_SECRET_PROD,
+      clientId: process.env.NEXT_PUBLIC_AMADEUS_API_KEY,
+      clientSecret: process.env.NEXT_PUBLIC_AMADEUS_API_SECRET,
     });
 
     return amadeus;
