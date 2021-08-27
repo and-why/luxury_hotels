@@ -25,12 +25,12 @@ const theme = extendTheme({
     brand: {
       100: '#DEAD3A',
       150: '#ffc107',
-      200: '#E77250',
+      200: '#45C5DE',
       300: '#586728',
       400: '#1C484E',
       dark: '#484848',
     },
-    black: '#484848',
+    black: '#292929',
   },
   fonts: {
     heading: 'Roboto Slab',

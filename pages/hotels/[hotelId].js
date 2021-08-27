@@ -28,7 +28,6 @@ import HotelMap from '@/components/HotelMap';
 import Container from '@/components/Container';
 import { useAuth } from '@/utils/auth';
 import { updateFavourites, removeFromFavourites } from '@/utils/db';
-import { mutate } from 'swr';
 
 export default function HotelPage({ hotelId, data, checkInDate, checkOutDate, guests, rooms }) {
   console.log('returned to [hotelId].js data.result', data);
@@ -67,7 +66,6 @@ export default function HotelPage({ hotelId, data, checkInDate, checkOutDate, gu
         rooms: rooms,
       },
     });
-    // setLoading(false);
   };
 
   useEffect(() => {

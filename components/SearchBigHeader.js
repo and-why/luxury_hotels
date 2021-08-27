@@ -36,26 +36,29 @@ export default function SearchBigHeader({ height }) {
           justify='center'
           align='center'
           transition='all ease 0.5s'
+          background='brand.200'
         >
-          <NextImage
-            src='/images/roberto-nickson.jpg'
-            placeholder='blur'
-            blurDataURL='/images/blur/roberto-nickson.jpg'
-            layout='fill'
-            objectFit='cover'
-          />
           <Flex direction='column' p={4}>
             <Heading
-              color='white'
+              color='black'
               zIndex='99'
               mb={8}
               fontWeight='600'
               textShadow='0 0 2px rgba(0,0,0,0.3)'
             >
-              Find the best luxury hotels
+              Find the best hotels
             </Heading>
             <SearchModal>Where are you going?</SearchModal>
           </Flex>
+          <NextImage
+            src='/images/hero.png'
+            placeholder='blur'
+            blurDataURL='/images/blur/hero.png'
+            // layout='fill'
+            height={500}
+            width={500}
+            objectFit='contain'
+          />
         </Flex>
         {loading && <DisplayTilesSkeleton />}
       </Flex>

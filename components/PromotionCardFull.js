@@ -12,13 +12,13 @@ export default function PromotionCardFull() {
         <Link w='100%'>
           <Flex position='relative' w='100%' height='500px' borderRadius='10px'>
             <NextImage
-              src='/images/promos/solo-promo.jpg'
-              width='1440'
-              height='773'
+              src='/images/promos/solo-promo-illustration.jpg'
+              // width='1440'
+              // height='773'
               objectFit='cover'
               layout='fill'
-              placeholder='blue'
-              blurDataURL='/images/promos/blur/solo-promo.jpg'
+              placeholder='blur'
+              blurDataURL='/images/promos/blur/solo-promo-illustration.jpg'
               className='borderRadius'
             />
             <Flex

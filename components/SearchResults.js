@@ -1,4 +1,5 @@
-import { Flex, Heading } from '@chakra-ui/layout';
+import { Box, Flex, Heading } from '@chakra-ui/layout';
+import NextImage from 'next/image';
 import Container from './Container';
 import DisplayTile from './DisplayTile';
 
@@ -6,26 +7,13 @@ export default function SearchResults({ data }) {
   console.log('SearchResults:', data);
 
   if (!data) return <p>loading</p>;
-
-  if (data.status) {
-    return (
-      <Flex>
-        <p>{data.title}</p>
-      </Flex>
-    );
-  }
-  if (data === 'Unknown Error')
-    return (
-      <Flex>
-        <p>No hotels are available for those dates or location. Please try another search</p>
-      </Flex>
-    );
   return (
     <Container>
       <Flex direction='column' w='100%' justify='flex-start'>
-        <Heading fontSize='2xl' p={4}>
-          Results for {data[0].hotel.address.cityName}
+        <Heading fontSize='2xl' p={4} textTransform='capitalize'>
+          Search Results
         </Heading>
+
         <Flex
           justify='flex-start'
           align='flex-start'
@@ -35,6 +23,17 @@ export default function SearchResults({ data }) {
         >
           {data ? (
             data.map((hotel, index) => {
+              if (index % 5 === 0 && index !== 0) {
+                return (
+                  <Box padding={2} w={['50%', '50%', '33.3%', '25%']}>
+                    <NextImage
+                      src={`/images/search/${Math.floor(Math.random() * 12)}.png`}
+                      height={250}
+                      width={250}
+                    />
+                  </Box>
+                );
+              }
               return <DisplayTile key={index} data={hotel} dictionary={data.dictionaries} />;
             })
           ) : (

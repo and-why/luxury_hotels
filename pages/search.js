@@ -10,14 +10,12 @@ import { Flex } from '@chakra-ui/layout';
 export default function SearchPage({ data }) {
   console.log('SearchPageData:', data);
 
-  if (data[0].status) {
+  if (data.errors) {
     return (
       <Layout>
-        <Container>
-          {data[0].title}
-          <p>Try another search above</p>
-          <PromotionCardFull />
-        </Container>
+        <Heading textTransform='capitalize' as='h3' fontSize='lg' mb={4}>
+          Sorry. {data.errors[0].title.toLowerCase()}
+        </Heading>
       </Layout>
     );
   }
@@ -25,7 +23,7 @@ export default function SearchPage({ data }) {
   return (
     <Layout>
       <div>
-        <SearchResults data={data} />
+        <SearchResults data={data.data} />
       </div>
     </Layout>
   );
@@ -33,19 +31,16 @@ export default function SearchPage({ data }) {
 
 export async function getServerSideProps(context) {
   const { cityCode, checkInDate, checkOutDate, guests, rooms } = context.query;
-  const res = await getHotels({ cityCode, checkInDate, checkOutDate, guests, rooms });
-  console.log(res);
-  if (res.data) {
-    return {
-      props: { data: res.data },
-    };
-  } else if (res.description) {
-    return {
-      props: { data: res.description },
-    };
-  } else {
-    return {
-      props: { data: 'Unknown Error' },
-    };
+  const data = await getHotels({ cityCode, checkInDate, checkOutDate, guests, rooms });
+  console.log(data);
+
+  if (!data) {
+    return { notFound: true };
   }
+
+  return {
+    props: {
+      data: data.result,
+    },
+  };
 }

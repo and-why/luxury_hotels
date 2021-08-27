@@ -30,7 +30,7 @@ export async function getHotels(data) {
       error;
     });
 
-  return response;
+  return await response;
 }
 
 export async function getHotelById(hotelId, checkInDate, checkOutDate, guests, rooms) {
@@ -55,7 +55,7 @@ export async function getHotelById(hotelId, checkInDate, checkOutDate, guests, r
       return error.response;
     });
 
-  return response;
+  return await response;
 }
 
 export async function getAllHotels(cityCode) {
@@ -73,7 +73,7 @@ export async function getAllHotels(cityCode) {
       return error;
     });
 
-  return response;
+  return await response;
 }
 
 export async function getHotelByOfferId(hotelOfferId) {
@@ -85,5 +85,5 @@ export async function getHotelByOfferId(hotelOfferId) {
     })
     .catch((error) => error);
 
-  return response;
+  return await response;
 }
