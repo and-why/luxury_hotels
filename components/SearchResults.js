@@ -4,7 +4,7 @@ import Container from './Container';
 import DisplayTile from './DisplayTile';
 
 export default function SearchResults({ data }) {
-  // console.log('SearchResults:', data);
+  console.log('SearchResults:', data);
 
   if (!data) return <p>loading</p>;
 

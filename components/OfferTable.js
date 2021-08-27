@@ -67,7 +67,7 @@ export default function OfferTable({ offers, dictionary }) {
                         dictionary
                           ? offer.price.total *
                               dictionary.currencyConversionLookupRates[
-                                [Object.keys(dictionary.currencyConversionLookupRates)]
+                                Object.keys(dictionary.currencyConversionLookupRates)[0]
                               ].rate
                           : offer.price.total,
                       )}

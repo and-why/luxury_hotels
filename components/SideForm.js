@@ -68,7 +68,7 @@ export default function SideForm({ addSearchData, data, dictionary, currency }) 
               dictionary
                 ? hotelData.offers[0].price.total *
                     dictionary.currencyConversionLookupRates[
-                      [Object.keys(data.dictionaries.currencyConversionLookupRates)]
+                      Object.keys(dictionary.currencyConversionLookupRates)[0]
                     ].rate
                 : hotelData.offers[0].price.total || 0.0,
             )}
@@ -226,7 +226,7 @@ export default function SideForm({ addSearchData, data, dictionary, currency }) 
                 (dictionary
                   ? hotelData.offers[0].price.total *
                     dictionary.currencyConversionLookupRates[
-                      [Object.keys(dictionary.currencyConversionLookupRates)]
+                      Object.keys(dictionary.currencyConversionLookupRates)[0]
                     ].rate
                   : hotelData.offers[0].price.total || 0.0) /
                   ((new Date(hotelData.offers[0].checkOutDate) -
@@ -258,7 +258,7 @@ export default function SideForm({ addSearchData, data, dictionary, currency }) 
                   dictionary
                     ? hotelData.offers[0].price.total *
                         dictionary.currencyConversionLookupRates[
-                          [Object.keys(dictionary.currencyConversionLookupRates)]
+                          Object.keys(dictionary.currencyConversionLookupRates)[0]
                         ].rate
                     : hotelData.offers[0].price.total || 0.0,
                 )}

@@ -85,7 +85,7 @@ export default function DisplayTile({ data, dictionary }) {
                   dictionary
                     ? data.offers[0].price.total *
                         dictionary.currencyConversionLookupRates[
-                          [Object.keys(dictionary.currencyConversionLookupRates)]
+                          Object.keys(dictionary.currencyConversionLookupRates)[0]
                         ].rate
                     : data.offers[0].price.total,
                 )}
