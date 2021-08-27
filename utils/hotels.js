@@ -26,30 +26,11 @@ export async function getHotels(data) {
       bestRateOnly: true,
       currency: 'AUD',
     })
-    .catch((res) => {
-      return res.response.body;
+    .catch((error) => {
+      error;
     });
 
-  if (response.result.error) {
-    return response.result.error;
-  }
-
-  return response.result;
-}
-export async function getAllHotels(cityCode) {
-  const amadeus = await getToken();
-
-  const response = await amadeus.shopping.hotelOffers
-    .get({
-      cityCode: cityCode,
-      radius: 300,
-      radiusUnit: 'KM',
-      ratings: '4, 5',
-      bestRateOnly: true,
-    })
-    .catch((error) => error);
-
-  return response.result;
+  return await response;
 }
 
 export async function getHotelById(hotelId, checkInDate, checkOutDate, guests, rooms) {
@@ -74,7 +55,25 @@ export async function getHotelById(hotelId, checkInDate, checkOutDate, guests, r
       return error.response;
     });
 
-  return response;
+  return await response;
+}
+
+export async function getAllHotels(cityCode) {
+  const amadeus = await getToken();
+
+  const response = await amadeus.shopping.hotelOffers
+    .get({
+      cityCode: cityCode,
+      radius: 300,
+      radiusUnit: 'KM',
+      ratings: '4, 5',
+      bestRateOnly: true,
+    })
+    .catch((error) => {
+      return error;
+    });
+
+  return await response;
 }
 
 export async function getHotelByOfferId(hotelOfferId) {
@@ -86,5 +85,5 @@ export async function getHotelByOfferId(hotelOfferId) {
     })
     .catch((error) => error);
 
-  return response;
+  return await response;
 }

@@ -24,8 +24,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { formatter, formatDate } from '@/utils/functions';
 import Link from 'next/link';
 
-export default function SideForm({ addSearchData, data, dictionary }) {
-  console.log(data);
+export default function SideForm({ addSearchData, data, dictionary, currency }) {
   const [hotelData, setHotelData] = useState(data?.data);
   const [isLoading, setLoading] = useState(false);
   const [startDate, setStartDate] = useState(
@@ -36,7 +35,7 @@ export default function SideForm({ addSearchData, data, dictionary }) {
       ? new Date(hotelData.offers[0].checkOutDate)
       : new Date(startDate).setDate(new Date(startDate).getDate() + 2),
   );
-  console.log(dictionary);
+
   const handleSearch = (e) => {
     e.preventDefault();
     setLoading(true);
@@ -68,7 +67,9 @@ export default function SideForm({ addSearchData, data, dictionary }) {
             formatter.format(
               dictionary
                 ? hotelData.offers[0].price.total *
-                    dictionary.currencyConversionLookupRates.EUR.rate
+                    dictionary.currencyConversionLookupRates[
+                      Object.keys(dictionary.currencyConversionLookupRates)[0]
+                    ].rate
                 : hotelData.offers[0].price.total || 0.0,
             )}
         </Text>
@@ -211,44 +212,63 @@ export default function SideForm({ addSearchData, data, dictionary }) {
       <Text fontSize='sm' align='center'>
         You won't be charged yet
       </Text>
-      <Text fontSize='sm' align='center' mb={4}>
-        <Link color='teal.500' href='#offerTable'>
-          Price shown is the best price found, there may be more options are listed below.
-        </Link>
-      </Text>
-      <Flex justify='space-between'>
-        {hotelData && (
-          <Text fontSize='sm'>
-            {formatter.format(
-              hotelData.offers[0].price.total /
-                ((new Date(hotelData.offers[0].checkOutDate) -
-                  new Date(hotelData.offers[0].checkInDate)) /
-                  24 /
-                  60 /
-                  60 /
-                  1000),
-            )}{' '}
-            x{' '}
-            {(new Date(hotelData.offers[0].checkOutDate) -
-              new Date(hotelData.offers[0].checkInDate)) /
-              24 /
-              60 /
-              60 /
-              1000}{' '}
-            night
-            {(new Date(hotelData.offers[0].checkOutDate) -
-              new Date(hotelData.offers[0].checkInDate)) /
-              24 /
-              60 /
-              60 /
-              1000 >
-              1 && 's'}
+      {hotelData && (
+        <>
+          <Text fontSize='sm' align='center' mb={4}>
+            <Link color='teal.500' href='#offerTable'>
+              Price shown is the best price found, there may be more options are listed below.
+            </Link>
           </Text>
-        )}
-        <Text ml={2} fontSize='sm'>
-          {hotelData && formatter.format(hotelData.offers[0].price.total)}
-        </Text>
-      </Flex>
+          <h2>Best Price</h2>
+          <Flex justify='space-between'>
+            <Text fontSize='sm'>
+              {formatter.format(
+                (dictionary
+                  ? hotelData.offers[0].price.total *
+                    dictionary.currencyConversionLookupRates[
+                      Object.keys(dictionary.currencyConversionLookupRates)[0]
+                    ].rate
+                  : hotelData.offers[0].price.total || 0.0) /
+                  ((new Date(hotelData.offers[0].checkOutDate) -
+                    new Date(hotelData.offers[0].checkInDate)) /
+                    24 /
+                    60 /
+                    60 /
+                    1000),
+              )}{' '}
+              x{' '}
+              {(new Date(hotelData.offers[0].checkOutDate) -
+                new Date(hotelData.offers[0].checkInDate)) /
+                24 /
+                60 /
+                60 /
+                1000}{' '}
+              night
+              {(new Date(hotelData.offers[0].checkOutDate) -
+                new Date(hotelData.offers[0].checkInDate)) /
+                24 /
+                60 /
+                60 /
+                1000 >
+                1 && 's'}
+            </Text>
+            <Text ml={2} fontSize='sm'>
+              {hotelData &&
+                formatter.format(
+                  dictionary
+                    ? hotelData.offers[0].price.total *
+                        dictionary.currencyConversionLookupRates[
+                          Object.keys(dictionary.currencyConversionLookupRates)[0]
+                        ].rate
+                    : hotelData.offers[0].price.total || 0.0,
+                )}
+            </Text>
+          </Flex>
+          <Text color='teal.500' textAlign='center' w='100%' mt={4} fontSize='sm'>
+            <Link href='#offerTable'>Show more options</Link>
+          </Text>
+        </>
+      )}
     </FormControl>
   );
 }

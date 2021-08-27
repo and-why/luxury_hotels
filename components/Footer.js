@@ -77,7 +77,8 @@ export default function Footer() {
           <Flex w='100%' align='center' justify='center'>
             <Text color='white' p={0} m={0} fontSize='10px' color='gray.400'>
               © SonderEscapes from <Link href='https://www.andysmith.is'>andysmith.is</Link> - ABN.
-              97 297 663 840
+              97 297 663 840 — illustrations by{' '}
+              <Link href='https://www.adsurd.design'>Absurd.Design</Link>
             </Text>
           </Flex>
         </Flex>

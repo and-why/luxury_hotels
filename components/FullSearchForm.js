@@ -19,19 +19,15 @@ import {
   PopoverHeader,
   PopoverBody,
 } from '@chakra-ui/react';
-import { ArrowBackIcon, StarIcon } from '@chakra-ui/icons';
-import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
-import { BsHouseFill } from 'react-icons/bs';
-import { getHotelById, getHotelByIdAll } from '@/utils/hotels';
-import Layout from '@/components/Layout';
-import NextLink from 'next/link';
-import NextImage from 'next/image';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { formatter } from '@/utils/functions';
+import { useRouter } from 'next/router';
+import { formatDate } from '@/utils/functions';
 
-export default function FullSearchForm({ addSearchData }) {
+export default function FullSearchForm({ closeModal }) {
   const cityNameInput = useRef();
+  // const [close, set]
+  const router = useRouter();
   const [isLoading, setLoading] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(
@@ -42,7 +38,6 @@ export default function FullSearchForm({ addSearchData }) {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    // setLoading(true);
 
     if (
       new Date(e.target.dateEnd.value).getTime() <= new Date(e.target.dateStart.value).getTime()
@@ -57,18 +52,20 @@ export default function FullSearchForm({ addSearchData }) {
     e.target.addressSearch.focus();
     const guests = e.target.adults.value;
     const rooms = e.target.rooms.value;
+    const checkInDate = formatDate(e.target.dateStart.value);
+    const checkOutDate = formatDate(e.target.dateEnd.value);
 
-    let startDate = new Date(e.target.dateStart.value);
-    const checkInDate = new Date(startDate.getTime() - startDate.getTimezoneOffset() * 60000)
-      .toISOString()
-      .split('T')[0];
-    let endDate = new Date(e.target.dateEnd.value);
-    const checkOutDate = new Date(endDate.getTime() - endDate.getTimezoneOffset() * 60000)
-      .toISOString()
-      .split('T')[0];
-
-    addSearchData([cityCode, checkInDate, checkOutDate, guests, rooms]);
-    // setLoading(false)
+    closeModal();
+    router.push({
+      pathname: `/search/`,
+      query: {
+        cityCode: cityCode,
+        checkInDate: checkInDate,
+        checkOutDate: checkOutDate,
+        guests: guests,
+        rooms: rooms,
+      },
+    });
   };
 
   useEffect(() => {
