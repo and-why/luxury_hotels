@@ -14,7 +14,7 @@ export default function SearchResults({ data }) {
       </Flex>
     );
   }
-  if ((data = 'Unknown Error'))
+  if (data === 'Unknown Error')
     return (
       <Flex>
         <p>No hotels are available for those dates or location. Please try another search</p>

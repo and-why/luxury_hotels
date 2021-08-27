@@ -35,7 +35,7 @@ export async function getServerSideProps(context) {
   const { cityCode, checkInDate, checkOutDate, guests, rooms } = context.query;
   const res = await getHotels({ cityCode, checkInDate, checkOutDate, guests, rooms });
   console.log(res);
-  if (res.data.length > 0) {
+  if (res.data) {
     return {
       props: { data: res.data },
     };
