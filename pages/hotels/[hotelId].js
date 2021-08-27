@@ -189,8 +189,8 @@ export default function HotelPage({ hotelId, data, checkInDate, checkOutDate, gu
             >
               <Button
                 colorScheme='blackAlpha'
-                height='100%'
-                width='100%'
+                // height='100%'
+                // width='100%'
                 onClick={onOpen}
                 position='absolute'
                 top='50%'
