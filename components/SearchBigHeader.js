@@ -37,8 +37,9 @@ export default function SearchBigHeader({ height }) {
           align='center'
           transition='all ease 0.5s'
           background='brand.200'
+          direction={['column', 'column,', 'row']}
         >
-          <Flex direction='column' p={4}>
+          <Flex direction='column' p={4} my={8}>
             <Heading
               color='black'
               zIndex='99'

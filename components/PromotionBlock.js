@@ -33,8 +33,9 @@ export default function PromotionBlock({ data, title }) {
           {title}
         </Heading>
         <Flex wrap='wrap'>
-          {data.map((city) => (
+          {data.map((city, index) => (
             <PromotionalTab
+              key={index}
               cityName={city.name}
               cityCode={city.code}
               knownFor={city.known}
