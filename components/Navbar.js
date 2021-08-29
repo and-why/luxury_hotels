@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import NextImage from 'next/image';
 import NextLink from 'next/link';
 import {
+  Box,
   Button,
   Flex,
   Link,
@@ -49,7 +50,7 @@ export default function Navbar({ search }) {
     <Container>
       <Grid
         width='100%'
-        templateColumns='repeat(3, minmax(250px, 1fr))'
+        templateColumns='repeat( auto-fit, minmax(130px, 1fr) )'
         justify='space-between'
         align='center'
       >
@@ -61,9 +62,9 @@ export default function Navbar({ search }) {
           </NextLink>
         </Flex>
 
-        {!homepage ? <SearchModal>Where are you going?</SearchModal> : <div />}
+        {!homepage ? <Box display={['none', 'none', 'block']}><SearchModal>Where are you going?</SearchModal></Box> : <div />}
 
-        <Flex align='center' justify='flex-end'>
+        <Flex align='center' justify='flex-end' >
           {user ? (
             <Button ref={menuBtn} onClick={onOpen} variant='outline' leftIcon={<HamburgerIcon />}>
               {user?.photoUrl ? (

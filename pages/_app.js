@@ -5,7 +5,7 @@ import { AuthProvider } from '@/utils/auth';
 import NProgress from 'nprogress';
 import Router from 'next/router';
 import '../styles/nprogress.css';
-
+import Head from 'next/head'
 function MyApp({ Component, pageProps }) {
   NProgress.configure({
     minimum: 0.3,
@@ -20,6 +20,7 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <ChakraProvider theme={theme}>
+
       <AuthProvider>
         <Component {...pageProps} />
       </AuthProvider>
