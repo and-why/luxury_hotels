@@ -58,6 +58,18 @@ export async function getHotelById(hotelId, checkInDate, checkOutDate, guests, r
   return await response;
 }
 
+export async function getHotelByOfferId(hotelOfferId) {
+  const amadeus = await getToken();
+  const response = await amadeus.shopping
+    .hotelOffer(hotelOfferId)
+    .get({
+      lang: 'en',
+    })
+    .catch((error) => error);
+
+  return await response;
+}
+
 export async function getAllHotels(cityCode) {
   const amadeus = await getToken();
 
@@ -76,14 +88,36 @@ export async function getAllHotels(cityCode) {
   return await response;
 }
 
-export async function getHotelByOfferId(hotelOfferId) {
-  const amadeus = await getToken();
-  const response = await amadeus.shopping
-    .hotelOffer(hotelOfferId)
-    .get({
-      hotelId: hotelId,
-    })
-    .catch((error) => error);
+export async function makeBooking(offerid, guestInfo, payment) {
+  const { title, firstName, lastName, phone, email } = guestInfo;
+  const { method, vendorCode, cardNumber, expiryDate } = payment;
 
-  return await response;
+  const response = await amadeus.booking.post({
+    offerId: offerId,
+    guests: [
+      {
+        name: {
+          title: title,
+          firstName: firstName,
+          lastName: lastName,
+        },
+        contact: {
+          phone: phone,
+          email: email,
+        },
+      },
+    ],
+    payments: [
+      {
+        method: method,
+        car: {
+          vendorCode: vendorCode,
+          cardNumber: cardNumber,
+          expiryDate: expiryDate,
+        },
+      },
+    ],
+  });
+
+  return response;
 }

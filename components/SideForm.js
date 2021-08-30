@@ -21,7 +21,7 @@ import {
 } from '@chakra-ui/react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { formatter, formatDate } from '@/utils/functions';
+import { formatter, formatDate, lengthOfStay } from '@/utils/functions';
 import Link from 'next/link';
 
 export default function SideForm({ addSearchData, data, dictionary, currency }) {
@@ -236,21 +236,7 @@ export default function SideForm({ addSearchData, data, dictionary, currency }) 
                     60 /
                     1000),
               )}{' '}
-              x{' '}
-              {(new Date(hotelData.offers[0].checkOutDate) -
-                new Date(hotelData.offers[0].checkInDate)) /
-                24 /
-                60 /
-                60 /
-                1000}{' '}
-              night
-              {(new Date(hotelData.offers[0].checkOutDate) -
-                new Date(hotelData.offers[0].checkInDate)) /
-                24 /
-                60 /
-                60 /
-                1000 >
-                1 && 's'}
+              x {lengthOfStay(hotelData.offers[0].checkOutDate, hotelData.offers[0].checkInDate)}
             </Text>
             <Text ml={2} fontSize='sm'>
               {hotelData &&

@@ -37,7 +37,7 @@ export default function Navbar({ search }) {
   const router = useRouter();
 
   // if homepage, don't show the search icon in navigation
-  const homepage = router.pathname === '/' ? true : false;
+  const homepage = router.pathname === '/' || router.pathname === '/make-booking' ? true : false;
   const { isOpen, onOpen, onClose } = useDisclosure();
   const menuBtn = useRef();
 
@@ -62,9 +62,15 @@ export default function Navbar({ search }) {
           </NextLink>
         </Flex>
 
-        {!homepage ? <Box display={['none', 'none', 'block']}><SearchModal>Where are you going?</SearchModal></Box> : <div />}
+        {!homepage ? (
+          <Box display={['none', 'none', 'block']}>
+            <SearchModal>Where are you going?</SearchModal>
+          </Box>
+        ) : (
+          <div />
+        )}
 
-        <Flex align='center' justify='flex-end' >
+        <Flex align='center' justify='flex-end'>
           {user ? (
             <Button ref={menuBtn} onClick={onOpen} variant='outline' leftIcon={<HamburgerIcon />}>
               {user?.photoUrl ? (

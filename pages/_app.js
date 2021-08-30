@@ -26,7 +26,7 @@ function MyApp({ Component, pageProps }) {
           href='https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Roboto+Slab:wght@300;600&display=swap'
           rel='stylesheet'
         />
-        <script src='https://cdn.jsdelivr.net/npm/airport-autocomplete-js@latest/dist/index.browser.min.js'></script>
+        <script src='https://cdn.jsdelivr.net/npm/airport-autocomplete-js@latest/dist/index.browser.min.js' />
       </Head>
       <AuthProvider>
         <Component {...pageProps} />
