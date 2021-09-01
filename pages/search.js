@@ -22,9 +22,7 @@ export default function SearchPage({ data }) {
 
   return (
     <Layout>
-      <div>
-        <SearchResults data={data} />
-      </div>
+      <SearchResults data={data} />
     </Layout>
   );
 }

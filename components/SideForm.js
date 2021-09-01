@@ -23,6 +23,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { formatter, formatDate, lengthOfStay } from '@/utils/functions';
 import Link from 'next/link';
+import PriceSummaryRow from './PriceSummaryRow';
 
 export default function SideForm({ addSearchData, data, dictionary, currency }) {
   const [hotelData, setHotelData] = useState(data?.data);
@@ -221,34 +222,12 @@ export default function SideForm({ addSearchData, data, dictionary, currency }) 
           </Text>
           <h2>Best Price</h2>
           <Flex justify='space-between'>
-            <Text fontSize='sm'>
-              {formatter.format(
-                (dictionary
-                  ? hotelData.offers[0].price.total *
-                    dictionary.currencyConversionLookupRates[
-                      Object.keys(dictionary.currencyConversionLookupRates)[0]
-                    ].rate
-                  : hotelData.offers[0].price.total || 0.0) /
-                  ((new Date(hotelData.offers[0].checkOutDate) -
-                    new Date(hotelData.offers[0].checkInDate)) /
-                    24 /
-                    60 /
-                    60 /
-                    1000),
-              )}{' '}
-              x {lengthOfStay(hotelData.offers[0].checkOutDate, hotelData.offers[0].checkInDate)}
-            </Text>
-            <Text ml={2} fontSize='sm'>
-              {hotelData &&
-                formatter.format(
-                  dictionary
-                    ? hotelData.offers[0].price.total *
-                        dictionary.currencyConversionLookupRates[
-                          Object.keys(dictionary.currencyConversionLookupRates)[0]
-                        ].rate
-                    : hotelData.offers[0].price.total || 0.0,
-                )}
-            </Text>
+            <PriceSummaryRow
+              dictionary={dictionary}
+              price={hotelData.offers[0].price.total}
+              checkIn={hotelData.offers[0].checkInDate}
+              checkOut={hotelData.offers[0].checkOutDate}
+            />
           </Flex>
           <Text color='teal.500' textAlign='center' w='100%' mt={4} fontSize='sm'>
             <Link href='#offerTable'>Show more options</Link>

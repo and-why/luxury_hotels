@@ -22,6 +22,27 @@ export default function OfferTableRow({ offer, dictionary }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
 
+  const rateCode = {
+    RAC: 'Rack',
+    BAR: 'Best Available Rate',
+    PRO: 'Promotional',
+    COR: 'Corporate',
+    GOV: 'Government (qualified)',
+    AAA: 'AAA (qualified)',
+    BNB: 'Bed and Breakfast',
+    PKG: 'Package',
+    TVL: 'Travel Industry',
+    SPC: 'Special Promo Rate',
+    WKD: 'Weekend',
+    CON: 'Convention',
+    SNR: 'Senior (Europe) (qualified)',
+    ARP: 'AARP - American Association of Retired People (50+) (qualified)',
+    SRS: 'Senior (qualified)',
+    ROR: 'Room Only Rate (no breakfast)',
+    FAM: 'Family',
+    DAY: 'Day rate',
+  };
+
   const handleBooking = async () => {
     router.push({
       pathname: '/make-booking',
@@ -122,16 +143,9 @@ export default function OfferTableRow({ offer, dictionary }) {
                     <strong>Payment Type:</strong> {offer.policies?.paymentType}
                   </Text>
                 )}
-                {offer.rateFamilyEstimated && (
-                  <Text>
-                    <strong>Family Rate Codes:</strong>{' '}
-                    {offer.rateFamilyEstimated?.code && offer.rateFamilyEstimated?.code} /{' '}
-                    {offer.rateFamilyEstimated?.type && offer.rateFamilyEstimated?.type}
-                  </Text>
-                )}
                 {offer.policies?.cancellation?.deadline && (
                   <Text>
-                    <strong>Cancellation dealine:</strong>{' '}
+                    <strong>Cancellation deadline:</strong>{' '}
                     {new Date(offer.policies?.cancellation?.deadline).toLocaleString()}
                   </Text>
                 )}

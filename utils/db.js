@@ -94,3 +94,16 @@ export function removeFromApproved(data) {
   // remove from a
   return;
 }
+
+// Favourites
+export function addBookingDetails(data) {
+  const { userId, hotelId, hotelData, bookingInfo } = data;
+
+  firestore.collection('users').doc(userId).update(
+    {
+      bookings: { hotelId, hotelData, bookingInfo },
+    },
+    { merge: true },
+  );
+  return;
+}

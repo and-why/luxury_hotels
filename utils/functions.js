@@ -11,7 +11,5 @@ export const formatDate = (date) => {
 };
 
 export const lengthOfStay = (checkIn, checkOut) => {
-  const days = (new Date(checkOut) - new Date(checkIn)) / 24 / 60 / 60 / 1000;
-
-  return `${days} night${days > 1 && 's'}`;
+  return (new Date(checkOut) - new Date(checkIn)) / 24 / 60 / 60 / 1000;
 };
