@@ -6,34 +6,27 @@ import Container from '@/components/Container';
 import { Flex, Heading, Box } from '@chakra-ui/react';
 import useSWR from 'swr';
 import { useEffect, useState } from 'react';
+import fetcher from '@/utils/fetcher';
 
 export default function FavouritesPage() {
   const { user } = useAuth();
-  const { data } = useSWR(`/api/favourites/${user?.uid}`);
+  const { data, error } = useSWR(user ? [`/api/favourites/`, user?.token] : null, fetcher);
 
-  const [favourites, setFavourites] = useState();
+  console.log(user);
 
-  const init = () => {
-    const allFavs = data.favourites;
-    const userFavs = user.hotelIds;
-
-    const newFavourites = allFavs?.reduce((filtered, fav) => {
-      for (let i = 0; i < userFavs?.length; i++) {
-        if (fav.id == userFavs[i]) {
-          filtered.push(fav);
-        }
-      }
-      return filtered;
-    }, []);
-
-    return newFavourites;
-  };
-
-  useEffect(() => {
-    if (user && data) {
-      setFavourites(init());
-    }
-  }, [user, data]);
+  if (!data) {
+    return (
+      <Layout>
+        <Container>
+          <Flex direction='column' w='100%'>
+            <Heading fontSize='2xl' mb={8}>
+              Loading Favourites
+            </Heading>
+          </Flex>
+        </Container>
+      </Layout>
+    );
+  }
 
   return (
     <Layout>
@@ -43,7 +36,8 @@ export default function FavouritesPage() {
             Favourites
           </Heading>
           <Flex direction='column' w={['100%', '100%', '50%']}>
-            {favourites?.map((favourite) => {
+            {data.favourites.length < 1 && <p>No favourites have been added yet.</p>}
+            {data.favourites.map((favourite) => {
               return <HotelListItem key={favourite.id} favourite={favourite} />;
             })}
           </Flex>

@@ -27,29 +27,55 @@ import 'react-datepicker/dist/react-datepicker.css';
 import HotelMap from '@/components/HotelMap';
 import Container from '@/components/Container';
 import { useAuth } from '@/utils/auth';
-import { updateFavourites, removeFromFavourites } from '@/utils/db';
+import {
+  updateFavourites,
+  removeFromFavourites,
+  createFavourite,
+  deleteFavourite,
+} from '@/utils/db';
+import useSWR, { mutate } from 'swr';
+import fetcher from '@/utils/fetcher';
 
-export default function HotelPage({ hotelId, data, checkInDate, checkOutDate, guests, rooms }) {
+export default function HotelPage({ hotelId, result, checkInDate, checkOutDate, guests, rooms }) {
   // console.log('returned to [hotelId].js data.result', data);
   const router = useRouter();
   const { user } = useAuth();
-  const [hotelData, setHotelData] = useState(data);
+  const [hotelData, setHotelData] = useState(result);
   const [isFavourite, setFavourite] = useState(false);
+  const [currentFavId, setCurrentFavId] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const { data, error } = useSWR(user ? ['/api/favourites', user.token] : null, fetcher);
+  console.log('faves', data);
 
   const handleFavourite = async () => {
     const userId = user?.uid;
 
     if (!isFavourite) {
       const favourite = { userId, ...hotelData.data.hotel };
-      updateFavourites(userId, favourite);
-      user.hotelIds.push(hotelData.data.hotel.hotelId);
-      return setFavourite(true);
+      // updateFavourites(userId, favourite);
+      const { id } = createFavourite(favourite);
+
+      mutate(
+        ['/api/favourites', user.token],
+        async (data) => ({ favourites: [...data.favourites, { id, ...favourite }] }),
+        false,
+      );
+      return;
     } else {
-      const favourite = { userId, ...hotelData.data.hotel };
-      removeFromFavourites(userId, favourite);
-      const index = user.hotelIds.indexOf(hotelData.data.hotel.hotelId);
-      user.hotelIds.splice(index, 1);
+      const currentFaveId = data?.favourites.filter((hotel) => hotel.hotelId === hotelId)[0].id;
+      console.log(currentFaveId);
+
+      deleteFavourite(currentFaveId);
+      mutate(
+        ['/api/favourites', user.token],
+        async (data) => {
+          return {
+            favourites: data.favourites.filter((fav) => fav.id !== currentFaveId),
+          };
+        },
+        false,
+      );
       return setFavourite(false);
     }
   };
@@ -69,12 +95,17 @@ export default function HotelPage({ hotelId, data, checkInDate, checkOutDate, gu
   };
 
   useEffect(() => {
-    if (user && data.data) {
-      setFavourite(user.hotelIds?.includes(hotelData?.data.hotel.hotelId));
-      setHotelData(data);
+    if (user && result.data) {
+      setHotelData(result);
     }
-  }, [user, addSearchData]);
+    if (data) {
+      setFavourite(data.favourites.some((favourite) => favourite.hotelId === hotelId));
+    }
+  }, [user, addSearchData, result]);
 
+  if (error) {
+    return <p>{error.message}</p>;
+  }
   if (hotelData.errors) {
     return (
       <Layout>
@@ -96,7 +127,7 @@ export default function HotelPage({ hotelId, data, checkInDate, checkOutDate, gu
               <SideForm
                 addSearchData={addSearchData}
                 hotelId={hotelId}
-                dictionary={data.dictionaries ? data.dictionaries : null}
+                dictionary={result.dictionaries ? result.dictionaries : null}
               />
             </Flex>
           </Flex>
@@ -212,23 +243,27 @@ export default function HotelPage({ hotelId, data, checkInDate, checkOutDate, gu
                   </Flex>
                 </DrawerHeader>
                 <DrawerBody w='100%'>
-                  <Flex flexWrap={('nowrap', 'nowrap', 'wrap')}>
-                    {hotelData.data.hotel.media.map((image) => {
-                      const randomInt = Math.floor(Math.random() * 7);
-                      return (
-                        <Box w={('100%', '100%', '50%')} p={1}>
-                          <NextImage
-                            src={image.uri}
-                            width='600px'
-                            height='400px'
-                            objectFit='cover'
-                            placeholder='blur'
-                            blurDataURL={`/images/placeholder/hotel-${randomInt}.jpg`}
-                          />
-                        </Box>
-                      );
-                    })}
-                  </Flex>
+                  {hotelData.data.hotel.media ? (
+                    <Flex flexWrap={('nowrap', 'nowrap', 'wrap')}>
+                      {hotelData.data.hotel.media.map((image) => {
+                        const randomInt = Math.floor(Math.random() * 7);
+                        return (
+                          <Box w={('100%', '100%', '50%')} p={1}>
+                            <NextImage
+                              src={image.uri}
+                              width='600px'
+                              height='400px'
+                              objectFit='cover'
+                              placeholder='blur'
+                              blurDataURL={`/images/placeholder/hotel-${randomInt}.jpg`}
+                            />
+                          </Box>
+                        );
+                      })}
+                    </Flex>
+                  ) : (
+                    <p>Unfortunately, there are no images for this property</p>
+                  )}
                 </DrawerBody>
               </DrawerContent>
             </Drawer>
@@ -256,7 +291,7 @@ export default function HotelPage({ hotelId, data, checkInDate, checkOutDate, gu
               <SideForm
                 addSearchData={addSearchData}
                 data={hotelData}
-                dictionary={data.dictionaries ? data.dictionaries : null}
+                dictionary={result.dictionaries ? result.dictionaries : null}
               />
             </Flex>
           </Flex>
@@ -323,7 +358,7 @@ export default function HotelPage({ hotelId, data, checkInDate, checkOutDate, gu
             <Box overflowX='scroll' w='100%'>
               <OfferTable
                 offers={hotelData.data.offers}
-                dictionary={data.dictionaries ? data.dictionaries : null}
+                dictionary={result.dictionaries ? result.dictionaries : null}
               />
             </Box>
           </Flex>
@@ -343,7 +378,7 @@ export async function getServerSideProps(context) {
   return {
     props: {
       hotelId: hotelId,
-      data: data.result,
+      result: data.result,
       checkInDate: checkInDate,
       checkOutDate: checkOutDate,
       guests: guests,

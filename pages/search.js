@@ -1,4 +1,3 @@
-import Container from '@/components/Container';
 import Layout from '@/components/Layout';
 import PromotionalTab from '@/components/PromotionalTab';
 import PromotionCardFull from '@/components/PromotionCardFull';
@@ -8,8 +7,6 @@ import { getHotels } from '@/utils/hotels';
 import { Flex } from '@chakra-ui/layout';
 
 export default function SearchPage({ data }) {
-  // console.log('SearchPageData:', data);
-
   if (data.errors) {
     return (
       <Layout>

@@ -26,16 +26,15 @@ function useProvideAuth() {
       const { token, ...userWithoutToken } = user;
 
       createUser(user.uid, userWithoutToken);
-      const newUser = await getUserData(user.uid);
 
-      setUser(newUser);
-      cookie.set('bare-comments-auth', true, { expires: 1 });
+      setUser(user);
+      cookie.set('sonder-auth', true, { expires: 1 });
 
       setLoading(false);
       return user;
     } else {
       setUser(false);
-      cookie.remove('bare-comments-auth');
+      cookie.remove('sonder-auth');
       setLoading(false);
       return false;
     }
@@ -95,10 +94,13 @@ function useProvideAuth() {
 }
 
 const formatUser = async (user) => {
+  // console.log('formatUser/user', user);
+  // console.log('formatUser/token', token);
+  const token = await user.getIdToken();
   return {
     uid: user.uid,
     email: user.email,
-    token: user.za,
+    token: token,
     name: user.displayName,
     provider: user.providerData[0].providerId,
     photoUrl: user.photoURL,

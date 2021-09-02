@@ -46,12 +46,12 @@ export default function MakeBookingPage({ result }) {
 
   console.log(result);
   const { inputs, handleChange, clearForm, resetForm } = useForm({
-    title: user?.gender === 'male' ? 'MR' : '',
-    firstName: user?.name.split(' ')[0] || '',
-    lastName: user?.name.split(' ')[1] || '',
+    title: user && user?.gender === 'male' ? 'MR' : '',
+    firstName: user ? user?.name.split(' ')[0] : '',
+    lastName: user ? user?.name.split(' ')[1] : '',
     ext: '+61',
     phone: '411111111',
-    email: user?.email || '',
+    email: user ? user?.email : '',
     method: 'creditCard',
     vendorCode: 'VI',
     cardNumber: '4111111111111111',
@@ -76,12 +76,14 @@ export default function MakeBookingPage({ result }) {
     };
     const res = await makeBooking(offer.id, guestInfo, payment);
 
-    const data = {
-      userId: user.id,
-      hotelId: hotel.hotelId,
-      hotelData: result.data,
-      bookingInfo: res.data,
-    };
+    if (user) {
+      const data = {
+        userId: user.id,
+        hotelId: hotel.hotelId,
+        hotelData: result.data,
+        bookingInfo: res.data,
+      };
+    }
     addBookingDetails(data);
 
     if (res.result.data) {

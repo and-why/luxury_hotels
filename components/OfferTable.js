@@ -5,7 +5,7 @@ import { Table, Tr, Th, Td } from './Table';
 import OfferTableRow from './OfferTableRow';
 
 export default function OfferTable({ offers, dictionary }) {
-  console.log('offer table:', offers);
+  // console.log('offer table:', offers);
   return (
     <Table w='100%' id='offerTable'>
       <thead>
@@ -17,9 +17,11 @@ export default function OfferTable({ offers, dictionary }) {
           >
             Room
           </Th>
-          <Th w='20%'>Board</Th>
+          <Th w='20%' display={['none', 'none', 'table-cell']}>
+            Board
+          </Th>
           <Th w='20%'>More info</Th>
-          <Th textAlign='right' pr={4} w='20%'>
+          <Th textAlign='center' pr={4} w='20%'>
             Booking Link
           </Th>
         </Tr>

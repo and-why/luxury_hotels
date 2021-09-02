@@ -5,34 +5,42 @@ import { Flex, Heading, Box, Button, Icon, Text, Link } from '@chakra-ui/react';
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import { StarIcon } from '@chakra-ui/icons';
 import { useAuth } from '@/utils/auth';
-import { updateFavourites, removeFromFavourites } from '@/utils/db';
+import {
+  updateFavourites,
+  removeFromFavourites,
+  deleteFavourite,
+  createFavourite,
+} from '@/utils/db';
 import { mutate } from 'swr';
 
 export default function HotelListItem({ favourite }) {
+  console.log('favourite', favourite);
+  const [isFavourite, setFavourite] = useState(true);
   const randomInt = Math.floor(Math.random() * 7);
-  const [isFavourite, setFavourite] = useState(false);
+
   const { user } = useAuth();
 
   const handleFavourite = async () => {
     const userId = user?.uid;
-    const newFavourite = { userId, ...favourite.hotelData };
-
     if (!isFavourite) {
-      updateFavourites(userId, newFavourite);
-      user.hotelIds.push(favourite.hotelId);
+      const favourite = { userId, ...favourite };
+      // updateFavourites(userId, favourite);
+      const { id } = createFavourite(favourite);
       return setFavourite(true);
     } else {
-      removeFromFavourites(userId, newFavourite);
-      const index = user.hotelIds.indexOf(favourite.hotelData.hotelId);
-      user.hotelIds.splice(index, 1);
+      deleteFavourite(favourite.id);
+      mutate(
+        ['/api/favourites', user.token],
+        async (data) => {
+          return {
+            favourites: data?.favourites.filter((fav) => fav.id !== favourite.id),
+          };
+        },
+        false,
+      );
       return setFavourite(false);
     }
   };
-  useEffect(() => {
-    if (user) {
-      setFavourite(user.hotelIds.includes(favourite.id));
-    }
-  }, [user]);
 
   if (!user) {
     return (
@@ -49,7 +57,7 @@ export default function HotelListItem({ favourite }) {
     <Box position='relative'>
       <NextLink
         href={{
-          pathname: `/hotels/${favourite.id}`,
+          pathname: `/hotels/${favourite.hotelId}`,
           query: {
             checkInDate: new Date(startDate.getTime() - startDate.getTimezoneOffset() * 60000)
               .toISOString()
@@ -69,8 +77,8 @@ export default function HotelListItem({ favourite }) {
                 src={
                   process.env.NODE_ENV === 'development'
                     ? `/images/placeholder/hotel-${randomInt}.jpg`
-                    : favourite.hotelData.media
-                    ? favourite.hotelData.media[0].uri
+                    : favourite.media
+                    ? favourite.media[0].uri
                     : `/images/placeholder/hotel-${randomInt}.jpg`
                 }
                 height='200px'
@@ -84,18 +92,17 @@ export default function HotelListItem({ favourite }) {
             <Flex w='100%' py={2} px={4} direction='column' justify='space-between'>
               <Box>
                 <Text textTransform='capitalize' fontSize='sm' mb={1}>
-                  {favourite.hotelData.address.cityName.toLowerCase()}{' '}
-                  {favourite.hotelData.type && favourite.hotelData.type.toLowerCase()} -{' '}
-                  {favourite.hotelData.address.countryCode}
+                  {favourite.address.cityName.toLowerCase()}{' '}
+                  {favourite.type && favourite.type.toLowerCase()} - {favourite.address.countryCode}
                 </Text>
                 <Flex w='100%' justify='space-between' align='flex-start'>
                   <Heading key={favourite.id} fontSize='lg' textTransform='capitalize'>
-                    {favourite.hotelData.name.toLowerCase()}
+                    {favourite.name.toLowerCase()}
                   </Heading>
                 </Flex>
               </Box>
               <Flex align='center' py={2}>
-                {favourite.hotelData.rating} <StarIcon ml={1} color='brand.100' />
+                {favourite.rating} <StarIcon ml={1} color='brand.100' />
               </Flex>
             </Flex>
           </Flex>

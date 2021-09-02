@@ -71,11 +71,11 @@ export default function OfferTableRow({ offer, dictionary }) {
           <Td display={['none', 'none', offer.roomQuantity > 1 ? 'table-cell' : 'none']}>
             {offer.roomQuantity || '1'}
           </Td>
-          <Td>
+          <Td display={['none', 'table-cell', 'table-cell']}>
             {offer.boardType ? offer.boardType.toLowerCase().replaceAll('_', ' ') : 'Room Only'}
           </Td>
           <Td>
-            <Button onClick={onOpen}>More Info</Button>
+            <Button onClick={onOpen}>Info</Button>
           </Td>
           <Td textAlign='right'>
             <Button
@@ -84,10 +84,11 @@ export default function OfferTableRow({ offer, dictionary }) {
               bg='brand.100'
               m='0'
               px={8}
+              py={2}
+              display='block'
               _hover={{ backgroundColor: 'brand.150' }}
             >
-              <Text fontWeight='600'>
-                Book Now for{' '}
+              <Text>
                 {formatter.format(
                   dictionary
                     ? offer.price.total *

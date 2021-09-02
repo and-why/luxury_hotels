@@ -37,38 +37,60 @@ export function updateUser(id, data) {
   return firestore.collection('users').doc(id).update(data);
 }
 
-export function updateFavourites(userId, data) {
-  const hotelId = data.hotelId;
-  firestore
-    .collection('favourites')
-    .doc(hotelId)
-    .set({ hotelData: data }, { merge: true })
-    .then(() => {
-      console.log('Document successfully written!');
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-
-  firestore
-    .collection('users')
-    .doc(userId)
-    .update({
-      hotelIds: firebase.firestore.FieldValue.arrayUnion(hotelId),
-    });
-  return;
+export function createFavourite(data) {
+  const favourite = firestore.collection('favourites').doc();
+  favourite.set(data);
+  return favourite;
 }
 
-export function removeFromFavourites(userId, data) {
-  const hotelId = data.hotelId;
-  firestore
-    .collection('users')
-    .doc(userId)
-    .update({
-      hotelIds: firebase.firestore.FieldValue.arrayRemove(hotelId),
-    });
-  return;
+export async function updateSite(id, data) {
+  return firestore.collection('favourites').doc(id).update(data);
 }
+export async function deleteFavourite(id) {
+  firestore.collection('favourites').doc(id).delete();
+
+  const snapshot = await firestore.collection('feedback').where('siteId', '==', id).get();
+
+  const batch = firestore.batch();
+
+  snapshot.forEach((doc) => {
+    batch.delete(doc.ref);
+  });
+
+  return batch.commit();
+}
+
+// export function updateFavourites(userId, data) {
+//   const hotelId = data.hotelId;
+//   firestore
+//     .collection('favourites')
+//     .doc(hotelId)
+//     .set({ hotelData: data }, { merge: true })
+//     .then(() => {
+//       console.log('Document successfully written!');
+//     })
+//     .catch((error) => {
+//       console.log(error);
+//     });
+
+//   firestore
+//     .collection('users')
+//     .doc(userId)
+//     .update({
+//       hotelIds: firebase.firestore.FieldValue.arrayUnion(hotelId),
+//     });
+//   return;
+// }
+// export function removeFromFavourites(userId, data) {
+//   const hotelId = data.hotelId;
+//   firestore
+//     .collection('users')
+//     .doc(userId)
+//     .update({
+//       hotelIds: firebase.firestore.FieldValue.arrayRemove(hotelId),
+//     });
+//   return;
+// }
 
 export function getFavourites(userId) {
   const ref = firestore.collection('favourites').where;
@@ -97,13 +119,29 @@ export function removeFromApproved(data) {
 
 // Favourites
 export function addBookingDetails(data) {
-  const { userId, hotelId, hotelData, bookingInfo } = data;
+  // const { userId, hotelId, hotelData, bookingInfo } = data;
 
-  firestore.collection('users').doc(userId).update(
-    {
-      bookings: { hotelId, hotelData, bookingInfo },
-    },
-    { merge: true },
-  );
+  firestore
+    .collection('bookings')
+    .doc(uid)
+    .set({ uid, ...data }, { merge: true });
+
   return;
+}
+export function getBookingDetails(userId) {
+  const data = firestore
+    .collection('bookings')
+    .doc()
+    .get()
+    .where()
+    .then((doc) => {
+      if (doc.exists) {
+        return doc.data();
+      }
+    })
+    .catch((error) => {
+      return error;
+    });
+
+  return data;
 }
