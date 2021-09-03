@@ -49,7 +49,7 @@ export default function PoliciesBox({ result, cards }) {
             : offer.policies.cancellation.description.text}
         </Text>
       </Box>
-      {offer.policies[offer.policies.paymentType].acceptedPayments.methods && (
+      {offer?.policies[offer.policies.paymentType]?.acceptedPayments?.methods && (
         <Box mb={4}>
           <Heading as='h4' fontWeight='400' fontSize='sm' fontFamily='Inter, sans-serif'>
             Accepted Payments:
@@ -61,7 +61,7 @@ export default function PoliciesBox({ result, cards }) {
           ))}
         </Box>
       )}
-      {offer.policies[offer.policies.paymentType].acceptedPayments.creditCards && (
+      {offer?.policies[offer.policies.paymentType]?.acceptedPayments?.creditCards && (
         <Box mb={4}>
           <Heading as='h4' fontWeight='400' fontSize='sm' fontFamily='Inter, sans-serif'>
             Accepted Cards:
