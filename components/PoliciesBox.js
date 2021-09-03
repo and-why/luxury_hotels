@@ -47,19 +47,19 @@ export default function PoliciesBox({ result, cards }) {
             : offer.policies.cancellation.description.text}
         </Text>
       </Box>
-      {offer.policies.guarantee.acceptedPayments.methods && (
+      {offer.policies[offer.policies.paymentType].acceptedPayments.methods && (
         <Box mb={4}>
           <Heading as='h4' fontWeight='400' fontSize='sm' fontFamily='Inter, sans-serif'>
             Accepted Payments:
           </Heading>
-          {offer.policies.guarantee.acceptedPayments.methods.map((method) => (
+          {offer.policies[offer.policies.paymentType].acceptedPayments.methods.map((method) => (
             <Text fontSize='sm' fontWeight='700' textTransform='capitalize'>
               {method.toLowerCase().replace('_', ' ')}
             </Text>
           ))}
         </Box>
       )}
-      {offer.policies.guarantee.acceptedPayments.creditCards && (
+      {offer.policies[offer.policies.paymentType].acceptedPayments.creditCards && (
         <Box mb={4}>
           <Heading as='h4' fontWeight='400' fontSize='sm' fontFamily='Inter, sans-serif'>
             Accepted Cards:

@@ -32,22 +32,22 @@ import { months } from '@/lib/months';
 import { addBookingDetails } from '@/utils/db';
 
 export default function MakeBookingPage({ result }) {
+  console.log(result);
   const [loading, setLoading] = useState();
-  // const [displayForm, ]
+
   const { user } = useAuth();
 
   const hotel = result.data.hotel;
   const offer = result.data.offers[0];
   const router = useRouter();
 
-  console.log(offer.policies.paymentType);
+  console.log(offer.policies[offer.policies.paymentType].acceptedPayments.creditCards);
   let cards = vendorCodes.filter((o1) =>
-    offer?.policies[offer.policies.paymentType]?.acceptedPayments?.creditCards?.some(
+    offer.policies[offer.policies.paymentType].acceptedPayments.creditCards.some(
       (o2) => o1.code === o2,
     ),
   );
 
-  console.log(result);
   const { inputs, handleChange, clearForm, resetForm } = useForm({
     title: user && user?.gender === 'male' ? 'MR' : '',
     firstName: user ? user?.name.split(' ')[0] : '',
