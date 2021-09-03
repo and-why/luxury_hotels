@@ -23,6 +23,8 @@ export default function PoliciesBox({ result, cards }) {
             </Heading>
             <Text fontSize='sm' fontWeight='700' textTransform='capitalize'>
               {offer.policies.paymentType.toLowerCase()}
+              {offer.policies[offer.policies.paymentType].description &&
+                `- ${offer.policies[offer.policies.paymentType].description}`}
             </Text>
             <Text fontSize='12px' fontStyle='italic'>
               (
