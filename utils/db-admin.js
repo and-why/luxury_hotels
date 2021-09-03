@@ -21,24 +21,14 @@ export async function getAllFavourites(userId, route) {
     return { error };
   }
 }
-export async function getAllApproved(route) {
-  try {
-    let ref = db.collection('approved');
+export async function getUserFavourites(userId) {
+  const snapshot = await db.collection('favourites').where('userId', '==', userId).get();
 
-    if (route) {
-      ref = ref.where('route', '==', route);
-    }
+  const favourites = [];
 
-    const snapshot = await ref.get();
+  snapshot.forEach((doc, index) => {
+    favourites.push({ id: doc.id, ...doc.data() });
+  });
 
-    const approved = [];
-
-    snapshot.forEach((doc) => {
-      approved.push({ id: doc.id, ...doc.data() });
-    });
-
-    return { approved };
-  } catch (error) {
-    return { error };
-  }
+  return { favourites };
 }

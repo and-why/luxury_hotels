@@ -9,3 +9,7 @@ export const formatDate = (date) => {
     .toISOString()
     .split('T')[0];
 };
+
+export const lengthOfStay = (checkIn, checkOut) => {
+  return (new Date(checkOut) - new Date(checkIn)) / 24 / 60 / 60 / 1000;
+};

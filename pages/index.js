@@ -27,7 +27,7 @@ export default function Home(props) {
     },
   ];
   return (
-    <Layout search={false}>
+    <Layout>
       <div>
         <SearchBigHeader />
         <PromotionBlock title={'Popular Destinations'} data={data} />

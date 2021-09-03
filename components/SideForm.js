@@ -21,8 +21,9 @@ import {
 } from '@chakra-ui/react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { formatter, formatDate } from '@/utils/functions';
+import { formatter, formatDate, lengthOfStay } from '@/utils/functions';
 import Link from 'next/link';
+import PriceSummaryRow from './PriceSummaryRow';
 
 export default function SideForm({ addSearchData, data, dictionary, currency }) {
   const [hotelData, setHotelData] = useState(data?.data);
@@ -67,9 +68,8 @@ export default function SideForm({ addSearchData, data, dictionary, currency }) 
             formatter.format(
               dictionary
                 ? hotelData.offers[0].price.total *
-                    dictionary.currencyConversionLookupRates[
-                      Object.keys(dictionary.currencyConversionLookupRates)[0]
-                    ].rate
+                    dictionary.currencyConversionLookupRates[hotelData.offers[0].price.currency]
+                      .rate
                 : hotelData.offers[0].price.total || 0.0,
             )}
         </Text>
@@ -221,48 +221,7 @@ export default function SideForm({ addSearchData, data, dictionary, currency }) 
           </Text>
           <h2>Best Price</h2>
           <Flex justify='space-between'>
-            <Text fontSize='sm'>
-              {formatter.format(
-                (dictionary
-                  ? hotelData.offers[0].price.total *
-                    dictionary.currencyConversionLookupRates[
-                      Object.keys(dictionary.currencyConversionLookupRates)[0]
-                    ].rate
-                  : hotelData.offers[0].price.total || 0.0) /
-                  ((new Date(hotelData.offers[0].checkOutDate) -
-                    new Date(hotelData.offers[0].checkInDate)) /
-                    24 /
-                    60 /
-                    60 /
-                    1000),
-              )}{' '}
-              x{' '}
-              {(new Date(hotelData.offers[0].checkOutDate) -
-                new Date(hotelData.offers[0].checkInDate)) /
-                24 /
-                60 /
-                60 /
-                1000}{' '}
-              night
-              {(new Date(hotelData.offers[0].checkOutDate) -
-                new Date(hotelData.offers[0].checkInDate)) /
-                24 /
-                60 /
-                60 /
-                1000 >
-                1 && 's'}
-            </Text>
-            <Text ml={2} fontSize='sm'>
-              {hotelData &&
-                formatter.format(
-                  dictionary
-                    ? hotelData.offers[0].price.total *
-                        dictionary.currencyConversionLookupRates[
-                          Object.keys(dictionary.currencyConversionLookupRates)[0]
-                        ].rate
-                    : hotelData.offers[0].price.total || 0.0,
-                )}
-            </Text>
+            <PriceSummaryRow offer={hotelData.offers[0]} dictionary={dictionary} />
           </Flex>
           <Text color='teal.500' textAlign='center' w='100%' mt={4} fontSize='sm'>
             <Link href='#offerTable'>Show more options</Link>

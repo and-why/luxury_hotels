@@ -23,13 +23,20 @@ export default function SearchResults({ data }) {
           transition='all ease 0.5s'
           env
         >
-          <Box padding={2} w={['50%', '50%', '33.3%', '25%']}>
+          <Flex
+            direction='column'
+            w={['50%', '50%', '33.3%', '25%']}
+            p={2}
+            transition='all 0.3s ease'
+            bg='white'
+            borderRadius='10px'
+          >
             <NextImage
               src={`/images/search/${Math.floor(Math.random() * 15)}.png`}
-              height={250}
-              width={250}
+              height='400px'
+              width='400px'
             />
-          </Box>
+          </Flex>
           {data ? (
             data.data.map((hotel, index) => {
               return <DisplayTile key={index} data={hotel} dictionary={data.dictionaries} />;
@@ -39,13 +46,20 @@ export default function SearchResults({ data }) {
               No results for those dates or location.
             </Heading>
           )}
-          <Box padding={2} w={['50%', '50%', '33.3%', '25%']}>
+          <Flex
+            direction='column'
+            w={['50%', '50%', '33.3%', '25%']}
+            p={2}
+            transition='all 0.3s ease'
+            bg='white'
+            borderRadius='10px'
+          >
             <NextImage
               src={`/images/search/${Math.floor(Math.random() * 15)}.png`}
-              height={250}
-              width={250}
+              height='400px'
+              width='400px'
             />
-          </Box>
+          </Flex>
         </Flex>
       </Flex>
     </Container>

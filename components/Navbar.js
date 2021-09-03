@@ -36,8 +36,13 @@ export default function Navbar({ search }) {
   const { user, signinWithGoogle, signout, loading } = useAuth();
   const router = useRouter();
 
+  const noSearchBarPages = ['/', '/make-booking'];
+
   // if homepage, don't show the search icon in navigation
-  const homepage = router.pathname === '/' ? true : false;
+  // const showSearchBar =
+  //   router.pathname === '/' || router.pathname === '/make-booking' ? true : false;
+  const showSearchBar = noSearchBarPages.includes(router.pathname);
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const menuBtn = useRef();
 
@@ -50,7 +55,7 @@ export default function Navbar({ search }) {
     <Container>
       <Grid
         width='100%'
-        templateColumns='repeat( auto-fit, minmax(130px, 1fr) )'
+        templateColumns='repeat( auto-fit, minmax(100px, 1fr) )'
         justify='space-between'
         align='center'
       >
@@ -62,9 +67,15 @@ export default function Navbar({ search }) {
           </NextLink>
         </Flex>
 
-        {!homepage ? <Box display={['none', 'none', 'block']}><SearchModal>Where are you going?</SearchModal></Box> : <div />}
+        {!showSearchBar ? (
+          <Box display={['none', 'none', 'block']}>
+            <SearchModal>Where are you going?</SearchModal>
+          </Box>
+        ) : (
+          <div />
+        )}
 
-        <Flex align='center' justify='flex-end' >
+        <Flex align='center' justify='flex-end'>
           {user ? (
             <Button ref={menuBtn} onClick={onOpen} variant='outline' leftIcon={<HamburgerIcon />}>
               {user?.photoUrl ? (
