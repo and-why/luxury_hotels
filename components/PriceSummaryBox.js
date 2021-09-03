@@ -30,8 +30,8 @@ export default function PriceSummaryBox({ result }) {
         />
       </Box>
       <Flex justify='space-between'>
-        <Text fontSize='sm'>Tax 10%</Text>
-        <Text fontSize='sm'>{formatter.format(offer.price.total * 0.1)}</Text>
+        <Text fontSize='sm'>Tax 0%</Text>
+        <Text fontSize='sm'>{formatter.format(0)}</Text>
       </Flex>
       <Divider my={4} />
       <Flex justify='space-between'>
@@ -39,7 +39,7 @@ export default function PriceSummaryBox({ result }) {
           Total
         </Text>
         <Text fontSize='md' fontWeight='700'>
-          {formatter.format(offer.price.total * 1.1)}
+          {formatter.format(offer.price.total)}
         </Text>
       </Flex>
     </Flex>
