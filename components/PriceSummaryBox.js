@@ -9,6 +9,7 @@ import { Grid, Flex, Heading, Text, Box, Divider, Button } from '@chakra-ui/reac
 export default function PriceSummaryBox({ result }) {
   const offer = result.data.offers[0];
   const dictionary = result.dictionaries;
+  console.log(offer);
   return (
     <Flex
       p={4}
@@ -22,12 +23,7 @@ export default function PriceSummaryBox({ result }) {
         Your price summary
       </Heading>
       <Box mb={2}>
-        <PriceSummaryRow
-          price={offer.price.total}
-          checkIn={offer.checkInDate}
-          checkOut={offer.checkOutDate}
-          dictionay={dictionary}
-        />
+        <PriceSummaryRow offer={offer} dictionary={dictionary} />
       </Box>
       <Flex justify='space-between'>
         <Text fontSize='sm'>Tax 0%</Text>
@@ -39,7 +35,12 @@ export default function PriceSummaryBox({ result }) {
           Total
         </Text>
         <Text fontSize='md' fontWeight='700'>
-          {formatter.format(offer.price.total)}
+          {formatter.format(
+            dictionary
+              ? offer.price.total *
+                  dictionary.currencyConversionLookupRates[offer.price.currency].rate
+              : offer.price.total || 0.0,
+          )}
         </Text>
       </Flex>
     </Flex>

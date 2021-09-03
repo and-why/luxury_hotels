@@ -24,16 +24,16 @@ export default function PoliciesBox({ result, cards }) {
             <Text fontSize='sm' fontWeight='700' textTransform='capitalize'>
               {offer.policies.paymentType.toLowerCase()}
               {offer.policies[offer.policies.paymentType].description.text &&
-                `- ${offer.policies[offer.policies.paymentType].description.text}`}
+                ` - ${offer.policies[offer.policies.paymentType].description.text}`}
             </Text>
             <Text fontSize='12px' fontStyle='italic'>
               (
               {offer.policies.paymentType === 'guarantee' &&
-                'The hotel will save credit card information during booking but not make any charges. In the case of a no-show or out-of-policy cancellation, the hotel may charge a penalty to the cardholder'}
+                'nb. The hotel will save credit card information during booking but not make any charges. In the case of a no-show or out-of-policy cancellation, the hotel may charge a penalty to the cardholder'}
               {offer.policies.paymentType === 'deposit' &&
-                'The hotel will charge a portion of the reservation amount upon booking or on a given deadline. The traveler will have to pay the remaining balance at the hotel'}
+                'nb. The hotel will charge a portion (0-100%) of the reservation amount upon booking or on a given deadline. The traveler will have to pay the remaining balance at the hotel'}
               {offer.policies.paymentType === 'prepay' &&
-                'The hotel will charge the full reservation amount upon booking'}
+                'nb. The hotel will charge the full reservation amount upon booking'}
               )
             </Text>
           </>

@@ -92,9 +92,7 @@ export default function OfferTableRow({ offer, dictionary }) {
                 {formatter.format(
                   dictionary
                     ? offer.price.total *
-                        dictionary.currencyConversionLookupRates[
-                          Object.keys(dictionary.currencyConversionLookupRates)[0]
-                        ].rate
+                        dictionary.currencyConversionLookupRates[offer.price.currency].rate
                     : offer.price.total,
                 )}
               </Text>

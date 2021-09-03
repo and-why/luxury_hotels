@@ -68,9 +68,8 @@ export default function SideForm({ addSearchData, data, dictionary, currency }) 
             formatter.format(
               dictionary
                 ? hotelData.offers[0].price.total *
-                    dictionary.currencyConversionLookupRates[
-                      Object.keys(dictionary.currencyConversionLookupRates)[0]
-                    ].rate
+                    dictionary.currencyConversionLookupRates[hotelData.offers[0].price.currency]
+                      .rate
                 : hotelData.offers[0].price.total || 0.0,
             )}
         </Text>
@@ -222,12 +221,7 @@ export default function SideForm({ addSearchData, data, dictionary, currency }) 
           </Text>
           <h2>Best Price</h2>
           <Flex justify='space-between'>
-            <PriceSummaryRow
-              dictionary={dictionary}
-              price={hotelData.offers[0].price.total}
-              checkIn={hotelData.offers[0].checkInDate}
-              checkOut={hotelData.offers[0].checkOutDate}
-            />
+            <PriceSummaryRow offer={hotelData.offers[0]} dictionary={dictionary} />
           </Flex>
           <Text color='teal.500' textAlign='center' w='100%' mt={4} fontSize='sm'>
             <Link href='#offerTable'>Show more options</Link>
