@@ -134,7 +134,7 @@ export default function MakeBookingPage({ result }) {
                     textTransform='uppercase'
                     fontWeight='600'
                   >
-                    First Name *
+                    Title *
                   </FormLabel>
                   <Input
                     bg='white'
@@ -164,7 +164,7 @@ export default function MakeBookingPage({ result }) {
                     type='text'
                     onChange={handleChange}
                     value={inputs?.firstName}
-                    placeholder='First name'
+                    placeholder='Last name'
                   />
                 </FormControl>
                 <FormControl mb={4}>
