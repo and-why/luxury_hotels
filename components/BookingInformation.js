@@ -30,21 +30,27 @@ export default function BookingInformation({ result }) {
         </Text>
       </Box>
       <Flex justify='space-between' mb={4}>
-        <Box w='100%'>
+        <Box>
           <Heading as='h4' fontWeight='400' fontSize='sm' fontFamily='Inter, sans-serif'>
             Check-in
           </Heading>
           <Text fontWeight='700' fontSize='sm'>
             {new Date(offer.checkInDate).toLocaleDateString()}
           </Text>
+          <Text fontWeight='400' fontSize='12px'>
+            After: {offer.policies.checkInOut.checkIn.slice(0, -3)}
+          </Text>
         </Box>
-        <Divider orientation='vertical' height='20px' px={4} />
-        <Box w='100%'>
+
+        <Box>
           <Heading as='h4' fontWeight='400' fontSize='sm' fontFamily='Inter, sans-serif'>
             Check-out
           </Heading>
           <Text fontWeight='700' fontSize='sm'>
             {new Date(offer.checkOutDate).toLocaleDateString()}
+          </Text>
+          <Text fontWeight='400' fontSize='12px'>
+            Before: {offer.policies.checkInOut.checkOut.slice(0, -3)}
           </Text>
         </Box>
       </Flex>
@@ -61,6 +67,7 @@ export default function BookingInformation({ result }) {
         <Heading as='h4' fontWeight='400' fontSize='sm' fontFamily='Inter, sans-serif'>
           Room Type
         </Heading>
+
         <Text fontSize='sm' fontWeight='700' textTransform='capitalize'>
           {offer.room.typeEstimated.bedType.toLowerCase()}
         </Text>
