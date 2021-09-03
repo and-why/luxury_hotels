@@ -40,9 +40,9 @@ export default function MakeBookingPage({ result }) {
   const offer = result.data.offers[0];
   const router = useRouter();
 
-  console.log(Object.keys(offer.policies)[2]);
+  console.log(offer.policies.paymentType);
   let cards = vendorCodes.filter((o1) =>
-    offer.policies[offer.policies.paymentType].acceptedPayments.creditCards.some(
+    offer?.policies[offer.policies.paymentType]?.acceptedPayments?.creditCards?.some(
       (o2) => o1.code === o2,
     ),
   );
