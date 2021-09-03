@@ -26,11 +26,12 @@ function useProvideAuth() {
       const { token, ...userWithoutToken } = user;
 
       createUser(user.uid, userWithoutToken);
-
-      setUser(user);
+      const newUser = await getUserData(user.uid);
+      setUser({ ...newUser, token: token });
       cookie.set('sonder-auth', true, { expires: 1 });
 
       setLoading(false);
+
       return user;
     } else {
       setUser(false);

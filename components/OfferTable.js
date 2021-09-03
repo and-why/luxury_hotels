@@ -17,7 +17,7 @@ export default function OfferTable({ offers, dictionary }) {
           >
             Room
           </Th>
-          <Th w='20%' display={['none', 'none', 'table-cell']}>
+          <Th w='20%' display={['none', 'table-cell', 'table-cell']}>
             Board
           </Th>
           <Th w='20%'>More info</Th>

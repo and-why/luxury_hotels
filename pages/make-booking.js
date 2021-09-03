@@ -50,13 +50,13 @@ export default function MakeBookingPage({ result }) {
     firstName: user ? user?.name.split(' ')[0] : '',
     lastName: user ? user?.name.split(' ')[1] : '',
     ext: '+61',
-    phone: '411111111',
+    phone: '',
     email: user ? user?.email : '',
     method: 'creditCard',
-    vendorCode: 'VI',
-    cardNumber: '4111111111111111',
-    year: '2023',
-    month: '01',
+    vendorCode: '',
+    cardNumber: '',
+    year: '',
+    month: '',
   });
 
   const handleBookingSubmit = async (e) => {
@@ -269,7 +269,7 @@ export default function MakeBookingPage({ result }) {
                     maxlength={inputs?.vendorCode === 'AX' ? 15 : 16}
                     onChange={handleChange}
                     value={inputs?.cardNumber}
-                    placeholder='Phone Number'
+                    placeholder='Credit Card Number'
                   />
                 </FormControl>
               </Flex>
@@ -324,7 +324,7 @@ export default function MakeBookingPage({ result }) {
 export async function getServerSideProps({ query }) {
   const offerId = query.offerId;
   const data = await getHotelByOfferId(offerId);
-
+  console.log('data:', data);
   if (!data) {
     return { notFound: true };
   }

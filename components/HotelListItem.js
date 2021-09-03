@@ -33,7 +33,7 @@ export default function HotelListItem({ favourite }) {
         ['/api/favourites', user.token],
         async (data) => {
           return {
-            favourites: data?.favourites.filter((fav) => fav.id !== favourite.id),
+            favourites: data.favourites.filter((fav) => fav.id !== favourite.id),
           };
         },
         false,
