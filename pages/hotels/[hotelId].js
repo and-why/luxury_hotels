@@ -37,7 +37,7 @@ import useSWR, { mutate } from 'swr';
 import fetcher from '@/utils/fetcher';
 
 export default function HotelPage({ hotelId, result, checkInDate, checkOutDate, guests, rooms }) {
-  // console.log('returned to [hotelId].js data.result', data);
+  console.log('returned to [hotelId].js data.result', result);
   const router = useRouter();
   const { user } = useAuth();
   const [hotelData, setHotelData] = useState(result);
@@ -279,13 +279,15 @@ export default function HotelPage({ hotelId, result, checkInDate, checkOutDate, 
                   <Text mb={8}>{hotelData.data.hotel.description.text}</Text>{' '}
                 </>
               )}
-              <Box mb={8}>
-                <HotelMap
-                  name={hotelData.data.hotel.name}
-                  latitude={hotelData.data.hotel.latitude}
-                  longitude={hotelData.data.hotel.longitude}
-                />
-              </Box>
+              {hotelData.data.hotel.latitude && hotelData.data.hotel.longitude && (
+                <Box mb={8}>
+                  <HotelMap
+                    name={hotelData.data.hotel.name}
+                    latitude={hotelData.data.hotel.latitude}
+                    longitude={hotelData.data.hotel.longitude}
+                  />
+                </Box>
+              )}
             </Flex>
             <Flex w={['100%', 'auto', '50%', '40%']} p={4} id='form'>
               <SideForm

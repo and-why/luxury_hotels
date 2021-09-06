@@ -1,9 +1,10 @@
 import { useRouter } from 'next/router';
 import Layout from '@/components/Layout';
 import { useAuth } from '@/utils/auth';
-import { Flex, Heading, Spinner, Text, Link } from '@chakra-ui/react';
+import { Flex, Heading, Spinner, Text, Link, Grid } from '@chakra-ui/react';
 import { CgProfile } from 'react-icons/cg';
 import { BsShieldLock } from 'react-icons/bs';
+import { BiCalendarHeart } from 'react-icons/bi';
 import { FaUserFriends } from 'react-icons/fa';
 import Container from '@/components/Container';
 import AccountCard from '@/components/AccountCard';
@@ -51,7 +52,7 @@ export default function AccountPage() {
               </Link>
             </Text>
           </Flex>
-          <Flex wrap={['wrap', 'wrap', 'no-wrap']}>
+          <Grid templateColumns='repeat(auto-fit, minmax(300px, 1fr))'>
             <AccountCard
               linkref={'/account/profile'}
               color={'brand.300'}
@@ -60,20 +61,27 @@ export default function AccountPage() {
               text={'Provide and update your personal profile.'}
             />
             <AccountCard
-              linkref='/account/account-security'
+              linkref={'/bookings'}
+              color={'red'}
+              icon={BiCalendarHeart}
+              heading={'My Bookings'}
+              text={'Take a look at your past and upcoming bookings.'}
+            />
+            <AccountCard
+              linkref='/account/#'
               color={'brand.100'}
               icon={BsShieldLock}
-              heading={'Account security'}
+              heading={'Account security - coming soon'}
               text={'Update your password and secure account.'}
             />
             <AccountCard
               linkref='/account/travel-partners'
               color={'brand.200'}
               icon={FaUserFriends}
-              heading={'Travel Partners'}
+              heading={'Travel Partners - coming soon'}
               text={'Add the emails of your travel partners so you can share trips.'}
             />
-          </Flex>
+          </Grid>
         </Flex>
       </Container>
     </Layout>

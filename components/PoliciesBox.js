@@ -21,9 +21,11 @@ export default function PoliciesBox({ result, cards }) {
             <Heading as='h4' fontWeight='400' fontSize='sm' fontFamily='Inter, sans-serif'>
               Payment Type:
             </Heading>
-            <Text fontSize='sm' fontWeight='700' textTransform='capitalize'>
+            <Text fontSize='sm' fontWeight='700' textTransform='capitalize' mb={2}>
               {offer.policies.paymentType.toLowerCase()}
               {offer?.policies[offer.policies.paymentType]?.description?.text &&
+                offer.policies.paymentType === 'deposit' &&
+                offer.policies.paymentType === 'prepay' &&
                 ` - ${offer.policies[offer.policies.paymentType].description.text}`}
             </Text>
             <Text fontSize='12px' fontStyle='italic'>

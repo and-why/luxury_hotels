@@ -37,9 +37,11 @@ export default function BookingInformation({ result }) {
           <Text fontWeight='700' fontSize='sm'>
             {new Date(offer.checkInDate).toLocaleDateString()}
           </Text>
-          <Text fontWeight='400' fontSize='12px'>
-            After: {offer.policies.checkInOut.checkIn.slice(0, -3)}
-          </Text>
+          {offer?.policies?.checkInOut && (
+            <Text fontWeight='400' fontSize='12px'>
+              After: {offer?.policies?.checkInOut?.checkIn.slice(0, -3)}
+            </Text>
+          )}
         </Box>
 
         <Box>
@@ -49,9 +51,11 @@ export default function BookingInformation({ result }) {
           <Text fontWeight='700' fontSize='sm'>
             {new Date(offer.checkOutDate).toLocaleDateString()}
           </Text>
-          <Text fontWeight='400' fontSize='12px'>
-            Before: {offer.policies.checkInOut.checkOut.slice(0, -3)}
-          </Text>
+          {offer?.policies?.checkInOut && (
+            <Text fontWeight='400' fontSize='12px'>
+              Before: {offer?.policies?.checkInOut?.checkOut.slice(0, -3)}
+            </Text>
+          )}
         </Box>
       </Flex>
       <Heading as='h4' fontWeight='400' fontSize='sm' fontFamily='Inter, sans-serif'>
@@ -59,19 +63,22 @@ export default function BookingInformation({ result }) {
       </Heading>
       <Box mb={4}>
         <Text fontWeight='700' fontSize='sm'>
-          {lengthOfStay(offer.checkInDate, offer.checkOutDate)}
+          {lengthOfStay(offer.checkInDate, offer.checkOutDate)} night
+          {lengthOfStay(offer.checkInDate, offer.checkOutDate) > 1 && 's'}
         </Text>
       </Box>
 
-      <Flex justify='space-between'>
-        <Heading as='h4' fontWeight='400' fontSize='sm' fontFamily='Inter, sans-serif'>
-          Room Type
-        </Heading>
+      {offer?.room?.typeEstimated?.bedType && (
+        <Flex justify='space-between'>
+          <Heading as='h4' fontWeight='400' fontSize='sm' fontFamily='Inter, sans-serif'>
+            Room Type
+          </Heading>
 
-        <Text fontSize='sm' fontWeight='700' textTransform='capitalize'>
-          {offer.room.typeEstimated.bedType.toLowerCase()}
-        </Text>
-      </Flex>
+          <Text fontSize='sm' fontWeight='700' textTransform='capitalize'>
+            {offer?.room?.typeEstimated?.bedType.toLowerCase()}
+          </Text>
+        </Flex>
+      )}
     </Flex>
   );
 }

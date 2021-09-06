@@ -27,6 +27,19 @@ export default function FavouritesPage() {
       </Layout>
     );
   }
+  if (error) {
+    return (
+      <Layout>
+        <Container>
+          <Flex direction='column' w='100%'>
+            <Heading fontSize='2xl' mb={8}>
+              {error.message}
+            </Heading>
+          </Flex>
+        </Container>
+      </Layout>
+    );
+  }
 
   return (
     <Layout>

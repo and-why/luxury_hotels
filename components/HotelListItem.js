@@ -23,22 +23,10 @@ export default function HotelListItem({ favourite }) {
   const handleFavourite = async () => {
     const userId = user?.uid;
     if (!isFavourite) {
-      const favourite = { userId, ...favourite };
-      // updateFavourites(userId, favourite);
-      const { id } = createFavourite(favourite);
-      return setFavourite(true);
+      console.log('no');
     } else {
       deleteFavourite(favourite.id);
-      mutate(
-        ['/api/favourites', user.token],
-        async (data) => {
-          return {
-            favourites: data.favourites.filter((fav) => fav.id !== favourite.id),
-          };
-        },
-        false,
-      );
-      return setFavourite(false);
+      setFavourite(false);
     }
   };
 
@@ -108,7 +96,7 @@ export default function HotelListItem({ favourite }) {
           </Flex>
         </Link>
       </NextLink>
-      {user && (
+      {user && isFavourite && (
         <Button
           size='sm'
           variant='ghost'

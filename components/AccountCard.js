@@ -4,7 +4,7 @@ import { ChevronRightIcon } from '@chakra-ui/icons';
 
 export default function AccountCard({ linkref, icon, heading, text, color }) {
   return (
-    <Flex m={2} boxShadow='base' borderRadius='5px' direction='column' w='300px'>
+    <Flex m={2} boxShadow='base' borderRadius='5px' direction='column'>
       <NextLink href={linkref} passHref>
         <Link>
           <Flex p={4} direction='column' w='100%' h='150px'>

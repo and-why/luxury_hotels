@@ -41,7 +41,7 @@ const theme = extendTheme({
     normal: 400,
     medium: 400,
     bold: 600,
-    extraBold: 600,
+    extraBold: 700,
   },
 });
 

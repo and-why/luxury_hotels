@@ -29,12 +29,12 @@ import { AiFillCodeSandboxCircle } from 'react-icons/ai';
 import { ImCreditCard } from 'react-icons/im';
 import { vendorCodes } from '@/lib/vendorCodes';
 import { months } from '@/lib/months';
-import { addBookingDetails } from '@/utils/db';
+import { addBookingDetails, createBooking } from '@/utils/db';
 
 export default function MakeBookingPage({ result }) {
   console.log(result);
-  const [loading, setLoading] = useState();
-
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState();
   const { user } = useAuth();
 
   const hotel = result.data.hotel;
@@ -52,17 +52,19 @@ export default function MakeBookingPage({ result }) {
     firstName: user ? user?.name.split(' ')[0] : '',
     lastName: user ? user?.name.split(' ')[1] : '',
     ext: '+61',
-    phone: '',
+    phone: '467876543',
     email: user ? user?.email : '',
     method: 'creditCard',
-    vendorCode: '',
+    vendorCode: 'VI',
     cardNumber: '',
-    year: '',
-    month: '',
+    year: '2025',
+    month: '01',
   });
 
   const handleBookingSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError(null);
     const guestInfo = {
       title: inputs.title,
       firstName: inputs.firstName,
@@ -76,24 +78,29 @@ export default function MakeBookingPage({ result }) {
       cardNumber: inputs.cardNumber,
       expiryDate: `${inputs.year}-${inputs.month}`,
     };
-    const res = await makeBooking(offer.id, guestInfo, payment);
+    const res = await makeBooking(offer.id, guestInfo, payment).catch((error) => error);
 
-    if (user) {
-      const data = {
-        userId: user.id,
-        hotelId: hotel.hotelId,
-        hotelData: result.data,
-        bookingInfo: res.data,
-      };
+    console.log('res', res);
+    if (res.code === 'ClientError') {
+      setLoading(false);
+      return setError(res.description[0].title);
     }
-    addBookingDetails(data);
+    console.log('user', user);
 
+    const data = {
+      userId: user ? user.uid : null,
+      guestInfo: guestInfo,
+      hotelId: hotel.hotelId,
+      hotelData: result.data,
+      bookingInfo: res.data,
+    };
+    setLoading(false);
     if (res.result.data) {
+      createBooking(data);
       router.push({
         pathname: '/booking-confirmation',
         query: {
-          hotelConfirmation: res.result.data[0].providerConfirmationId,
-          bookingConfirmation: res.result.data[0].associatedRecords[0].reference,
+          id: res.result.data[0].associatedRecords[0].reference,
         },
       });
     }
@@ -184,7 +191,7 @@ export default function MakeBookingPage({ result }) {
               <Grid templateColumns='repeat(auto-fit, minmax(100px, 1fr))' columnGap={8}>
                 <FormControl mb={4}>
                   <FormLabel m='0' p='0' fontSize='10px' textTransform='uppercase' fontWeight='600'>
-                    Extension *
+                    Country Extension *
                   </FormLabel>
                   <Select
                     bg='white'
@@ -234,11 +241,13 @@ export default function MakeBookingPage({ result }) {
                 <Heading as='h3' fontSize='md' mb={2}>
                   Payment Details
                 </Heading>
-                <Text fontSize='xs' fontWeight='700' mb={4} color='red'>
+                <Text fontSize='xs' mb={4} color='red'>
                   Important: Cancellations must be dealt with directly with the hotel. Sonder
                   Escapes can not facilitate any cancellations. See Policies section on this page
-                  for more information.
+                  for cancellation deadlines.
                 </Text>
+              </Flex>
+              {cards.length > 1 && (
                 <FormControl mb={4} mr={4}>
                   <FormLabel m='0' p='0' fontSize='10px' textTransform='uppercase' fontWeight='600'>
                     Credit Card Vendor *
@@ -259,22 +268,23 @@ export default function MakeBookingPage({ result }) {
                     ))}
                   </Select>
                 </FormControl>
-                <FormControl mb={4} mr={4}>
-                  <FormLabel m='0' p='0' fontSize='10px' textTransform='uppercase' fontWeight='600'>
-                    Credit Card Number *
-                  </FormLabel>
-                  <Input
-                    bg='white'
-                    required
-                    name='cardNumber'
-                    type='text'
-                    maxlength={inputs?.vendorCode === 'AX' ? 15 : 16}
-                    onChange={handleChange}
-                    value={inputs?.cardNumber}
-                    placeholder='Credit Card Number'
-                  />
-                </FormControl>
-              </Flex>
+              )}
+              <FormControl mb={4} mr={4}>
+                <FormLabel m='0' p='0' fontSize='10px' textTransform='uppercase' fontWeight='600'>
+                  Credit Card Number *
+                </FormLabel>
+                <Input
+                  bg='white'
+                  required
+                  name='cardNumber'
+                  type='text'
+                  minLength={inputs?.vendorCode === 'AX' ? 15 : 16}
+                  maxlength={inputs?.vendorCode === 'AX' ? 15 : 16}
+                  onChange={handleChange}
+                  value={inputs?.cardNumber}
+                  placeholder='Credit Card Number'
+                />
+              </FormControl>
               <FormLabel m='0' p='0' fontSize='10px' textTransform='uppercase' fontWeight='600'>
                 Credit Card Expiry *
               </FormLabel>
@@ -310,8 +320,20 @@ export default function MakeBookingPage({ result }) {
                   />
                 </FormControl>
               </Flex>
+              {error && (
+                <Text
+                  borderLeft='10px solid'
+                  bgColor='red.100'
+                  p={4}
+                  textAlign='center'
+                  color='red'
+                  mb={4}
+                >
+                  {error}
+                </Text>
+              )}
               <Flex justify='flex-end'>
-                <Button type='submit' bgColor='brand.150'>
+                <Button type='submit' bgColor='brand.150' isLoading={loading}>
                   Book Now
                 </Button>
               </Flex>

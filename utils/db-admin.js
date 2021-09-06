@@ -32,3 +32,16 @@ export async function getUserFavourites(userId) {
 
   return { favourites };
 }
+
+// Bookings
+export async function getUserBookings(userId) {
+  const snapshot = await db.collection('bookings').where('userId', '==', userId).get();
+
+  const bookings = [];
+
+  snapshot.forEach((doc, index) => {
+    bookings.push({ id: doc.id, ...doc.data() });
+  });
+
+  return { bookings };
+}
