@@ -52,13 +52,13 @@ export default function MakeBookingPage({ result }) {
     firstName: user ? user?.name.split(' ')[0] : '',
     lastName: user ? user?.name.split(' ')[1] : '',
     ext: '+61',
-    phone: '467876543',
+    phone: '',
     email: user ? user?.email : '',
     method: 'creditCard',
-    vendorCode: 'VI',
+    vendorCode: '',
     cardNumber: '',
-    year: '2025',
-    month: '01',
+    year: '',
+    month: '',
   });
 
   const handleBookingSubmit = async (e) => {
