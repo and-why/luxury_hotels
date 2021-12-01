@@ -1,11 +1,7 @@
-import { useDisclosure } from '@chakra-ui/react';
-
-import { Table, Tr, Th, Td } from './Table';
-
+import { Table, Tr, Th } from './Table';
 import OfferTableRow from './OfferTableRow';
 
 export default function OfferTable({ offers, dictionary }) {
-  // console.log('offer table:', offers);
   return (
     <Table w='100%' id='offerTable'>
       <thead>

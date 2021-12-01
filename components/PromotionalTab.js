@@ -1,4 +1,4 @@
-import { Flex, Box, Text, Heading, Link } from '@chakra-ui/react';
+import { Flex, Box, Text, Link } from '@chakra-ui/react';
 import NextImage from 'next/image';
 
 export default function PromotionalTab({ cityName, cityCode, guests, knownFor, popularSearches }) {

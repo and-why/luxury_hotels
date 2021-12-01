@@ -27,12 +27,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import HotelMap from '@/components/HotelMap';
 import Container from '@/components/Container';
 import { useAuth } from '@/utils/auth';
-import {
-  updateFavourites,
-  removeFromFavourites,
-  createFavourite,
-  deleteFavourite,
-} from '@/utils/db';
+import { createFavourite, deleteFavourite } from '@/utils/db';
 import useSWR, { mutate } from 'swr';
 import fetcher from '@/utils/fetcher';
 

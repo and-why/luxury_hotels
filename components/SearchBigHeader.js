@@ -1,21 +1,8 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import NextImage from 'next/image';
-import {
-  Button,
-  Flex,
-  Heading,
-  Box,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalCloseButton,
-  useDisclosure,
-} from '@chakra-ui/react';
+import { Flex, Heading, useDisclosure } from '@chakra-ui/react';
 import 'react-datepicker/dist/react-datepicker.css';
 import DisplayTilesSkeleton from './DisplayTilesSkeleton';
-import FullSearchForm from './FullSearchForm';
 import SearchModal from './SearchModal';
 
 export default function SearchBigHeader({ height }) {

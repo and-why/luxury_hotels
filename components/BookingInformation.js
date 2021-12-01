@@ -1,10 +1,5 @@
-import Container from '@/components/Container';
-import Layout from '@/components/Layout';
-import PriceSummaryRow from '@/components/PriceSummaryRow';
-import { useAuth } from '@/utils/auth';
-import { formatDate, formatter, lengthOfStay } from '@/utils/functions';
-import { getHotelByOfferId } from '@/utils/hotels';
-import { Grid, Flex, Heading, Text, Box, Divider, Button } from '@chakra-ui/react';
+import { lengthOfStay } from '@/utils/functions';
+import { Flex, Heading, Text, Box } from '@chakra-ui/react';
 
 export default function BookingInformation({ result }) {
   const hotel = result.data.hotel;

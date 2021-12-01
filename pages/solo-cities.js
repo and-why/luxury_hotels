@@ -1,4 +1,3 @@
-import Container from '@/components/Container';
 import Layout from '@/components/Layout';
 import PromotionBlock from '@/components/PromotionBlock';
 

@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useAuth } from '@/utils/auth';
-import { Flex, Text, Box, Button, FormControl, Input, Select, FormLabel } from '@chakra-ui/react';
+import { Flex, Text, Button, FormControl, Input, FormLabel } from '@chakra-ui/react';
 import { updateUser } from '@/utils/db';
 
 export default function ProfileNameInput({ data }) {

@@ -1,14 +1,4 @@
-import {
-  Flex,
-  Heading,
-  FormControl,
-  FormLabel,
-  Input,
-  Button,
-  Divider,
-  Link,
-  Text,
-} from '@chakra-ui/react';
+import { Flex, Heading, FormControl, Input, Button, Link, Text } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import Container from './Container';
 
@@ -16,7 +6,7 @@ export default function Footer() {
   return (
     <Flex bg='black' justify='center' direction='column' w='100%' mt={16}>
       <Container>
-        <Flex direction='column' w='100%'>
+        <Flex direction='column' w='100%' m='auto'>
           <Flex bg='black' direction='column' w='100%'>
             <Flex direction='column' justify='center' w='100%' py={8}>
               <Heading as='h3' fontSize='lg' color='white' mb={4}>

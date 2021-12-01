@@ -7,15 +7,12 @@ import {
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
   useDisclosure,
 } from '@chakra-ui/react';
-import NextLink from 'next/link';
-import { Table, Tr, Th, Td } from './Table';
+import { Td } from './Table';
 import { formatter } from '@/utils/functions';
-import { getHotelByOfferId } from '@/utils/hotels';
 import { useRouter } from 'next/router';
 
 export default function OfferTableRow({ offer, dictionary }) {

@@ -10,12 +10,9 @@ import {
   Flex,
   Heading,
   Text,
-  Box,
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
-  BreadcrumbSeparator,
-  Button,
   Spinner,
 } from '@chakra-ui/react';
 import NextLink from 'next/link';

@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import Layout from '@/components/Layout';
 import { useAuth } from '@/utils/auth';
-import { Flex, Heading, Spinner, Text, Link, Grid } from '@chakra-ui/react';
+import { Flex, Heading, Text, Link, Grid } from '@chakra-ui/react';
 import { CgProfile } from 'react-icons/cg';
 import { BsShieldLock } from 'react-icons/bs';
 import { BiCalendarHeart } from 'react-icons/bi';

@@ -1,11 +1,5 @@
-import BookingInformation from '@/components/BookingInformation';
-import Container from '@/components/Container';
-import Layout from '@/components/Layout';
-import PriceSummaryRow from '@/components/PriceSummaryRow';
 import { useAuth } from '@/utils/auth';
-import { formatDate, formatter, lengthOfStay } from '@/utils/functions';
-import { getHotelByOfferId } from '@/utils/hotels';
-import { Grid, Flex, Heading, Text, Box, Divider, Button } from '@chakra-ui/react';
+import { Flex, Heading, Text, Button } from '@chakra-ui/react';
 
 export default function LoginBox() {
   const { user, signinWithGoogle, loading } = useAuth();

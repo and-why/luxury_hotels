@@ -1,5 +1,5 @@
 import { Button } from '@chakra-ui/button';
-import { Box, Flex, Grid, Heading, Text, Link } from '@chakra-ui/layout';
+import { Flex, Heading, Text, Link } from '@chakra-ui/layout';
 import NextImage from 'next/image';
 import NextLink from 'next/link';
 

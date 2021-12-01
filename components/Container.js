@@ -10,6 +10,7 @@ export default function Container({ children }) {
       justify='space-between'
       align='center'
       direction='column'
+      m='auto'
     >
       {children}
     </Flex>

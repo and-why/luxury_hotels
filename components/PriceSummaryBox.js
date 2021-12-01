@@ -1,10 +1,6 @@
-import Container from '@/components/Container';
-import Layout from '@/components/Layout';
 import PriceSummaryRow from '@/components/PriceSummaryRow';
-import { useAuth } from '@/utils/auth';
-import { formatDate, formatter, lengthOfStay } from '@/utils/functions';
-import { getHotelByOfferId } from '@/utils/hotels';
-import { Grid, Flex, Heading, Text, Box, Divider, Button } from '@chakra-ui/react';
+import { formatter } from '@/utils/functions';
+import { Flex, Heading, Text, Box, Divider } from '@chakra-ui/react';
 
 export default function PriceSummaryBox({ result }) {
   const offer = result.data.offers[0];

@@ -4,10 +4,8 @@ import Layout from '@/components/Layout';
 import LoginBox from '@/components/LoginBox';
 import PoliciesBox from '@/components/PoliciesBox';
 import PriceSummaryBox from '@/components/PriceSummaryBox';
-import PriceSummaryRow from '@/components/PriceSummaryRow';
 import rawCountries from '@/lib/coutryDialingCodes';
 import { useAuth } from '@/utils/auth';
-import { formatDate, formatter, lengthOfStay } from '@/utils/functions';
 import { getHotelByOfferId, makeBooking } from '@/utils/hotels';
 import useForm from '@/utils/useForm';
 import {
@@ -16,7 +14,6 @@ import {
   Heading,
   Text,
   Box,
-  Divider,
   Button,
   FormControl,
   FormLabel,
@@ -25,11 +22,10 @@ import {
 } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { AiFillCodeSandboxCircle } from 'react-icons/ai';
-import { ImCreditCard } from 'react-icons/im';
+
 import { vendorCodes } from '@/lib/vendorCodes';
 import { months } from '@/lib/months';
-import { addBookingDetails, createBooking } from '@/utils/db';
+import { createBooking } from '@/utils/db';
 
 export default function MakeBookingPage({ result }) {
   console.log(result);

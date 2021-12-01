@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Flex, Text, Box, Button, FormControl, Input, Select, FormLabel } from '@chakra-ui/react';
+import { Flex, Text, Button, FormControl, Input, Select, FormLabel } from '@chakra-ui/react';
 import { updateUser } from '@/utils/db';
 
 export default function EditableListItem({ heading, detail, type, formDetails }) {

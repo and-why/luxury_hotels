@@ -2,7 +2,7 @@ import { useAuth } from '@/utils/auth';
 import Layout from '@/components/Layout';
 import HotelListItem from '@/components/HotelListItem';
 import Container from '@/components/Container';
-import { Flex, Heading, Box } from '@chakra-ui/react';
+import { Flex, Heading } from '@chakra-ui/react';
 import useSWR from 'swr';
 import fetcher from '@/utils/fetcher';
 

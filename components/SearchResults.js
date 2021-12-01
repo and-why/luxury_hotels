@@ -1,4 +1,4 @@
-import { Box, Flex, Heading } from '@chakra-ui/layout';
+import { Flex, Heading } from '@chakra-ui/layout';
 import NextImage from 'next/image';
 import Container from './Container';
 import DisplayTile from './DisplayTile';

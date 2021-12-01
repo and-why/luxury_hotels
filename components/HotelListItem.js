@@ -1,17 +1,11 @@
 import NextImage from 'next/image';
 import NextLink from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Flex, Heading, Box, Button, Icon, Text, Link } from '@chakra-ui/react';
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import { StarIcon } from '@chakra-ui/icons';
 import { useAuth } from '@/utils/auth';
-import {
-  updateFavourites,
-  removeFromFavourites,
-  deleteFavourite,
-  createFavourite,
-} from '@/utils/db';
-import { mutate } from 'swr';
+import { deleteFavourite } from '@/utils/db';
 
 export default function HotelListItem({ favourite }) {
   console.log('favourite', favourite);

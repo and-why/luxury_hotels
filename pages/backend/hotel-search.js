@@ -1,25 +1,9 @@
-import {
-  Heading,
-  Image,
-  Input,
-  Text,
-  FormControl,
-  FormLabel,
-  FormErrorMessage,
-  FormHelperText,
-  Button,
-  Spinner,
-  Flex,
-} from '@chakra-ui/react';
+import { Heading, Text, Flex } from '@chakra-ui/react';
 import Layout from '@/components/Layout';
 import { getHotels } from '@/utils/hotels';
-import { useForm } from 'react-hook-form';
-import { getToken } from '@/utils/token';
-import useSWR, { mutate } from 'swr';
 import { useCallback, useEffect, useState } from 'react';
 import FullSearchForm from '@/components/FullSearchForm';
 import Container from '@/components/Container';
-import DisplayTile from '@/components/DisplayTile';
 import HotelListItem from '@/components/HotelListItem';
 
 export default function HotelSearchPage() {
