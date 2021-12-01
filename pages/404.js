@@ -13,7 +13,13 @@ export default function PageNotFound() {
               Captain, it looks like we have a leak on the website.
             </Heading>
             <Text mb={8}>Sorry for the inconvenience, please try another search or page.</Text>
-            <NextImage src='/images/notfound.png' height={400} width={400} objectFit='cover' />
+            <NextImage
+              alt='image for page not found - 404 image'
+              src='/images/notfound.png'
+              height={400}
+              width={400}
+              objectFit='cover'
+            />
 
             <Text fontSize='sm' my={4}>
               Artist: <a href='https://absurd.design'>Absurd Designs</a>

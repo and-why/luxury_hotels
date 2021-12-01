@@ -293,7 +293,6 @@ export default function MakeBookingPage({ result }) {
                   <Select
                     required
                     bg='white'
-                    required
                     name='month'
                     onChange={handleChange}
                     value={inputs?.month}

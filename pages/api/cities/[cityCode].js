@@ -1,6 +1,6 @@
 import { getAllHotels } from '@/utils/hotels';
 
-export default async (req, res) => {
+export default cityCode = async (req, res) => {
   try {
     const { cityCode } = req.query;
     const hotels = await getAllHotels(cityCode);

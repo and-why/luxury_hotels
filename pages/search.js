@@ -1,10 +1,7 @@
 import Layout from '@/components/Layout';
-import PromotionalTab from '@/components/PromotionalTab';
-import PromotionCardFull from '@/components/PromotionCardFull';
-import SearchBigHeader from '@/components/SearchBigHeader';
 import SearchResults from '@/components/SearchResults';
 import { getHotels } from '@/utils/hotels';
-import { Flex } from '@chakra-ui/layout';
+import { Heading } from '@chakra-ui/react';
 
 export default function SearchPage({ data }) {
   if (data.errors) {

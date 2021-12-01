@@ -22,7 +22,7 @@ export default function LoginBox() {
         Log in or sign up
       </Heading>
       <Text mb={4} fontSize='sm'>
-        Log in or sign up with your Google account for faster checkout and to save the trip's
+        Log in or sign up with your Google account for faster checkout and to save the trip&apos;s
         details to your account.
       </Text>
       <Button variant='outline' onClick={signinWithGoogle} isLoading={loading}>

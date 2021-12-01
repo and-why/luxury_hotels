@@ -22,6 +22,7 @@ export default function PromotionalTab({ cityName, cityCode, guests, knownFor, p
     >
       <Link onClick={() => popularSearches(data)} position='relative'>
         <NextImage
+          alt={`${cityLower} promo image`}
           src={`/images/promos/${cityLower}.jpg`}
           height='400px'
           width='400px'

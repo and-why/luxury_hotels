@@ -11,17 +11,10 @@ import {
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverArrow,
-  PopoverCloseButton,
-  PopoverHeader,
-  PopoverBody,
 } from '@chakra-ui/react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { formatter, formatDate, lengthOfStay } from '@/utils/functions';
+import { formatter, formatDate } from '@/utils/functions';
 import Link from 'next/link';
 import PriceSummaryRow from './PriceSummaryRow';
 
@@ -37,22 +30,26 @@ export default function SideForm({ addSearchData, data, dictionary, currency }) 
       : new Date(startDate).setDate(new Date(startDate).getDate() + 2),
   );
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    setLoading(true);
-    const guests = e.target.adults.value;
-    const rooms = e.target.rooms.value;
-    const checkInDate = formatDate(e.target.dateStart.value);
-    const checkOutDate = formatDate(e.target.dateEnd.value);
+  const handleSearch = useCallback(
+    (e) => {
+      e.preventDefault();
+      setLoading(true);
+      const guests = e.target.adults.value;
+      const rooms = e.target.rooms.value;
+      const checkInDate = formatDate(e.target.dateStart.value);
+      const checkOutDate = formatDate(e.target.dateEnd.value);
 
-    addSearchData([checkInDate, checkOutDate, guests, rooms]);
-    setLoading(false);
-  };
+      addSearchData([checkInDate, checkOutDate, guests, rooms]);
+      setLoading(false);
+    },
+    [addSearchData],
+  );
+
   useEffect(() => {
     if (data) {
       setHotelData(data.data);
     }
-  }, [handleSearch]);
+  }, [handleSearch, data]);
   return (
     <FormControl
       as='form'
@@ -210,7 +207,7 @@ export default function SideForm({ addSearchData, data, dictionary, currency }) 
         </>
       )}
       <Text fontSize='sm' align='center'>
-        You won't be charged yet
+        You won&apos;t be charged yet
       </Text>
       {hotelData && (
         <>

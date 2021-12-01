@@ -1,11 +1,9 @@
-import NextImage from 'next/image';
 import { useAuth } from '@/utils/auth';
 import Layout from '@/components/Layout';
 import HotelListItem from '@/components/HotelListItem';
 import Container from '@/components/Container';
 import { Flex, Heading, Box } from '@chakra-ui/react';
 import useSWR from 'swr';
-import { useEffect, useState } from 'react';
 import fetcher from '@/utils/fetcher';
 
 export default function FavouritesPage() {

@@ -37,6 +37,7 @@ export default function DisplayTile({ data, dictionary }) {
           {!data.hotel.media || process.env.NODE_ENV === 'development' ? (
             <NextImage
               src={`/images/placeholder/hotel-${randomInt}.jpg`}
+              alt={`&=${hotelName} image`}
               height='400px'
               width='400px'
               className='borderRadius'
@@ -46,6 +47,7 @@ export default function DisplayTile({ data, dictionary }) {
             />
           ) : (
             <NextImage
+              alt={`&=${hotelName} image`}
               src={data.hotel.media[0].uri}
               height='400px'
               className='borderRadius'

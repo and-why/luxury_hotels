@@ -6,21 +6,13 @@ import {
   Button,
   Flex,
   Link,
-  Text,
   Icon,
   Drawer,
   DrawerOverlay,
   DrawerContent,
   DrawerCloseButton,
-  DrawerHeader,
   DrawerBody,
   Grid,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalCloseButton,
   useDisclosure,
 } from '@chakra-ui/react';
 import { HamburgerIcon } from '@chakra-ui/icons';
@@ -28,7 +20,6 @@ import { LogoIcon } from './icons/icons';
 import { BiLogOut } from 'react-icons/bi';
 import { useAuth } from '@/utils/auth';
 import Container from './Container';
-import FullSearchForm from './FullSearchForm';
 import SearchModal from './SearchModal';
 import { useRouter } from 'next/router';
 
@@ -60,7 +51,7 @@ export default function Navbar({ search }) {
         align='center'
       >
         <Flex>
-          <NextLink href='/' as={`/`} passHref>
+          <NextLink href='/' as={`/`} passHref alt='home'>
             <Link>
               <LogoIcon h={8} w={32} />
             </Link>
@@ -84,6 +75,7 @@ export default function Navbar({ search }) {
                   height='25px'
                   width='25px'
                   className='roundedImage'
+                  alt='user photo'
                 />
               ) : (
                 'Account'

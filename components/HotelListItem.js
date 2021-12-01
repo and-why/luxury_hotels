@@ -62,6 +62,7 @@ export default function HotelListItem({ favourite }) {
           <Flex borderBottom='1px solid' borderBottomColor='gray.100' py={2} w='100%'>
             <Box w='100%' maxW='300px'>
               <NextImage
+                alt={`${favourite.name.toLowerCase()} image`}
                 src={
                   process.env.NODE_ENV === 'development'
                     ? `/images/placeholder/hotel-${randomInt}.jpg`

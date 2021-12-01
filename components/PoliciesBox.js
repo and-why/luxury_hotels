@@ -56,11 +56,13 @@ export default function PoliciesBox({ result, cards }) {
           <Heading as='h4' fontWeight='400' fontSize='sm' fontFamily='Inter, sans-serif'>
             Accepted Payments:
           </Heading>
-          {offer.policies[offer.policies.paymentType].acceptedPayments.methods.map((method) => (
-            <Text fontSize='sm' fontWeight='700' textTransform='capitalize'>
-              {method.toLowerCase().replace('_', ' ')}
-            </Text>
-          ))}
+          {offer.policies[offer.policies.paymentType].acceptedPayments.methods.map(
+            (method, index) => (
+              <Text key={index} fontSize='sm' fontWeight='700' textTransform='capitalize'>
+                {method.toLowerCase().replace('_', ' ')}
+              </Text>
+            ),
+          )}
         </Box>
       )}
       {offer?.policies[offer.policies.paymentType]?.acceptedPayments?.creditCards && (
@@ -69,7 +71,7 @@ export default function PoliciesBox({ result, cards }) {
             Accepted Cards:
           </Heading>
           {cards.map((card) => (
-            <Text fontSize='sm' fontWeight='700' textTransform='capitalize'>
+            <Text key={card.name} fontSize='sm' fontWeight='700' textTransform='capitalize'>
               {card.name}
             </Text>
           ))}

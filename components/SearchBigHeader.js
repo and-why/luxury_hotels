@@ -53,6 +53,7 @@ export default function SearchBigHeader({ height }) {
           </Flex>
           <NextImage
             src='/images/hero.png'
+            alt='header image'
             priority='true'
             // layout='fill'
             height={500}

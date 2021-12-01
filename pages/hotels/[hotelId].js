@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import SideForm from '@/components/SideForm';
 import OfferTable from '@/components/OfferTable';
@@ -37,7 +37,6 @@ import useSWR, { mutate } from 'swr';
 import fetcher from '@/utils/fetcher';
 
 export default function HotelPage({ hotelId, result, checkInDate, checkOutDate, guests, rooms }) {
-  console.log('returned to [hotelId].js data.result', result);
   const router = useRouter();
   const { user } = useAuth();
   const [hotelData, setHotelData] = useState(result);
@@ -46,7 +45,6 @@ export default function HotelPage({ hotelId, result, checkInDate, checkOutDate, 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { data, error } = useSWR(user ? ['/api/favourites', user.token] : null, fetcher);
-  console.log('faves', data);
 
   const handleFavourite = async () => {
     const userId = user?.uid;
@@ -64,7 +62,6 @@ export default function HotelPage({ hotelId, result, checkInDate, checkOutDate, 
       return;
     } else {
       const currentFaveId = data?.favourites.filter((hotel) => hotel.hotelId === hotelId)[0].id;
-      console.log(currentFaveId);
 
       deleteFavourite(currentFaveId);
       mutate(
@@ -80,19 +77,22 @@ export default function HotelPage({ hotelId, result, checkInDate, checkOutDate, 
     }
   };
 
-  const addSearchData = (data) => {
-    const [checkInDate, checkOutDate, guests, rooms] = data;
+  const addSearchData = useCallback(
+    (data) => {
+      const [checkInDate, checkOutDate, guests, rooms] = data;
 
-    router.push({
-      pathname: `/hotels/${hotelId}`,
-      query: {
-        checkInDate: checkInDate,
-        checkOutDate: checkOutDate,
-        guests: guests,
-        rooms: rooms,
-      },
-    });
-  };
+      router.push({
+        pathname: `/hotels/${hotelId}`,
+        query: {
+          checkInDate: checkInDate,
+          checkOutDate: checkOutDate,
+          guests: guests,
+          rooms: rooms,
+        },
+      });
+    },
+    [hotelId, router],
+  );
 
   useEffect(() => {
     if (user && result.data) {
@@ -101,7 +101,7 @@ export default function HotelPage({ hotelId, result, checkInDate, checkOutDate, 
     if (data) {
       setFavourite(data.favourites.some((favourite) => favourite.hotelId === hotelId));
     }
-  }, [user, addSearchData, result]);
+  }, [user, addSearchData, result, data, hotelId]);
 
   if (error) {
     return <p>{error.message}</p>;
@@ -187,6 +187,7 @@ export default function HotelPage({ hotelId, result, checkInDate, checkOutDate, 
               <Box w='100%' p={1} onClick={onOpen} position='relative' cursor='pointer'>
                 <NextImage
                   src={'/images/roberto-nickson-room.jpg'}
+                  alt={`${hotelData.data.hotel.name} image`}
                   className='borderRadius2'
                   placeholder='blur'
                   blurDataURL={'/images/blur/roberto-nickson-room.jpg'}
@@ -199,6 +200,7 @@ export default function HotelPage({ hotelId, result, checkInDate, checkOutDate, 
               <Box w='100%' p={1} onClick={onOpen} position='relative'>
                 <NextImage
                   src={hotelData.data.hotel.media[0].uri}
+                  alt={`${hotelData.data.hotel.name} image`}
                   className='borderRadius2'
                   placeholder='blur'
                   blurDataURL={'/images/blur/roberto-nickson-room.jpg'}
@@ -248,8 +250,9 @@ export default function HotelPage({ hotelId, result, checkInDate, checkOutDate, 
                       {hotelData.data.hotel.media.map((image) => {
                         const randomInt = Math.floor(Math.random() * 7);
                         return (
-                          <Box w={('100%', '100%', '50%')} p={1}>
+                          <Box key={image.uri} w={('100%', '100%', '50%')} p={1}>
                             <NextImage
+                              alt={hotelData.data.hotel.name}
                               src={image.uri}
                               width='600px'
                               height='400px'

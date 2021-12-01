@@ -1,6 +1,6 @@
 import { makeBooking } from '@/utils/hotels';
 
-export default async (req, res) => {
+export default booking = async (req, res) => {
   console.log(req);
   const response = await makeBooking({ req });
 

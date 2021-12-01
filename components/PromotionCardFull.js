@@ -12,6 +12,7 @@ export default function PromotionCardFull() {
         <Link w='100%'>
           <Flex position='relative' w='100%' height='500px' borderRadius='10px'>
             <NextImage
+              alt='travel solo, travel by yourself image'
               src='/images/promos/solo-promo-illustration.jpg'
               // width='1440'
               // height='773'

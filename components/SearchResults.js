@@ -41,6 +41,7 @@ export default function SearchResults({ data }) {
             borderRadius='10px'
           >
             <NextImage
+              alt='random illustraion image'
               src={`/images/search/${Math.floor(Math.random() * 15)}.png`}
               height='400px'
               width='400px'

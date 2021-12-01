@@ -16,7 +16,7 @@ import { getHotels } from '@/utils/hotels';
 import { useForm } from 'react-hook-form';
 import { getToken } from '@/utils/token';
 import useSWR, { mutate } from 'swr';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import FullSearchForm from '@/components/FullSearchForm';
 import Container from '@/components/Container';
 import DisplayTile from '@/components/DisplayTile';
@@ -26,13 +26,13 @@ export default function HotelSearchPage() {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(false);
 
-  const addSearchData = async (data) => {
+  const addSearchData = useCallback(async (data) => {
     setLoading(true);
     const [cityCode, checkInDate, checkOutDate, guests, rooms] = data;
     const newData = await getHotels({ cityCode, checkInDate, checkOutDate, guests, rooms });
     setData(newData.data);
     setLoading(false);
-  };
+  }, []);
   useEffect(() => {}, []);
 
   return (

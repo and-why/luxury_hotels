@@ -3,11 +3,8 @@ import { useAuth } from '@/utils/auth';
 import {
   Flex,
   Text,
-  Box,
   Button,
   FormControl,
-  Input,
-  Select,
   FormLabel,
   NumberInput,
   NumberInputField,
@@ -31,7 +28,7 @@ export default function ProfileDobInput({ data }) {
       setMonth(data[1]);
       setYear(data[2]);
     }
-  }, []);
+  }, [data]);
 
   const handleClick = () => {
     setEditable(!isEditable);

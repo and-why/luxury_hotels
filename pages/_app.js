@@ -22,11 +22,11 @@ function MyApp({ Component, pageProps }) {
     <ChakraProvider theme={theme}>
       <Head>
         <meta name='viewport' content='width=device-width, initial-scale=1' />
-        <link
-          href='https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&family=Roboto+Slab:wght@300;600&display=swap'
-          rel='stylesheet'
+        <script
+          src='https://cdn.jsdelivr.net/npm/airport-autocomplete-js@latest/dist/index.browser.min.js'
+          async
         />
-        <script src='https://cdn.jsdelivr.net/npm/airport-autocomplete-js@latest/dist/index.browser.min.js' />
+        <title>Sonder Escapes</title>
       </Head>
       <AuthProvider>
         <Component {...pageProps} />

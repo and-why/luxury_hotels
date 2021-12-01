@@ -93,7 +93,6 @@ export default function FullSearchForm({ closeModal }) {
               name='cityName'
               w='100%'
               mr={2}
-              bg='white'
               id='addressSearch'
               placeholder='Where are you going?'
               bg='white'

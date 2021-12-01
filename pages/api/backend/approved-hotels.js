@@ -1,6 +1,6 @@
 import { getAllApproved } from '@/utils/db-admin';
 
-export default async (req, res) => {
+export default allApproved = async (req, res) => {
   try {
     const { approvedHotels } = await getAllApproved();
     res.status(200).json({ approvedHotels });
